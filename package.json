@@ -1,0 +1,19 @@
+{
+  "name": "tedotamos-theme",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Tema TeDotamos (fork de Martfury 3.4.4)",
+  "scripts": {
+    "v": "grep -m1 '^Version:' style.css | sed 's/.*Version:[[:space:]]*//' | tr -d '\\r'",
+    "sync:package": "VERSION=$(npm run -s v) && npm version $VERSION --no-git-tag-version --allow-same-version",
+    "sync:version": "npm run sync:package",
+    "push-v": "bash scripts/bump-version.sh",
+    "push-tag": "npm run sync:version && VERSION=$(npm run -s v) && git add . && git commit -m \"Release $VERSION\" && git tag $VERSION && git push origin master && git push origin $VERSION",
+    "push": "git push origin master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscoblancojn/tedotamos-theme.git"
+  },
+  "license": "GPL-2.0-or-later"
+}

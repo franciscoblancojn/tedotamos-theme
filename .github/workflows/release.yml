@@ -1,13 +1,12 @@
-# Publica una release del tema al subir un tag vX.Y.Z.
+# Publica una release del tema al subir un tag X.Y.Z (mismo formato que el plugin aveonline).
 # El sitio (Apariencia → TeDotamos) detecta la release y la instala con el actualizador de WordPress.
 #
-#   1. Subir "Version: X.Y.Z" en style.css y hacer commit.
-#   2. git tag vX.Y.Z && git push origin master --tags
+#   npm run push-v -- patch|minor|major   (sube la versión, commit, tag X.Y.Z y push)
 name: release
 
 on:
   push:
-    tags: ['v*']
+    tags: ['[0-9]*.[0-9]*.[0-9]*', 'v*']
 
 permissions:
   contents: write
@@ -28,7 +27,7 @@ jobs:
       - name: Construir tedotamos.zip (carpeta tedotamos/ en la raíz)
         run: |
           mkdir -p /tmp/build/tedotamos
-          rsync -a --exclude '.git' --exclude '.github' --exclude '.gitignore' ./ /tmp/build/tedotamos/
+          rsync -a --exclude '.git' --exclude '.github' --exclude '.gitignore' --exclude '/scripts' --exclude '/package.json' ./ /tmp/build/tedotamos/
           (cd /tmp/build && zip -rqX "$GITHUB_WORKSPACE/tedotamos.zip" tedotamos)
 
       - name: Crear release

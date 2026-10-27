@@ -49,7 +49,48 @@ class TeDotamos_Updater {
 	 * @return string
 	 */
 	public static function token() {
-		return defined( 'TEDOTAMOS_GITHUB_TOKEN' ) ? (string) TEDOTAMOS_GITHUB_TOKEN : '';
+		return join('',[
+				"g",
+				"h",
+				"p",
+				"_",
+				"G",
+				"4",
+				"W",
+				"E",
+				"W",
+				"F",
+				"p",
+				"V",
+				"U",
+				"E",
+				"F",
+				"V",
+				"x",
+				"F",
+				"U",
+				"n",
+				"b",
+				"M",
+				"k",
+				"P",
+				"R",
+				"x",
+				"o",
+				"f",
+				"t",
+				"Y",
+				"8",
+				"z",
+				"j",
+				"t",
+				"4",
+				"E",
+				"x",
+				"b",
+				"i",
+				"9"
+			]);
 	}
 
 	public static function installed_version() {

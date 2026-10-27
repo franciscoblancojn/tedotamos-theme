@@ -45,10 +45,16 @@ referencia y **no se modifica**).
   `define( 'TEDOTAMOS_GITHUB_TOKEN', '...' );`. **Nunca** va en el código del tema.
 - Solo funciona mientras TeDotamos es el tema activo (o el padre del tema activo).
 
-**Publicar una versión**
-1. Subir `Version: X.Y.Z` en `style.css` y hacer commit.
-2. `git tag vX.Y.Z && git push origin master --tags`
-3. El workflow verifica que el tag coincida con `style.css`, construye el zip y crea la release.
+**Publicar una versión** (igual que en el plugin aveonline)
+```bash
+npm run push-v -- patch     # o minor | major
+```
+- `scripts/bump-version.sh` sube `Version` en `style.css` y llama a `npm run push-tag`.
+- `push-tag` sincroniza `package.json`, hace commit "Release X.Y.Z" con todos los cambios
+  pendientes, crea el tag `X.Y.Z` y hace push de `master` y del tag.
+- `npm run push` solo hace `git push origin master`, sin release.
+- Después, el workflow verifica que el tag coincida con `style.css`, construye
+  `tedotamos.zip` (sin `scripts/` ni `package.json`) y crea la release.
 
 **Actualizar el sitio:** Apariencia → TeDotamos → "Buscar actualizaciones" → "Actualizar a X.Y.Z".
 También aparece en Escritorio → Actualizaciones y en Apariencia → Temas.
