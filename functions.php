@@ -229,4 +229,4 @@ if ( defined( 'ICL_SITEPRESS_VERSION' ) && ! ICL_PLUGIN_INACTIVE ) {
 /**
  * TeDotamos: código propio del tema (fork de Martfury 3.4.4). Ver TEDOTAMOS.md.
  */
-require get_template_directory() . '/inc/tedotamos/no-updates.php';
+require get_template_directory() . '/inc/tedotamos/bootstrap.php';

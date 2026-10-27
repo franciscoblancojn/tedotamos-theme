@@ -1,0 +1,37 @@
+# Publica una release del tema al subir un tag vX.Y.Z.
+# El sitio (Apariencia → TeDotamos) detecta la release y la instala con el actualizador de WordPress.
+#
+#   1. Subir "Version: X.Y.Z" en style.css y hacer commit.
+#   2. git tag vX.Y.Z && git push origin master --tags
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar que el tag coincide con style.css
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VERSION="$(grep -m1 '^Version:' style.css | sed 's/Version:[[:space:]]*//' | tr -d '\r')"
+          echo "tag=$TAG style.css=$VERSION"
+          test "$TAG" = "$VERSION" || { echo "::error::El tag ($TAG) no coincide con Version de style.css ($VERSION)"; exit 1; }
+
+      - name: Construir tedotamos.zip (carpeta tedotamos/ en la raíz)
+        run: |
+          mkdir -p /tmp/build/tedotamos
+          rsync -a --exclude '.git' --exclude '.github' --exclude '.gitignore' ./ /tmp/build/tedotamos/
+          (cd /tmp/build && zip -rqX "$GITHUB_WORKSPACE/tedotamos.zip" tedotamos)
+
+      - name: Crear release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" tedotamos.zip --title "$GITHUB_REF_NAME" --generate-notes

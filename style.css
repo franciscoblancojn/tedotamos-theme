@@ -4,15 +4,15 @@ Theme Name: TeDotamos
 Theme URI: https://tedotamos.com/
 Author: TeDotamos
 Author URI: https://tedotamos.com/
-Description: Tema propio de TeDotamos. Copia independiente (fork) de Martfury 3.4.4 de DrFuri; no recibe actualizaciones de Martfury. Ver TEDOTAMOS.md.
-Version: 1.0.0
+Description: Tema propio de TeDotamos. Copia independiente (fork) de Martfury 3.4.4 de DrFuri; no recibe actualizaciones de Martfury; se actualiza desde GitHub (Apariencia → TeDotamos). Ver TEDOTAMOS.md.
+Version: 1.1.0
 Tested up to: 5.8.1
 Requires PHP: 7.0.0
 License: GNU General Public License v2+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: martfury
 Domain Path: lang/
-Update URI: false
+Update URI: https://github.com/franciscoblancojn/tedotamos-theme
 Tags: one-column, two-columns, left-sidebar, right-sidebar, full-width-template, post-formats, theme-options, threaded-comments, translation-ready
 */
 /*--------------------------------------------------------------
