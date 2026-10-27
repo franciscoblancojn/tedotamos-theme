@@ -2,9 +2,9 @@
 
 Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-> ✍️ Anota los cambios nuevos en **Sin publicar**. Al ejecutar `npm run push-v -- patch|minor|major`, esa sección recibe el número de versión y la fecha.
+> ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.1.5] - 2026-10-27
 
 ### ✨ Añadido
 - 🎨 Las personalizaciones del plugin "Martfury Custom" 1.0.37 se integran directamente en el tema:

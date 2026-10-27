@@ -57,9 +57,9 @@ Antes, anotar los cambios en `CHANGELOG.md`, en la sección **Sin publicar**.
 ```bash
 npm run push-v -- patch     # o minor | major
 ```
-- `scripts/bump-version.sh` sube `Version` en `style.css` y llama a `npm run push-tag`.
-- `push-tag` sincroniza `package.json`, el `**Versión:**` de `README.md` y el `CHANGELOG.md`
-  ("Sin publicar" pasa a `## [X.Y.Z] - fecha`), hace commit "Release X.Y.Z" con todos los cambios
+- `scripts/bump-version.sh` sube `Version` en `style.css`, cambia `## [Sin publicar]` por
+  `## [X.Y.Z] - fecha` en `CHANGELOG.md` (si no existe esa sección, no publica) y llama a `npm run push-tag`.
+- `push-tag` sincroniza `package.json` y el `**Versión:**` de `README.md`, hace commit "Release X.Y.Z" con todos los cambios
   pendientes, crea el tag `X.Y.Z` y hace push de `master` y del tag.
 - `npm run push` solo hace `git push origin master`, sin release.
 - Después, el workflow verifica que el tag coincida con `style.css`, construye

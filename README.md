@@ -2,7 +2,7 @@
 
 > 🏭 Tema propio de **[TeDotamos.com](https://tedotamos.com)**: tienda B2B de dotación y seguridad industrial, con precios de fábrica para empresas y negocios.
 
-**Versión:** 1.1.4 · **WordPress:** 6.1+ (probado hasta 7.1) · **PHP:** 7.0+ · **Licencia:** GPLv2 o posterior
+**Versión:** 1.1.5 · **WordPress:** 6.1+ (probado hasta 7.1) · **PHP:** 7.0+ · **Licencia:** GPLv2 o posterior
 
 📋 [Registro de cambios](CHANGELOG.md) · 📝 [Notas técnicas](TEDOTAMOS.md) · 📦 [Releases](https://github.com/franciscoblancojn/tedotamos-theme/releases)
 
@@ -42,7 +42,7 @@ TeDotamos es el tema oficial de https://tedotamos.com. Es una copia independient
 
 **Publicar una versión (desarrollo):**
 
-1. Anota los cambios en [`CHANGELOG.md`](CHANGELOG.md), en la sección **Sin publicar**.
+1. Anota los cambios en [`CHANGELOG.md`](CHANGELOG.md), en una sección `## [Sin publicar]` arriba de todo.
 2. Ejecuta:
 
    ```bash
@@ -52,7 +52,7 @@ TeDotamos es el tema oficial de https://tedotamos.com. Es una copia independient
 El comando:
 
 - sube la versión en `style.css`, `package.json` y este README;
-- pone número y fecha a la sección "Sin publicar" del changelog;
+- cambia `## [Sin publicar]` del changelog por `## [X.Y.Z] - fecha` (sin esa sección no publica);
 - hace commit y crea el tag;
 - hace push.
 
