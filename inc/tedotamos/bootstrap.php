@@ -11,8 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/class-updater.php';
 require_once __DIR__ . '/class-admin.php';
+require_once __DIR__ . '/class-migration.php';
 
 TeDotamos_Updater::init();
+// Fuera de is_admin(): "after_switch_theme" puede dispararse en la primera visita al front.
+TeDotamos_Migration::init();
 
 if ( is_admin() ) {
 	TeDotamos_Admin::init();

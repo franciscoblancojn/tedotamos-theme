@@ -111,8 +111,9 @@ class TeDotamos_Admin {
 	public static function render_page() {
 		$tabs = array(
 			'updates' => 'Actualizaciones',
-			'general' => 'General',
-			'info'    => 'Información',
+			'general'   => 'General',
+			'migration' => 'Migración',
+			'info'      => 'Información',
 		);
 		$tab  = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_key( $_GET['tab'] ) : 'updates'; // phpcs:ignore WordPress.Security.NonceVerification
 		?>
@@ -124,8 +125,15 @@ class TeDotamos_Admin {
 				<?php endforeach; ?>
 			</nav>
 			<?php
+			$message = get_transient( 'tedotamos_admin_message' );
+			if ( $message ) {
+				delete_transient( 'tedotamos_admin_message' );
+				printf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', $message['ok'] ? 'success' : 'error', esc_html( $message['text'] ) );
+			}
 			if ( 'general' === $tab ) {
 				self::render_general_tab();
+			} elseif ( 'migration' === $tab ) {
+				self::render_migration_tab();
 			} elseif ( 'info' === $tab ) {
 				self::render_info_tab();
 			} else {
@@ -246,6 +254,57 @@ class TeDotamos_Admin {
 			</table>
 			<?php submit_button(); ?>
 		</form>
+		<?php
+	}
+
+	private static function render_migration_tab() {
+		$status   = TeDotamos_Migration::status();
+		$source   = TeDotamos_Migration::source_mods();
+		$current  = get_theme_mods();
+		$backup   = get_option( TeDotamos_Migration::BACKUP );
+		$date_fmt = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		$can      = current_user_can( 'edit_theme_options' );
+		?>
+		<p>WordPress guarda la configuración del Customizer (header, logo, colores, barra de promoción,
+			ubicación de menús, CSS adicional…) <strong>por tema</strong>. Aquí se copia la de Martfury a TeDotamos.
+			La copia se hace sola la primera vez que se activa TeDotamos.</p>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row">Estado</th>
+				<td>
+					<?php if ( $status ) : ?>
+						<span class="dashicons dashicons-yes-alt" style="color:#00a32a"></span>
+						Migrado el <?php echo esc_html( wp_date( $date_fmt, $status['at'] ) ); ?>
+						(<?php echo esc_html( $status['count'] ); ?> opciones, <?php echo esc_html( $status['how'] ); ?>).
+					<?php else : ?>
+						<span class="dashicons dashicons-warning" style="color:#dba617"></span>
+						Todavía no se ha copiado la configuración de Martfury.
+					<?php endif; ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Opciones</th>
+				<td>Martfury: <strong><?php echo count( $source ); ?></strong> · TeDotamos: <strong><?php echo count( (array) $current ); ?></strong></td>
+			</tr>
+		</table>
+		<?php if ( $can ) : ?>
+			<div style="display:flex;gap:8px;margin:1em 0">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+					onsubmit="return confirm('Se reemplazará la configuración del Customizer de TeDotamos por la de Martfury. Se guarda una copia de la actual para poder restaurarla. ¿Continuar?');">
+					<input type="hidden" name="action" value="tedotamos_import_martfury">
+					<?php wp_nonce_field( 'tedotamos_import_martfury' ); ?>
+					<?php submit_button( 'Copiar configuración desde Martfury', 'primary', 'submit', false, $source ? array() : array( 'disabled' => 'disabled' ) ); ?>
+				</form>
+				<?php if ( is_array( $backup ) ) : ?>
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+						onsubmit="return confirm('¿Restaurar la configuración que tenía TeDotamos antes de la última copia?');">
+						<input type="hidden" name="action" value="tedotamos_restore_backup">
+						<?php wp_nonce_field( 'tedotamos_restore_backup' ); ?>
+						<?php submit_button( 'Restaurar copia anterior (' . wp_date( $date_fmt, $backup['saved_at'] ) . ')', 'secondary', 'submit', false ); ?>
+					</form>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
 		<?php
 	}
 

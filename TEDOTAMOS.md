@@ -13,6 +13,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `functions.php` | Al final: `require` de `inc/tedotamos/bootstrap.php` |
 | `inc/tedotamos/bootstrap.php` | Carga el código propio |
 | `inc/tedotamos/class-updater.php` | Actualizaciones desde GitHub Releases |
+| `inc/tedotamos/class-migration.php` | Copia la configuración del Customizer de Martfury al activar (y botón manual) |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
@@ -79,9 +80,10 @@ el header, el footer, los colores, el logo, la asignación de menús y demás aj
 
 1. Backup completo (archivos + BD) desde hPanel.
 2. Subir `dist/tedotamos-<version>.zip` en Apariencia → Temas → Añadir → Subir, **sin activarlo**.
-3. Copiar las opciones del tema:
-   `wp option get theme_mods_martfury --format=json | wp option update theme_mods_tedotamos --format=json`
-   (o con un plugin de exportar/importar el Customizer).
+3. Las opciones del tema se copian **solas** al activar TeDotamos por primera vez
+   (`theme_mods_martfury` → `theme_mods_tedotamos`, ver `class-migration.php`). También se pueden
+   copiar o restaurar a mano en Apariencia → TeDotamos → **Migración**. La copia limpia la caché
+   de estilos del tema (`martfury_inline_css_*`) y purga LiteSpeed.
 4. Previsualizar TeDotamos en el Customizer (vista previa en vivo, sin activarlo) y revisar
    la home, una categoría, un producto, el carrito y el checkout.
 5. Activar. Después, purgar la caché de LiteSpeed y regenerar el CSS de Elementor
