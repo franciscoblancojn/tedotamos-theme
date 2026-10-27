@@ -255,6 +255,16 @@ function martfury_enqueue_scripts() {
 	add_action( 'wp_enqueue_scripts', 'martfury_enqueue_scripts' );
 
 /**
+ * TeDotamos: estilos propios del sitio (css/tedotamos.css).
+ * Prioridad 20 para que carguen después de WooCommerce, Elementor y los colores del Customizer.
+ */
+function tedotamos_enqueue_styles() {
+	$file = get_template_directory() . '/css/tedotamos.css';
+	wp_enqueue_style( 'tedotamos', get_template_directory_uri() . '/css/tedotamos.css', array( 'martfury' ), filemtime( $file ) );
+}
+add_action( 'wp_enqueue_scripts', 'tedotamos_enqueue_styles', 20 );
+
+/**
  * Clear cached inline styles (on Customizer save / theme switch).
  *
  * @since  1.0.0

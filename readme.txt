@@ -33,6 +33,11 @@ Es una copia independiente (fork) de Martfury 3.4.4 (DrFuri), adaptada y manteni
 * 📦 Migración desde Martfury
   * Al activarse, copia la configuración del Customizer de Martfury: header, logo, colores, menús y CSS adicional.
   * Guarda una copia de lo anterior para poder restaurarlo.
+* 🎨 Personalizaciones del sitio integradas directamente en el tema:
+  * CSS propio (`css/tedotamos.css`);
+  * botón "Pagar ahora" en productos simples y variables;
+  * carrito ajustado.
+  Reemplaza al plugin "Martfury Custom".
 * 🛡️ Nunca consulta WordPress.org por este tema, así evita que lo reemplace otro tema con el mismo nombre.
 
 == 🚀 Instalación ==
@@ -66,11 +71,18 @@ GitHub Actions crea la release con `tedotamos.zip`.
 
 == 🧑‍💻 Desarrollo ==
 
-* 📁 El código propio está en `inc/tedotamos/`. El resto es el código original de Martfury.
+* 🎨 Las personalizaciones se hacen directo en los archivos del tema, marcadas con `TeDotamos:`. El CSS propio va en `css/tedotamos.css` y la lógica nueva en `inc/tedotamos/`. El resto es el código original de Martfury.
 * 🏷️ Mantener el text domain `martfury` y los nombres `martfury_*`: las traducciones, el plugin Martfury Addons y la base de datos dependen de ellos.
 * 📝 Más detalles en `TEDOTAMOS.md`.
 
 == 📋 Registro de cambios ==
+
+= 1.2.0 =
+* 🎨 Nuevo: integra en el tema las personalizaciones del plugin "Martfury Custom" 1.0.37:
+  * CSS en `css/tedotamos.css`;
+  * botón "Pagar ahora";
+  * carrito.
+* 🔌 Si el plugin sigue activo, el tema lo neutraliza y muestra un aviso para borrarlo.
 
 = 1.1.3 =
 * 📦 Nueva publicación sin cambios de código.

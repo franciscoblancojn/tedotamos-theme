@@ -55,6 +55,11 @@ if ( $product->is_in_stock() ) : ?>
 
 		<button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 
+		<?php // TeDotamos: botón "Pagar ahora" (envía el formulario al checkout). ?>
+		<button type="submit" class="button alt buy-now-button" formaction="<?php echo esc_url( wc_get_checkout_url() ); ?>">
+			Pagar ahora
+		</button>
+
 		<?php
 			/**
 			 * @since 2.1.0.

@@ -14,6 +14,11 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `inc/tedotamos/bootstrap.php` | Carga el código propio |
 | `inc/tedotamos/class-updater.php` | Actualizaciones desde GitHub Releases |
 | `inc/tedotamos/class-migration.php` | Copia la configuración del Customizer de Martfury al activar (y botón manual) |
+| `css/tedotamos.css` + `inc/frontend/header.php` | Estilos propios del sitio (antes en el plugin Martfury Custom), cargados con prioridad 20 |
+| `woocommerce/cart/cart.php` | Cupón en su propio formulario, miniatura `thumbnail`, placeholder "Codigo Postal" |
+| `woocommerce/single-product/add-to-cart/simple.php` | Botón "Pagar ahora" |
+| `woocommerce/single-product/add-to-cart/variation-add-to-cart-button.php` | Nuevo: botón "Pagar ahora" en productos variables |
+| `inc/tedotamos/class-legacy-plugins.php` | Anula el plugin Martfury Custom si sigue activo |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
@@ -60,9 +65,29 @@ npm run push-v -- patch     # o minor | major
 **Actualizar el sitio:** Apariencia → TeDotamos → "Buscar actualizaciones" → "Actualizar a X.Y.Z".
 También aparece en Escritorio → Actualizaciones y en Apariencia → Temas.
 
+## Personalizaciones del sitio
+
+El tema es nuestro: las personalizaciones se hacen **directamente** en sus archivos.
+
+- En PHP, marcar cada cambio con un comentario `TeDotamos:` y anotarlo en la tabla de arriba.
+- El CSS propio va en `css/tedotamos.css`. Carga después de WooCommerce, Elementor y los colores
+  del Customizer.
+
+Lo que hacía el plugin **Martfury Custom** (1.0.37) ya está integrado:
+
+- **CSS:** en `css/tedotamos.css`.
+- **"Pagar ahora":** en `simple.php` y en `variation-add-to-cart-button.php`.
+- **Carrito:** las personalizaciones se aplicaron sobre el template de Martfury 3.4.4
+  (WooCommerce 11), no sobre la copia vieja del plugin (WooCommerce 10.1).
+
+El `variable.php` del plugin no tenía cambios propios (era una copia vieja), así que se usa el
+del tema. Si el plugin sigue activo, `class-legacy-plugins.php` anula sus hooks y muestra un
+aviso para borrarlo.
+
 ## Reglas para modificar el tema
 
-1. El código propio va en `inc/tedotamos/` (un archivo por funcionalidad, cargado desde
+1. Las personalizaciones se hacen directo en los archivos del tema, marcadas con `TeDotamos:`.
+   El CSS propio va en `css/tedotamos.css` y la lógica nueva en `inc/tedotamos/` (un archivo por funcionalidad, cargado desde
    `inc/tedotamos/bootstrap.php`). Las opciones nuevas van en la pestaña General de
    `class-admin.php` (`DEFAULTS` + `sanitize()` + `render_general_tab()`), y el CSS/JS propio en archivos nuevos. Así se evita editar
    archivos del original.

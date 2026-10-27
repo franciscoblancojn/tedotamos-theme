@@ -67,7 +67,8 @@ do_action( 'woocommerce_before_cart' ); ?>
 
                     <td class="product-thumbnail">
 						<?php
-						$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+						// TeDotamos: miniatura en tamaño "thumbnail".
+						$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'thumbnail' ), $cart_item, $cart_item_key );
 
 						if ( ! $product_permalink ) {
 							echo wp_kses_post( $thumbnail );
@@ -200,27 +201,25 @@ do_action( 'woocommerce_before_cart' ); ?>
         </tbody>
     </table>
 	<?php do_action( 'woocommerce_after_cart_table' ); ?>
-	<?php if ( wc_coupons_enabled() ) { ?>
-        <div class="row">
-            <div class="col-md-4 col-sm-12 col-coupon">
-                <div class="coupon">
-                    <label for="coupon_code"><?php esc_html_e( 'Coupon Discount', 'martfury' ); ?></label>
-                    <input type="text" name="coupon_code" class="input-text" id="coupon_code" value=""
-                           placeholder="<?php esc_attr_e( 'Coupon code', 'martfury' ); ?>"/>
-                    <input type="submit" class="button" name="apply_coupon"
-                           value="<?php esc_attr_e( 'Apply coupon', 'martfury' ); ?>"/>
-					<?php do_action( 'woocommerce_cart_coupon' ); ?>
-                </div>
-            </div>
-        </div>
-	<?php } ?>
 </form>
 <?php do_action( 'woocommerce_before_cart_collaterals' ); ?>
 <div class="cart-collaterals">
     <div class="row">
-        <div class="col-md-4 col-sm-12 col-colla">
-
-        </div>
+		<?php // TeDotamos: el cupón va en su propio formulario, en la primera columna de cart-collaterals (antes estaba dentro del formulario del carrito). ?>
+		<?php if ( wc_coupons_enabled() ) { ?>
+            <div class="col-md-4 col-sm-12 col-coupon">
+                <form class="woocommerce-cart-form-coupon_code" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
+                    <div class="coupon">
+                        <label for="coupon_code"><?php esc_html_e( 'Coupon Discount', 'martfury' ); ?></label>
+                        <input type="text" name="coupon_code" class="input-text" id="coupon_code" value=""
+                               placeholder="<?php esc_attr_e( 'Coupon code', 'martfury' ); ?>"/>
+                        <input type="submit" class="button" name="apply_coupon"
+                               value="<?php esc_attr_e( 'Apply coupon', 'martfury' ); ?>"/>
+						<?php do_action( 'woocommerce_cart_coupon' ); ?>
+                    </div>
+                </form>
+            </div>
+		<?php } ?>
 
 		<?php
 		$cart_class = 'col-md-8 col-sm-12 col-colla';
@@ -239,3 +238,17 @@ do_action( 'woocommerce_before_cart' ); ?>
 </div>
 
 <?php do_action( 'woocommerce_after_cart' ); ?>
+
+<?php // TeDotamos: placeholder del código postal en la calculadora de envío. ?>
+<script>
+	( function () {
+		var setPostcodePlaceholder = function () {
+			var input = document.getElementById( 'calc_shipping_postcode' );
+			if ( input ) {
+				input.placeholder = 'Codigo Postal';
+			}
+		};
+		document.addEventListener( 'DOMContentLoaded', setPostcodePlaceholder );
+		window.addEventListener( 'load', setPostcodePlaceholder );
+	} )();
+</script>
