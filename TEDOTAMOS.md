@@ -52,11 +52,14 @@ referencia y **no se modifica**).
 - Solo funciona mientras TeDotamos es el tema activo (o el padre del tema activo).
 
 **Publicar una versión** (igual que en el plugin aveonline)
+Antes, anotar los cambios en `CHANGELOG.md`, en la sección **Sin publicar**.
+
 ```bash
 npm run push-v -- patch     # o minor | major
 ```
 - `scripts/bump-version.sh` sube `Version` en `style.css` y llama a `npm run push-tag`.
-- `push-tag` sincroniza `package.json`, hace commit "Release X.Y.Z" con todos los cambios
+- `push-tag` sincroniza `package.json`, el `**Versión:**` de `README.md` y el `CHANGELOG.md`
+  ("Sin publicar" pasa a `## [X.Y.Z] - fecha`), hace commit "Release X.Y.Z" con todos los cambios
   pendientes, crea el tag `X.Y.Z` y hace push de `master` y del tag.
 - `npm run push` solo hace `git push origin master`, sin release.
 - Después, el workflow verifica que el tag coincida con `style.css`, construye
