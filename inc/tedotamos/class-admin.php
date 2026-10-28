@@ -233,6 +233,17 @@ class TeDotamos_Admin {
 			<p class="description">Tu usuario no tiene permisos para actualizar temas.</p>
 		<?php endif; ?>
 
+		<details style="margin:1em 0">
+			<summary style="cursor:pointer">Diagnóstico de actualizaciones</summary>
+			<table class="widefat striped" style="margin-top:8px;max-width:900px">
+				<tbody>
+					<?php foreach ( TeDotamos_Updater::diagnostics() as $label => $value ) : ?>
+						<tr><th style="width:280px"><?php echo esc_html( $label ); ?></th><td><code><?php echo esc_html( $value ); ?></code></td></tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</details>
+
 		<?php if ( ! empty( $release['notes'] ) ) : ?>
 			<h2>Notas de la versión <?php echo esc_html( $release['version'] ); ?></h2>
 			<div class="card" style="max-width:none">

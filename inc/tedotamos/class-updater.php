@@ -30,6 +30,11 @@ class TeDotamos_Updater {
 		add_filter( 'http_request_args', array( __CLASS__, 'filter_http_args' ), 10, 2 );
 		add_filter( 'upgrader_source_selection', array( __CLASS__, 'fix_source_dir' ), 10, 4 );
 		add_action( 'upgrader_process_complete', array( __CLASS__, 'after_upgrade' ), 10, 2 );
+		// Respaldo: añade la actualización cada vez que se lee la lista de actualizaciones de temas,
+		// por si la revisión de WordPress se corta antes de llegar a "update_themes_github.com"
+		// (p. ej. si falla la consulta a api.wordpress.org desde el hosting).
+		add_filter( 'site_transient_update_themes', array( __CLASS__, 'inject_update' ) );
+		add_action( 'http_api_debug', array( __CLASS__, 'log_wporg_check' ), 10, 5 );
 	}
 
 	/**
@@ -241,6 +246,108 @@ class TeDotamos_Updater {
 		if ( isset( $options['type'], $options['themes'] ) && 'theme' === $options['type'] && in_array( self::slug(), (array) $options['themes'], true ) ) {
 			delete_transient( self::CACHE_KEY );
 		}
+	}
+
+	/**
+	 * Datos de la actualización en el formato que espera WordPress (null si no hay versión nueva).
+	 *
+	 * @return array|null
+	 */
+	public static function update_data() {
+		$release = self::get_latest_release();
+		if ( empty( $release['version'] ) || empty( $release['package'] ) || ! version_compare( $release['version'], self::installed_version(), '>' ) ) {
+			return null;
+		}
+
+		return array(
+			'theme'        => self::slug(),
+			'new_version'  => $release['version'],
+			'url'          => $release['url'],
+			'package'      => $release['package'],
+			'requires_php' => wp_get_theme( self::slug() )->get( 'RequiresPHP' ),
+		);
+	}
+
+	public static function inject_update( $transient ) {
+		$update = self::update_data();
+		if ( ! $update ) {
+			return $transient;
+		}
+		if ( ! is_object( $transient ) ) {
+			$transient = new stdClass();
+		}
+		if ( ! isset( $transient->response ) || ! is_array( $transient->response ) ) {
+			$transient->response = array();
+		}
+		if ( empty( $transient->response[ self::slug() ] ) ) {
+			$transient->response[ self::slug() ] = $update;
+		}
+		if ( isset( $transient->no_update ) && is_array( $transient->no_update ) ) {
+			unset( $transient->no_update[ self::slug() ] );
+		}
+
+		return $transient;
+	}
+
+	/**
+	 * Guarda el resultado de la última consulta de WordPress a api.wordpress.org (para el diagnóstico).
+	 */
+	public static function log_wporg_check( $response, $context, $class, $args, $url ) {
+		if ( false === strpos( (string) $url, 'api.wordpress.org/themes/update-check' ) ) {
+			return;
+		}
+		update_option(
+			'tedotamos_wporg_check',
+			array(
+				'at'     => time(),
+				'result' => is_wp_error( $response ) ? 'error: ' . $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response ),
+			),
+			false
+		);
+	}
+
+	/**
+	 * Información para diagnosticar por qué no aparece una actualización.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function diagnostics() {
+		global $wp_version;
+
+		$slug      = self::slug();
+		$theme     = wp_get_theme( $slug );
+		$raw       = get_site_option( '_site_transient_update_themes' );
+		$wporg     = get_option( 'tedotamos_wporg_check' );
+		$callbacks = function ( $hook ) {
+			global $wp_filter;
+			if ( empty( $wp_filter[ $hook ] ) ) {
+				return 'ninguno';
+			}
+			$names = array();
+			foreach ( $wp_filter[ $hook ]->callbacks as $priority => $items ) {
+				foreach ( $items as $item ) {
+					$cb      = $item['function'];
+					$names[] = is_array( $cb ) ? ( is_object( $cb[0] ) ? get_class( $cb[0] ) : $cb[0] ) . '::' . $cb[1] : ( is_string( $cb ) ? $cb : 'closure' );
+				}
+			}
+
+			return implode( ', ', $names );
+		};
+
+		return array(
+			'WordPress'                                => $wp_version,
+			'Carpeta del tema'                         => $slug,
+			'Update URI leído por WordPress'           => $theme->get( 'UpdateURI' ) ? $theme->get( 'UpdateURI' ) : '(vacío)',
+			'Revisión de WordPress (sin respaldo)'     => is_object( $raw ) ? sprintf(
+				'%s · en "checked": %s · con actualización: %s',
+				isset( $raw->last_checked ) ? wp_date( 'Y-m-d H:i', $raw->last_checked ) : 'sin fecha',
+				isset( $raw->checked[ $slug ] ) ? $raw->checked[ $slug ] : 'no',
+				isset( $raw->response[ $slug ] ) ? 'sí' : 'no'
+			) : '(no existe)',
+			'Última consulta a api.wordpress.org'      => is_array( $wporg ) ? wp_date( 'Y-m-d H:i', $wporg['at'] ) . ' · ' . $wporg['result'] : '(sin registro)',
+			'Filtros que bloquean (pre_site_transient)' => $callbacks( 'pre_site_transient_update_themes' ),
+			'Respaldo activo'                          => self::update_data() ? 'sí, ofrece ' . self::update_data()['new_version'] : 'no (sin versión nueva)',
+		);
 	}
 
 	/**
