@@ -1,0 +1,1007 @@
+@charset "UTF-8";
+/*
+ * TeDotamos: plantilla V1 (diseño TeDotamos 2026).
+ * Todo va bajo body.tdt-tpl-v1 para no afectar a la plantilla default.
+ * --tdt-primary y --tdt-dark vienen de Apariencia → TeDotamos → Plantilla V1.
+ */
+
+/* ------------------------------------------------------------------ base */
+
+body.tdt-tpl-v1 {
+	--tdt-primary: #f57c00;
+	--tdt-dark: #1b1d22;
+	--tdt-text: #1f2329;
+	--tdt-muted: #6b7280;
+	--tdt-border: #e6e8ec;
+	--tdt-soft: #f5f6f8;
+	--tdt-radius: 10px;
+	--tdt-shadow: 0 10px 30px rgba(17, 24, 39, .08);
+	--tdt-container: 1320px;
+
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+	color: var(--tdt-text);
+	background: #fff;
+}
+
+body.tdt-tpl-v1 h1,
+body.tdt-tpl-v1 h2,
+body.tdt-tpl-v1 h3,
+body.tdt-tpl-v1 h4,
+body.tdt-tpl-v1 h5,
+body.tdt-tpl-v1 h6,
+body.tdt-tpl-v1 button,
+body.tdt-tpl-v1 input,
+body.tdt-tpl-v1 select,
+body.tdt-tpl-v1 textarea {
+	font-family: inherit;
+}
+
+body.tdt-tpl-v1 .tdt-icon {
+	width: 1.25em;
+	height: 1.25em;
+	flex: 0 0 auto;
+	vertical-align: middle;
+}
+
+body.tdt-tpl-v1 .tdt-container {
+	max-width: var(--tdt-container);
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+body.tdt-tpl-v1 .tdt-accent {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-kicker {
+	margin: 0 0 12px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	color: var(--tdt-primary);
+}
+
+/* Botones propios y de WooCommerce */
+body.tdt-tpl-v1 .tdt-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 12px 22px;
+	border: 1.5px solid transparent;
+	border-radius: 6px;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+	cursor: pointer;
+}
+
+body.tdt-tpl-v1 .tdt-btn:hover {
+	transform: translateY(-1px);
+}
+
+body.tdt-tpl-v1 .tdt-btn--primary {
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--primary:hover {
+	background: color-mix(in srgb, var(--tdt-primary) 85%, #000);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--ghost {
+	border-color: currentColor;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--ghost:hover {
+	background: #fff;
+	color: var(--tdt-dark);
+}
+
+body.tdt-tpl-v1 .tdt-btn--dark {
+	background: var(--tdt-dark);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--block {
+	display: flex;
+	width: 100%;
+}
+
+body.tdt-tpl-v1 .button,
+body.tdt-tpl-v1 button.button,
+body.tdt-tpl-v1 input.button,
+body.tdt-tpl-v1 .woocommerce a.button,
+body.tdt-tpl-v1 .woocommerce button.button {
+	border-radius: 6px;
+	font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ barra superior */
+
+body.tdt-tpl-v1 .tdt-topbar {
+	background: var(--tdt-dark);
+	color: #fff;
+	font-size: 13px;
+}
+
+body.tdt-tpl-v1 .tdt-topbar__items {
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-topbar__items li {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	padding: 10px 12px;
+}
+
+body.tdt-tpl-v1 .tdt-topbar__items li + li {
+	border-left: 1px solid rgba(255, 255, 255, .15);
+}
+
+body.tdt-tpl-v1 .tdt-topbar__items li > *,
+body.tdt-tpl-v1 .tdt-topbar__items a {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-topbar__items a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-topbar .tdt-icon {
+	width: 18px;
+	height: 18px;
+	color: var(--tdt-primary);
+}
+
+/* ------------------------------------------------------------------ header (Martfury layout 1) */
+
+body.tdt-tpl-v1 #site-header,
+body.tdt-tpl-v1 #site-header .header-main {
+	background: #fff;
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 #site-header .header-main {
+	padding: 18px 0;
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 #site-header .header-main a,
+body.tdt-tpl-v1 #site-header .extras-menu > li > a,
+body.tdt-tpl-v1 #site-header .extras-menu .extra-icon,
+body.tdt-tpl-v1 #site-header .extras-menu i {
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 #site-header .extras-menu > li > a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 #site-header .extras-menu .mini-item-counter {
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
+/* Buscador: campo con borde y botón de color */
+body.tdt-tpl-v1 #site-header .products-search .psearch-content {
+	border: 1.5px solid var(--tdt-border);
+	border-radius: 8px;
+	background: #fff;
+	overflow: hidden;
+}
+
+body.tdt-tpl-v1 #site-header .products-search .psearch-content:focus-within {
+	border-color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 #site-header .header-main .products-search .product-cat {
+	display: none;
+}
+
+body.tdt-tpl-v1 #site-header .products-search .search-field {
+	border: 0;
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 #site-header .products-search .search-submit {
+	background: var(--tdt-primary);
+	color: #fff;
+	border-radius: 0;
+}
+
+/* Barra de menú */
+body.tdt-tpl-v1 #site-header .main-menu {
+	background: var(--tdt-soft);
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 #site-header .main-menu .primary-nav > ul > li > a {
+	color: var(--tdt-text);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1 #site-header .main-menu .primary-nav > ul > li.current-menu-item > a,
+body.tdt-tpl-v1 #site-header .main-menu .primary-nav > ul > li > a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 #site-header .main-menu .products-cats-menu .cats-menu-title,
+body.tdt-tpl-v1 #site-header .main-menu .products-cats-menu .cats-menu-title .text,
+body.tdt-tpl-v1 #site-header .main-menu .products-cats-menu .cats-menu-title i {
+	background: transparent;
+	color: var(--tdt-primary);
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 #site-header .main-menu .header-bar,
+body.tdt-tpl-v1 #site-header .main-menu .header-bar a {
+	color: var(--tdt-text);
+}
+
+/* ------------------------------------------------------------------ catálogo: tarjetas de producto */
+
+body.tdt-tpl-v1 ul.products li.product .product-inner {
+	height: 100%;
+	padding: 14px;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+	transition: box-shadow .2s, transform .2s;
+}
+
+body.tdt-tpl-v1 ul.products li.product .product-inner:hover {
+	box-shadow: var(--tdt-shadow);
+	transform: translateY(-2px);
+}
+
+body.tdt-tpl-v1 ul.products li.product h2 a,
+body.tdt-tpl-v1 ul.products li.product .woo-loop-product__title a {
+	color: var(--tdt-text);
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 ul.products li.product .price {
+	color: var(--tdt-text);
+	font-weight: 700;
+}
+
+body.tdt-tpl-v1 ul.products li.product .price ins {
+	color: var(--tdt-primary);
+}
+
+/* ------------------------------------------------------------------ footer */
+
+body.tdt-tpl-v1 #colophon,
+body.tdt-tpl-v1 #colophon .footer-layout,
+body.tdt-tpl-v1 #colophon .footer-newsletter {
+	background: var(--tdt-dark);
+	color: #c4c8d0;
+}
+
+body.tdt-tpl-v1 #colophon h1,
+body.tdt-tpl-v1 #colophon h2,
+body.tdt-tpl-v1 #colophon h3,
+body.tdt-tpl-v1 #colophon h4,
+body.tdt-tpl-v1 #colophon .widget-title {
+	color: #fff;
+}
+
+body.tdt-tpl-v1 #colophon a {
+	color: #c4c8d0;
+}
+
+body.tdt-tpl-v1 #colophon a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 #colophon .footer-newsletter,
+body.tdt-tpl-v1 #colophon .footer-info,
+body.tdt-tpl-v1 #colophon .footer-widgets,
+body.tdt-tpl-v1 #colophon .footer-bottom {
+	border-color: rgba(255, 255, 255, .1);
+}
+
+/* ------------------------------------------------------------------ portada */
+
+body.tdt-v1-home .site-content > .container-fluid {
+	padding: 0;
+}
+
+body.tdt-v1-home .site-content > .container-fluid > .row {
+	margin: 0;
+}
+
+body.tdt-tpl-v1 .tdt-home {
+	padding-bottom: 40px;
+}
+
+body.tdt-tpl-v1 .tdt-section {
+	margin-top: 48px;
+}
+
+body.tdt-tpl-v1 .tdt-section__head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 20px;
+}
+
+body.tdt-tpl-v1 .tdt-section__head h2 {
+	margin: 0;
+	font-size: 26px;
+	font-weight: 700;
+}
+
+body.tdt-tpl-v1 .tdt-section__head a {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--tdt-text);
+	white-space: nowrap;
+}
+
+body.tdt-tpl-v1 .tdt-section__head a:hover {
+	color: var(--tdt-primary);
+}
+
+/* Hero */
+body.tdt-tpl-v1 .tdt-hero {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(110deg, #111317 0%, #23262d 55%, #2d3037 100%);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-hero.has-image {
+	background:
+		linear-gradient(90deg, rgba(10, 11, 14, .92) 0%, rgba(10, 11, 14, .75) 40%, rgba(10, 11, 14, .15) 75%),
+		var(--tdt-hero-image) center right / cover no-repeat;
+}
+
+body.tdt-tpl-v1 .tdt-hero__inner {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 440px;
+	padding-top: 56px;
+	padding-bottom: 56px;
+}
+
+body.tdt-tpl-v1 .tdt-hero__content {
+	max-width: 620px;
+}
+
+body.tdt-tpl-v1 .tdt-hero__title {
+	margin: 0 0 18px;
+	font-size: clamp(34px, 5vw, 56px);
+	font-weight: 800;
+	line-height: 1.05;
+	letter-spacing: -.02em;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-hero__title .tdt-accent {
+	display: block;
+}
+
+body.tdt-tpl-v1 .tdt-hero__text {
+	margin: 0 0 28px;
+	font-size: 17px;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, .85);
+}
+
+body.tdt-tpl-v1 .tdt-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+}
+
+body.tdt-tpl-v1 .tdt-hero__side {
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	max-width: 230px;
+	margin: 0;
+	transform: translateY(-50%) rotate(-8deg);
+	font-size: 22px;
+	font-style: italic;
+	font-weight: 700;
+	line-height: 1.3;
+	color: #fff;
+	text-shadow: 0 2px 12px rgba(0, 0, 0, .5);
+}
+
+body.tdt-tpl-v1 .tdt-hero__side::after {
+	content: "";
+	display: block;
+	width: 70%;
+	height: 4px;
+	margin-top: 8px;
+	border-radius: 4px;
+	background: var(--tdt-primary);
+}
+
+/* Descuentos por volumen */
+body.tdt-tpl-v1 .tdt-volume-wrap {
+	margin-top: -36px;
+	position: relative;
+	z-index: 2;
+}
+
+body.tdt-tpl-v1 .tdt-volume {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) 3fr;
+	gap: 28px;
+	padding: 24px;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: var(--tdt-soft);
+	box-shadow: var(--tdt-shadow);
+}
+
+body.tdt-tpl-v1 .tdt-volume__intro {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding-right: 24px;
+	border-right: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .tdt-volume__intro h2 {
+	margin: 0;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+body.tdt-tpl-v1 .tdt-volume__intro h2 .tdt-accent {
+	display: block;
+}
+
+body.tdt-tpl-v1 .tdt-volume__badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-volume__badge .tdt-icon {
+	width: 26px;
+	height: 26px;
+}
+
+body.tdt-tpl-v1 .tdt-volume__segments {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 14px;
+}
+
+body.tdt-tpl-v1 .tdt-volume__segments > div {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 10px;
+	align-items: center;
+}
+
+body.tdt-tpl-v1 .tdt-volume__segments .tdt-icon {
+	grid-row: span 2;
+	width: 30px;
+	height: 30px;
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-volume__segments strong {
+	font-size: 16px;
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-volume__segments span {
+	font-size: 13px;
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1 .tdt-table-scroll {
+	overflow-x: auto;
+}
+
+body.tdt-tpl-v1 .tdt-volume__table {
+	width: 100%;
+	margin: 0;
+	border-collapse: collapse;
+	background: #fff;
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 .tdt-volume__table th,
+body.tdt-tpl-v1 .tdt-volume__table td {
+	padding: 8px 14px;
+	border: 0;
+	border-bottom: 1px solid var(--tdt-border);
+	text-align: left;
+}
+
+body.tdt-tpl-v1 .tdt-volume__table th {
+	background: #eceef2;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--tdt-text);
+}
+
+/* Beneficios */
+body.tdt-tpl-v1 .tdt-benefits {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+	margin: 0;
+	padding: 20px 0;
+	list-style: none;
+	border-top: 1px solid var(--tdt-border);
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .tdt-benefits li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 16px;
+	text-align: center;
+}
+
+body.tdt-tpl-v1 .tdt-benefits li + li {
+	border-left: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .tdt-benefits .tdt-icon {
+	width: 34px;
+	height: 34px;
+	margin-bottom: 4px;
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 .tdt-benefits strong {
+	font-size: 15px;
+}
+
+body.tdt-tpl-v1 .tdt-benefits span {
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--tdt-muted);
+}
+
+/* Categorías */
+body.tdt-tpl-v1 .tdt-cats {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-cats a {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: var(--tdt-soft);
+	color: var(--tdt-text);
+	transition: box-shadow .2s, transform .2s;
+}
+
+body.tdt-tpl-v1 .tdt-cats a:hover {
+	box-shadow: var(--tdt-shadow);
+	transform: translateY(-2px);
+}
+
+body.tdt-tpl-v1 .tdt-cats__img {
+	display: block;
+	aspect-ratio: 4 / 3;
+	background: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-cats__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+body.tdt-tpl-v1 .tdt-cats__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 4px;
+	padding: 12px 14px 14px;
+}
+
+body.tdt-tpl-v1 .tdt-cats__body strong {
+	font-size: 15px;
+}
+
+body.tdt-tpl-v1 .tdt-cats__body span {
+	font-size: 12.5px;
+	line-height: 1.45;
+	color: var(--tdt-muted);
+}
+
+body.tdt-tpl-v1 .tdt-cats__arrow {
+	margin-top: auto;
+	padding-top: 8px;
+	width: 22px;
+	height: 22px;
+	box-sizing: content-box;
+}
+
+body.tdt-tpl-v1 .tdt-cats a:hover .tdt-cats__arrow {
+	color: var(--tdt-primary);
+}
+
+/* Productos */
+body.tdt-tpl-v1 .tdt-products {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-product {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: 14px;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+	transition: box-shadow .2s;
+}
+
+body.tdt-tpl-v1 .tdt-product:hover {
+	box-shadow: var(--tdt-shadow);
+}
+
+body.tdt-tpl-v1 .tdt-product__img {
+	display: block;
+	aspect-ratio: 1;
+	margin-bottom: 12px;
+}
+
+body.tdt-tpl-v1 .tdt-product__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+body.tdt-tpl-v1 .tdt-product__title {
+	margin: 0 0 4px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+body.tdt-tpl-v1 .tdt-product__title a {
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 .tdt-product__sku {
+	font-size: 12px;
+	color: var(--tdt-muted);
+}
+
+body.tdt-tpl-v1 .tdt-product__price {
+	margin: 6px 0 12px;
+	font-weight: 700;
+}
+
+body.tdt-tpl-v1 .tdt-product .tdt-btn {
+	margin-top: auto;
+	padding: 9px 14px;
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 .tdt-badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 1;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: var(--tdt-primary);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+/* Cotización inteligente */
+body.tdt-tpl-v1 .tdt-quote {
+	display: grid;
+	grid-template-columns: 1.3fr 1fr;
+	align-items: center;
+	gap: 40px;
+	padding: 36px;
+	border-radius: var(--tdt-radius);
+	background: var(--tdt-soft);
+}
+
+body.tdt-tpl-v1 .tdt-quote__intro h2 {
+	margin: 0 0 10px;
+	font-size: 32px;
+	font-weight: 800;
+}
+
+body.tdt-tpl-v1 .tdt-quote__intro p {
+	font-size: 16px;
+	color: var(--tdt-muted);
+}
+
+body.tdt-tpl-v1 .tdt-checks {
+	margin: 16px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-checks li {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 6px;
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 .tdt-checks .tdt-icon {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-quote__form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 24px;
+	border-radius: 14px;
+	background: #fff;
+	box-shadow: var(--tdt-shadow);
+}
+
+body.tdt-tpl-v1 .tdt-quote__form-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 4px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+body.tdt-tpl-v1 .tdt-quote__form-title .tdt-icon {
+	color: #25d366;
+}
+
+body.tdt-tpl-v1 .tdt-quote__form label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 0;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1 .tdt-quote__form input {
+	height: 42px;
+	padding: 0 12px;
+	border: 1.5px solid var(--tdt-border);
+	border-radius: 6px;
+}
+
+body.tdt-tpl-v1 .tdt-quote__form input:focus {
+	border-color: var(--tdt-primary);
+	outline: none;
+}
+
+/* Marcas */
+body.tdt-tpl-v1 .tdt-brands {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	gap: 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-brands a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 72px;
+	padding: 10px 14px;
+	border: 1px solid var(--tdt-border);
+	border-radius: 8px;
+	background: #fff;
+	color: var(--tdt-text);
+	font-weight: 700;
+	text-align: center;
+}
+
+body.tdt-tpl-v1 .tdt-brands img {
+	max-height: 48px;
+	width: auto;
+	object-fit: contain;
+	filter: grayscale(1);
+	opacity: .8;
+	transition: filter .2s, opacity .2s;
+}
+
+body.tdt-tpl-v1 .tdt-brands a:hover img {
+	filter: none;
+	opacity: 1;
+}
+
+/* Banner de cotización */
+body.tdt-tpl-v1 .tdt-cta {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 28px;
+	padding: 28px 32px;
+	border-radius: var(--tdt-radius);
+	background: var(--tdt-dark);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-cta__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 84px;
+	height: 84px;
+	border-radius: 50%;
+	background: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-cta__icon .tdt-icon {
+	width: 40px;
+	height: 40px;
+}
+
+body.tdt-tpl-v1 .tdt-cta__text h2 {
+	margin: 0 0 6px;
+	font-size: 26px;
+	font-weight: 800;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-cta__text p {
+	margin: 0 0 14px;
+	color: rgba(255, 255, 255, .8);
+}
+
+body.tdt-tpl-v1 .tdt-cta__features {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-cta__features li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	max-width: 130px;
+	padding: 0 20px;
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+}
+
+body.tdt-tpl-v1 .tdt-cta__features li + li {
+	border-left: 1px solid rgba(255, 255, 255, .15);
+}
+
+body.tdt-tpl-v1 .tdt-cta__features .tdt-icon {
+	width: 30px;
+	height: 30px;
+	color: var(--tdt-primary);
+}
+
+/* ------------------------------------------------------------------ responsive */
+
+@media (max-width: 1199px) {
+	body.tdt-tpl-v1 .tdt-hero__side {
+		display: none;
+	}
+
+	body.tdt-tpl-v1 .tdt-cta {
+		grid-template-columns: auto 1fr;
+	}
+
+	body.tdt-tpl-v1 .tdt-cta__features {
+		grid-column: 1 / -1;
+		justify-content: center;
+	}
+}
+
+@media (max-width: 991px) {
+	body.tdt-tpl-v1 .tdt-volume,
+	body.tdt-tpl-v1 .tdt-quote {
+		grid-template-columns: 1fr;
+	}
+
+	body.tdt-tpl-v1 .tdt-volume__intro {
+		padding: 0 0 16px;
+		border-right: 0;
+		border-bottom: 1px solid var(--tdt-border);
+	}
+
+	body.tdt-tpl-v1 .tdt-benefits li:nth-child(n) {
+		border-left: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	body.tdt-tpl-v1 .tdt-topbar__items li:not(:first-child) {
+		display: none;
+	}
+
+	body.tdt-tpl-v1 .tdt-hero__inner {
+		min-height: 0;
+		padding-top: 40px;
+		padding-bottom: 72px;
+	}
+
+	body.tdt-tpl-v1 .tdt-section {
+		margin-top: 36px;
+	}
+
+	body.tdt-tpl-v1 .tdt-section__head h2 {
+		font-size: 21px;
+	}
+
+	body.tdt-tpl-v1 .tdt-volume__segments {
+		flex-direction: column;
+	}
+
+	body.tdt-tpl-v1 .tdt-cats,
+	body.tdt-tpl-v1 .tdt-products {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+
+	body.tdt-tpl-v1 .tdt-quote {
+		padding: 22px;
+	}
+
+	body.tdt-tpl-v1 .tdt-cta {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		text-align: center;
+	}
+
+	body.tdt-tpl-v1 .tdt-cta__features li {
+		padding: 0 10px;
+	}
+}

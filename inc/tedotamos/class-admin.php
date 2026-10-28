@@ -21,6 +21,7 @@ class TeDotamos_Admin {
 	const DEFAULTS = array(
 		'cache_hours'   => 6, // cada cuánto se consulta GitHub
 		'update_notice' => 1, // aviso en el escritorio cuando hay versión nueva
+		'template'      => 'default', // plantilla de estilos (ver TeDotamos_Templates::TEMPLATES)
 	);
 
 	public static function init() {
@@ -54,6 +55,14 @@ class TeDotamos_Admin {
 				'default'           => self::DEFAULTS,
 			)
 		);
+		register_setting(
+			'tedotamos_v1',
+			TeDotamos_Template_V1::OPTION,
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( 'TeDotamos_Template_V1', 'sanitize' ),
+			)
+		);
 	}
 
 	public static function sanitize( $input ) {
@@ -63,6 +72,7 @@ class TeDotamos_Admin {
 		$clean = array(
 			'cache_hours'   => min( 24, max( 1, $hours ) ),
 			'update_notice' => empty( $input['update_notice'] ) ? 0 : 1,
+			'template'      => isset( $input['template'], TeDotamos_Templates::TEMPLATES[ $input['template'] ] ) ? $input['template'] : 'default',
 		);
 
 		// Si cambia la frecuencia, que la próxima consulta use el nuevo valor.
@@ -112,6 +122,7 @@ class TeDotamos_Admin {
 		$tabs = array(
 			'updates' => 'Actualizaciones',
 			'general'   => 'General',
+			'template'  => 'Plantilla V1',
 			'migration' => 'Migración',
 			'info'      => 'Información',
 		);
@@ -132,6 +143,8 @@ class TeDotamos_Admin {
 			}
 			if ( 'general' === $tab ) {
 				self::render_general_tab();
+			} elseif ( 'template' === $tab ) {
+				TeDotamos_Template_V1::render_settings();
 			} elseif ( 'migration' === $tab ) {
 				self::render_migration_tab();
 			} elseif ( 'info' === $tab ) {
@@ -235,6 +248,17 @@ class TeDotamos_Admin {
 		<form method="post" action="options.php">
 			<?php settings_fields( 'tedotamos_general' ); ?>
 			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="tedotamos-template">Plantilla</label></th>
+					<td>
+						<select id="tedotamos-template" name="<?php echo esc_attr( $name ); ?>[template]">
+							<?php foreach ( TeDotamos_Templates::TEMPLATES as $key => $label ) : ?>
+								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( TeDotamos_Templates::current(), $key ); ?>><?php echo esc_html( $label ); ?></option>
+							<?php endforeach; ?>
+						</select>
+						<p class="description">Estilo del sitio. <strong>Default</strong> es el tema como está ahora. El contenido de V1 (portada, textos, colores) se edita en la pestaña <a href="<?php echo esc_url( self::page_url( 'template' ) ); ?>">Plantilla V1</a>. Al cambiar de plantilla se purga la caché.</p>
+					</td>
+				</tr>
 				<tr>
 					<th scope="row"><label for="tedotamos-cache-hours">Consultar GitHub cada</label></th>
 					<td>
