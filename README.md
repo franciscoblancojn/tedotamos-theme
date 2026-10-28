@@ -58,11 +58,6 @@ El comando:
 
 GitHub Actions crea la release con `tedotamos.zip`.
 
-**🔑 Token de GitHub:** no hace falta, porque el repositorio es público. Si alguna vez se necesita, va en `wp-config.php`:
-
-```php
-define( 'TEDOTAMOS_GITHUB_TOKEN', '...' );
-```
 
 ## 🧑‍💻 Desarrollo
 
