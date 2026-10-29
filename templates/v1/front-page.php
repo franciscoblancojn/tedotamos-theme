@@ -6,6 +6,9 @@
  * "Usar la portada V1" está marcado (TeDotamos_Template_V1::front_page_template()).
  * Contenido: Apariencia → TeDotamos → Plantilla V1.
  *
+ * Los botones "a la tienda" llevan a la página de categorías; los de compra empresarial y
+ * cotización abren WhatsApp con el mensaje de su sección.
+ *
  * @package TeDotamos
  */
 
@@ -14,17 +17,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $v1       = 'TeDotamos_Template_V1';
-$shop_url = $v1::shop_url();
-$wa_url   = $v1::whatsapp_url( 'Hola, quiero una cotización para mi empresa.' );
+$cats_url = $v1::categories_url();
 $quote_on = $v1::get( 'quote_enabled' );
-$quote_to = $wa_url ? $wa_url : ( $quote_on ? '#tdt-quote' : $shop_url );
+
+/**
+ * Enlace de un botón: el configurado, o WhatsApp con el mensaje de la sección,
+ * o la sección de cotización si no hay número de WhatsApp.
+ */
+$tdt_wa_or = function ( $url_key, $wa_key ) use ( $v1, $quote_on, $cats_url ) {
+	if ( $v1::get( $url_key ) ) {
+		return $v1::resolve_link( $v1::get( $url_key ) );
+	}
+	$wa = $v1::wa( $wa_key );
+
+	return $wa ? $wa : ( $quote_on ? '#tdt-quote' : $cats_url );
+};
+$tdt_target = function ( $url ) {
+	return 0 === strpos( $url, 'https://wa.me/' ) ? ' target="_blank" rel="noopener"' : '';
+};
 
 get_header();
 ?>
 <main class="tdt-home">
 
 	<?php if ( $v1::get( 'hero_enabled' ) ) : ?>
-		<?php $hero_image = $v1::get( 'hero_image' ); ?>
+		<?php
+		$hero_image = $v1::get( 'hero_image' );
+		$hero_btn1  = $v1::get( 'hero_btn1_url' ) ? $v1::resolve_link( $v1::get( 'hero_btn1_url' ) ) : $cats_url;
+		$hero_btn2  = $tdt_wa_or( 'hero_btn2_url', 'hero_wa_text' );
+		?>
 		<section class="tdt-hero<?php echo $hero_image ? ' has-image' : ''; ?>"<?php echo $hero_image ? ' style="--tdt-hero-image:url(' . esc_url( $hero_image ) . ')"' : ''; ?>>
 			<div class="tdt-container tdt-hero__inner">
 				<div class="tdt-hero__content">
@@ -40,13 +61,13 @@ get_header();
 					<?php endif; ?>
 					<div class="tdt-actions">
 						<?php if ( $v1::get( 'hero_btn1_text' ) ) : ?>
-							<a class="tdt-btn tdt-btn--primary" href="<?php echo esc_url( $v1::get( 'hero_btn1_url' ) ? $v1::get( 'hero_btn1_url' ) : $shop_url ); ?>">
+							<a class="tdt-btn tdt-btn--primary" href="<?php echo esc_url( $hero_btn1 ); ?>">
 								<?php echo $v1::icon( 'cart' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<?php echo esc_html( $v1::get( 'hero_btn1_text' ) ); ?>
 							</a>
 						<?php endif; ?>
 						<?php if ( $v1::get( 'hero_btn2_text' ) ) : ?>
-							<a class="tdt-btn tdt-btn--ghost" href="<?php echo esc_url( $v1::get( 'hero_btn2_url' ) ? $v1::get( 'hero_btn2_url' ) : $quote_to ); ?>">
+							<a class="tdt-btn tdt-btn--ghost" href="<?php echo esc_url( $hero_btn2 ); ?>"<?php echo $tdt_target( $hero_btn2 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 								<?php echo $v1::icon( 'building' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<?php echo esc_html( $v1::get( 'hero_btn2_text' ) ); ?>
 							</a>
@@ -60,7 +81,10 @@ get_header();
 		</section>
 	<?php endif; ?>
 
-	<?php $rows = $v1::lines( 'volume_rows', 4 ); ?>
+	<?php
+	$headers = array_map( 'trim', explode( '|', (string) $v1::get( 'volume_headers' ) ) );
+	$rows    = $v1::lines( 'volume_rows', max( 1, count( $headers ) ) );
+	?>
 	<?php if ( $v1::get( 'volume_enabled' ) && $rows ) : ?>
 		<section class="tdt-section tdt-volume-wrap">
 			<div class="tdt-container">
@@ -88,20 +112,29 @@ get_header();
 						<div class="tdt-table-scroll">
 							<table class="tdt-volume__table">
 								<thead>
-									<tr><th>Cantidad total</th><th>Descuento</th><th>Modalidad</th><th>Pago</th></tr>
+									<tr>
+										<?php foreach ( $headers as $header ) : ?>
+											<th><?php echo esc_html( $header ); ?></th>
+										<?php endforeach; ?>
+									</tr>
 								</thead>
 								<tbody>
 									<?php foreach ( $rows as $row ) : ?>
 										<tr>
-											<td><?php echo esc_html( $row[0] ); ?></td>
-											<td><strong><?php echo esc_html( $row[1] ); ?></strong></td>
-											<td><?php echo esc_html( $row[2] ); ?></td>
-											<td><?php echo esc_html( $row[3] ); ?></td>
+											<?php foreach ( $row as $i => $cell ) : ?>
+												<td><?php echo 1 === $i ? '<strong>' : ''; ?><?php echo $v1::cell( $cell, 'volume_wa_text' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo 1 === $i ? '</strong>' : ''; ?></td>
+											<?php endforeach; ?>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>
+						<?php if ( $v1::get( 'volume_note' ) ) : ?>
+							<p class="tdt-volume__note">
+								<?php echo $v1::icon( 'tag' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo esc_html( $v1::get( 'volume_note' ) ); ?>
+							</p>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -131,31 +164,28 @@ get_header();
 			<div class="tdt-container">
 				<header class="tdt-section__head">
 					<h2><?php echo esc_html( $v1::get( 'categories_title' ) ); ?></h2>
-					<a href="<?php echo esc_url( $shop_url ); ?>">Ver todas las categorías <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
+					<a href="<?php echo esc_url( $cats_url ); ?>">Ver todas las categorías <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
 				</header>
-				<ul class="tdt-cats">
-					<?php foreach ( $categories as $cat ) : ?>
-						<?php $thumb_id = get_term_meta( $cat->term_id, 'thumbnail_id', true ); ?>
-						<li>
-							<a href="<?php echo esc_url( get_term_link( $cat ) ); ?>">
-								<span class="tdt-cats__img">
-									<?php
-									echo $thumb_id
-										? wp_get_attachment_image( $thumb_id, 'woocommerce_thumbnail', false, array( 'alt' => $cat->name ) )
-										: wc_placeholder_img( 'woocommerce_thumbnail' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-									?>
-								</span>
-								<span class="tdt-cats__body">
-									<strong><?php echo esc_html( $cat->name ); ?></strong>
-									<?php if ( $cat->description ) : ?>
-										<span><?php echo esc_html( wp_trim_words( wp_strip_all_tags( $cat->description ), 10 ) ); ?></span>
-									<?php endif; ?>
-									<?php echo $v1::icon( 'arrow', 'tdt-icon tdt-cats__arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-								</span>
-							</a>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $v1::category_cards( $categories );
+				?>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<?php $offers = $v1::get( 'offers_enabled' ) ? $v1::offers_products() : array(); ?>
+	<?php if ( $offers ) : ?>
+		<section class="tdt-section" id="tdt-offers">
+			<div class="tdt-container">
+				<header class="tdt-section__head">
+					<h2><?php echo $v1::icon( 'tag', 'tdt-icon tdt-accent' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo esc_html( $v1::get( 'offers_title' ) ); ?></h2>
+					<a href="<?php echo esc_url( $v1::offers_url() ); ?>">Ver todos los productos <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
+				</header>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $v1::product_cards( $offers, true );
+				?>
 			</div>
 		</section>
 	<?php endif; ?>
@@ -166,36 +196,21 @@ get_header();
 			<div class="tdt-container">
 				<header class="tdt-section__head">
 					<h2><?php echo esc_html( $v1::get( 'products_title' ) ); ?></h2>
-					<a href="<?php echo esc_url( $shop_url ); ?>">Ver todos los productos <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
+					<a href="<?php echo esc_url( $cats_url ); ?>">Ver todos los productos <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
 				</header>
-				<ul class="tdt-products">
-					<?php foreach ( $products as $product ) : ?>
-						<li class="tdt-product">
-							<?php if ( $product->is_on_sale() ) : ?>
-								<span class="tdt-badge">Oferta</span>
-							<?php endif; ?>
-							<a class="tdt-product__img" href="<?php echo esc_url( $product->get_permalink() ); ?>">
-								<?php echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							</a>
-							<h3 class="tdt-product__title"><a href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->get_name() ); ?></a></h3>
-							<?php if ( $product->get_sku() ) : ?>
-								<span class="tdt-product__sku">Ref. <?php echo esc_html( $product->get_sku() ); ?></span>
-							<?php endif; ?>
-							<span class="tdt-product__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
-							<a class="tdt-btn tdt-btn--primary tdt-btn--block" href="<?php echo esc_url( $product->get_permalink() ); ?>">
-								Ver producto <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							</a>
-						</li>
-					<?php endforeach; ?>
-				</ul>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $v1::product_cards( $products );
+				?>
 			</div>
 		</section>
 	<?php endif; ?>
 
 	<?php if ( $quote_on ) : ?>
+		<?php $quote_wa = $v1::wa( 'quote_wa_text' ); ?>
 		<section class="tdt-section" id="tdt-quote">
 			<div class="tdt-container">
-				<div class="tdt-quote">
+				<div class="tdt-quote<?php echo $v1::get( 'quote_bot' ) ? ' has-bot' : ''; ?>">
 					<div class="tdt-quote__intro">
 						<p class="tdt-kicker"><?php echo esc_html( $v1::get( 'quote_kicker' ) ); ?></p>
 						<h2><?php echo esc_html( $v1::get( 'quote_title' ) ); ?></h2>
@@ -208,10 +223,21 @@ get_header();
 								<?php endforeach; ?>
 							</ul>
 						<?php endif; ?>
+						<?php if ( $quote_wa && $v1::get( 'quote_btn_text' ) ) : ?>
+							<a class="tdt-btn tdt-btn--whatsapp" href="<?php echo esc_url( $quote_wa ); ?>" target="_blank" rel="noopener">
+								<?php echo $v1::icon( 'whatsapp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo esc_html( $v1::get( 'quote_btn_text' ) ); ?>
+							</a>
+						<?php endif; ?>
 					</div>
-					<?php if ( $wa_url ) : ?>
+					<?php if ( $v1::get( 'quote_bot' ) ) : ?>
+						<div class="tdt-quote__bot">
+							<?php echo $v1::bot_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						</div>
+					<?php endif; ?>
+					<?php if ( $quote_wa ) : ?>
 						<form class="tdt-quote__form" data-whatsapp="<?php echo esc_attr( $v1::get( 'quote_whatsapp' ) ); ?>">
-							<p class="tdt-quote__form-title"><?php echo $v1::icon( 'chat' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> Cuéntanos qué necesitas</p>
+							<p class="tdt-quote__form-title"><?php echo $v1::icon( 'whatsapp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> Cuéntanos qué necesitas</p>
 							<label>Producto o referencia<input type="text" name="producto" required></label>
 							<label>Cantidad<input type="text" name="cantidad" inputmode="numeric" required></label>
 							<label>Ciudad de entrega<input type="text" name="ciudad" required></label>
@@ -225,7 +251,7 @@ get_header();
 
 	<?php $brands = $v1::get( 'brands_enabled' ) ? $v1::brands() : array(); ?>
 	<?php if ( $brands ) : ?>
-		<section class="tdt-section">
+		<section class="tdt-section" id="tdt-brands">
 			<div class="tdt-container">
 				<header class="tdt-section__head">
 					<h2><?php echo esc_html( $v1::get( 'brands_title' ) ); ?></h2>
@@ -245,6 +271,7 @@ get_header();
 	<?php endif; ?>
 
 	<?php if ( $v1::get( 'cta_enabled' ) ) : ?>
+		<?php $cta_url = $tdt_wa_or( 'cta_btn_url', 'cta_wa_text' ); ?>
 		<section class="tdt-section">
 			<div class="tdt-container">
 				<div class="tdt-cta">
@@ -252,8 +279,9 @@ get_header();
 					<div class="tdt-cta__text">
 						<h2><?php echo esc_html( $v1::get( 'cta_title' ) ); ?></h2>
 						<p><?php echo esc_html( $v1::get( 'cta_text' ) ); ?></p>
-						<a class="tdt-btn tdt-btn--primary" href="<?php echo esc_url( $v1::get( 'cta_btn_url' ) ? $v1::get( 'cta_btn_url' ) : $quote_to ); ?>">
-							<?php echo esc_html( $v1::get( 'cta_btn_text' ) ); ?> <?php echo $v1::icon( 'arrow' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<a class="tdt-btn tdt-btn--primary" href="<?php echo esc_url( $cta_url ); ?>"<?php echo $tdt_target( $cta_url ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+							<?php echo 0 === strpos( $cta_url, 'https://wa.me/' ) ? $v1::icon( 'whatsapp' ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo esc_html( $v1::get( 'cta_btn_text' ) ); ?>
 						</a>
 					</div>
 					<?php $features = $v1::lines( 'cta_features', 2 ); ?>
@@ -271,7 +299,7 @@ get_header();
 
 </main>
 
-<?php if ( $wa_url ) : ?>
+<?php if ( $quote_on && $v1::wa( 'quote_wa_text' ) ) : ?>
 	<script>
 		( function () {
 			var form = document.querySelector( '.tdt-quote__form' );

@@ -24,6 +24,7 @@ class TeDotamos_Templates {
 	);
 
 	public static function init() {
+		TeDotamos_Template_V1::init_always();
 		if ( 'v1' === self::current() ) {
 			TeDotamos_Template_V1::init();
 		}

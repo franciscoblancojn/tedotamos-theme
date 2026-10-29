@@ -63,6 +63,12 @@ body.tdt-tpl-v1 .tdt-kicker {
 }
 
 /* Botones propios y de WooCommerce */
+body.tdt-tpl-v1 .tdt-home *,
+body.tdt-tpl-v1 .tdt-home *::before,
+body.tdt-tpl-v1 .tdt-home *::after {
+	box-sizing: border-box;
+}
+
 body.tdt-tpl-v1 .tdt-btn {
 	display: inline-flex;
 	align-items: center;
@@ -595,7 +601,8 @@ body.tdt-tpl-v1 .tdt-benefits span {
 /* Categorías */
 body.tdt-tpl-v1 .tdt-cats {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	/* auto-fit: con pocas categorías (p. ej. 4) las tarjetas se estiran y ocupan todo el ancho */
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 	gap: 16px;
 	margin: 0;
 	padding: 0;
@@ -928,6 +935,350 @@ body.tdt-tpl-v1 .tdt-cta__features .tdt-icon {
 	color: var(--tdt-primary);
 }
 
+/* Botones extra */
+body.tdt-tpl-v1 .tdt-btn--whatsapp {
+	background: #25d366;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--whatsapp:hover {
+	background: #1ebe5a;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-btn--outline {
+	border-color: var(--tdt-border);
+	background: #fff;
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 .tdt-btn--outline:hover {
+	border-color: var(--tdt-primary);
+	color: var(--tdt-primary);
+}
+
+/* ------------------------------------------------------------------ barra de menú V1 */
+
+body.tdt-tpl-v1 .tdt-nav ul {
+	display: flex;
+	align-items: center;
+	gap: 6px 28px;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-nav a {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 14px 0;
+	color: var(--tdt-text);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .tdt-nav a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-nav__hotline a {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-nav__hotline .tdt-icon {
+	width: 18px;
+	height: 18px;
+}
+
+/* ------------------------------------------------------------------ portada: ajustes */
+
+body.tdt-tpl-v1 .tdt-section__head h2 {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+body.tdt-tpl-v1 .tdt-volume__note {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 12px 0 0;
+	padding: 10px 14px;
+	border-radius: 6px;
+	background: color-mix(in srgb, var(--tdt-primary) 10%, #fff);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .tdt-volume__note .tdt-icon {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-cell-link {
+	display: inline-flex;
+	padding: 3px 12px;
+	border-radius: 999px;
+	background: #25d366;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .tdt-cell-link:hover {
+	background: #1ebe5a;
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .tdt-quote__intro .tdt-btn--whatsapp {
+	margin-top: 18px;
+}
+
+body.tdt-tpl-v1 .tdt-quote.has-bot {
+	grid-template-columns: 1.2fr .8fr 1fr;
+	gap: 28px;
+}
+
+body.tdt-tpl-v1 .tdt-quote__bot {
+	display: flex;
+	justify-content: center;
+}
+
+/* Página de categorías */
+body.tdt-v1-page .site-content > .container {
+	width: 100%;
+	max-width: none;
+	padding: 0;
+}
+
+body.tdt-v1-page .site-content > .container > .row {
+	margin: 0;
+}
+
+body.tdt-v1-page .page-header {
+	display: none;
+}
+
+body.tdt-tpl-v1 .tdt-page-head {
+	padding: 40px 0;
+	background: var(--tdt-soft);
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .tdt-page-head h1 {
+	margin: 0 0 10px;
+	font-size: clamp(28px, 4vw, 40px);
+	font-weight: 800;
+}
+
+body.tdt-tpl-v1 .tdt-page-head__text {
+	max-width: 760px;
+	margin-bottom: 18px;
+	color: var(--tdt-muted);
+}
+
+body.tdt-tpl-v1 .tdt-cats > li {
+	display: flex;
+	flex-direction: column;
+}
+
+body.tdt-tpl-v1 .tdt-cats__children {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 10px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1 .tdt-cats__children a {
+	display: inline-block;
+	padding: 4px 10px;
+	border: 1px solid var(--tdt-border);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--tdt-text);
+	font-size: 12.5px;
+}
+
+body.tdt-tpl-v1 .tdt-cats__children a:hover {
+	border-color: var(--tdt-primary);
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .tdt-cats__children span {
+	color: var(--tdt-muted);
+}
+
+/* ------------------------------------------------------------------ bot animado */
+
+body.tdt-tpl-v1 .tdt-bot {
+	width: 100%;
+	max-width: 260px;
+	height: auto;
+	overflow: visible;
+}
+
+.tdt-bot__shadow {
+	fill: rgba(17, 24, 39, .12);
+	animation: tdt-bot-shadow 3s ease-in-out infinite;
+	transform-origin: 92px 198px;
+}
+
+.tdt-bot__body {
+	animation: tdt-bot-float 3s ease-in-out infinite;
+}
+
+.tdt-bot__antenna,
+.tdt-bot__arm,
+.tdt-bot__mouth {
+	fill: none;
+	stroke: var(--tdt-dark);
+	stroke-width: 5;
+	stroke-linecap: round;
+}
+
+.tdt-bot__mouth {
+	stroke: #fff;
+	stroke-width: 3;
+}
+
+.tdt-bot__led {
+	fill: var(--tdt-primary);
+	animation: tdt-bot-led 1.2s ease-in-out infinite;
+}
+
+.tdt-bot__head,
+.tdt-bot__torso {
+	fill: var(--tdt-dark);
+}
+
+.tdt-bot__face {
+	fill: #2e323a;
+}
+
+.tdt-bot__eye {
+	fill: var(--tdt-primary);
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: tdt-bot-blink 4s infinite;
+}
+
+.tdt-bot__core {
+	fill: var(--tdt-primary);
+}
+
+.tdt-bot__bubble path {
+	fill: #fff;
+	stroke: var(--tdt-border);
+	stroke-width: 2;
+}
+
+.tdt-bot__dot {
+	fill: var(--tdt-primary);
+	animation: tdt-bot-dot 1.2s ease-in-out infinite;
+}
+
+.tdt-bot__dot:nth-of-type(2) {
+	animation-delay: .15s;
+}
+
+.tdt-bot__dot:nth-of-type(3) {
+	animation-delay: .3s;
+}
+
+.tdt-bot__paper {
+	fill: #fff;
+	stroke: var(--tdt-border);
+	stroke-width: 2;
+}
+
+.tdt-bot__clip {
+	fill: var(--tdt-dark);
+}
+
+/* Las líneas se "escriben" una tras otra y luego aparece el check; ciclo de 6 s */
+.tdt-bot__line {
+	stroke: #c9cdd4;
+	stroke-width: 5;
+	stroke-linecap: round;
+	stroke-dasharray: 60;
+	stroke-dashoffset: 60;
+	animation: tdt-bot-write 6s ease-in-out infinite;
+}
+
+.tdt-bot__line:nth-of-type(2) {
+	animation-delay: .5s;
+}
+
+.tdt-bot__line:nth-of-type(3) {
+	animation-delay: 1s;
+}
+
+.tdt-bot__line:nth-of-type(4) {
+	animation-delay: 1.5s;
+}
+
+.tdt-bot__check {
+	fill: none;
+	stroke: #25d366;
+	stroke-width: 5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-dasharray: 34;
+	stroke-dashoffset: 34;
+	animation: tdt-bot-check 6s ease-in-out infinite;
+}
+
+@keyframes tdt-bot-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-6px); }
+}
+
+@keyframes tdt-bot-shadow {
+	0%, 100% { transform: scaleX(1); }
+	50% { transform: scaleX(.85); }
+}
+
+@keyframes tdt-bot-led {
+	0%, 100% { opacity: 1; }
+	50% { opacity: .3; }
+}
+
+@keyframes tdt-bot-blink {
+	0%, 92%, 100% { transform: scaleY(1); }
+	95% { transform: scaleY(.1); }
+}
+
+@keyframes tdt-bot-dot {
+	0%, 100% { transform: translateY(0); opacity: .5; }
+	40% { transform: translateY(-5px); opacity: 1; }
+}
+
+@keyframes tdt-bot-write {
+	0% { stroke-dashoffset: 60; }
+	15%, 85% { stroke-dashoffset: 0; }
+	100% { stroke-dashoffset: 60; }
+}
+
+@keyframes tdt-bot-check {
+	0%, 40% { stroke-dashoffset: 34; }
+	50%, 85% { stroke-dashoffset: 0; }
+	100% { stroke-dashoffset: 34; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tdt-bot * {
+		animation: none !important;
+	}
+
+	.tdt-bot__line,
+	.tdt-bot__check {
+		stroke-dashoffset: 0;
+	}
+}
+
 /* ------------------------------------------------------------------ responsive */
 
 @media (max-width: 1199px) {
@@ -947,8 +1298,13 @@ body.tdt-tpl-v1 .tdt-cta__features .tdt-icon {
 
 @media (max-width: 991px) {
 	body.tdt-tpl-v1 .tdt-volume,
-	body.tdt-tpl-v1 .tdt-quote {
+	body.tdt-tpl-v1 .tdt-quote,
+	body.tdt-tpl-v1 .tdt-quote.has-bot {
 		grid-template-columns: 1fr;
+	}
+
+	body.tdt-tpl-v1 .tdt-quote__bot .tdt-bot {
+		max-width: 200px;
 	}
 
 	body.tdt-tpl-v1 .tdt-volume__intro {

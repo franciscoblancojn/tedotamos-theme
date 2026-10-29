@@ -19,6 +19,8 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `woocommerce/single-product/add-to-cart/simple.php` | Botón "Pagar ahora" |
 | `woocommerce/single-product/add-to-cart/variation-add-to-cart-button.php` | Nuevo: botón "Pagar ahora" en productos variables |
 | `inc/tedotamos/class-legacy-plugins.php` | Anula el plugin Martfury Custom si sigue activo |
+| `template-parts/headers/layout-1.php` | Gancho `tedotamos_header_nav`: una plantilla (V1) puede reemplazar el menú y el Header Bar |
+| `templates/v1/` + `css/templates/v1.css` + `inc/tedotamos/class-template-v1.php` | Plantilla V1: portada, página de categorías, barra de menú, estilos |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |

@@ -4,6 +4,35 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 🧭 Plantilla V1, barra de menú propia (reemplaza el menú y el "Header Bar" de Martfury):
+  - "Todas las categorías", teléfono, Ofertas y Marcas;
+  - enlaces configurables, con enlaces especiales `{ofertas}`, `{marcas}` y `{categorias}`.
+- 🗂️ Página de categorías:
+  - plantilla "Categorías (TeDotamos V1)": todas las categorías con sus subcategorías;
+  - botón "Crear página Categorías" en Apariencia → TeDotamos → Plantilla V1.
+- 🏷️ Sección **Ofertas** en la portada, con los productos de la categoría Ofertas y su % de descuento. "Ver todos los productos" lleva a la categoría. Incluye el botón "Crear categoría Ofertas".
+- 🤖 Cotización inteligente: bot SVG animado (respeta "reducir movimiento") y botón "Cotizar por WhatsApp".
+- 💬 Cada botón de WhatsApp envía un mensaje propio de su sección (editable). El número se configura una sola vez.
+- ☑️ Las categorías de la portada se eligen con casillas (ninguna = todas).
+
+### 🔁 Cambiado
+- 🛒 "Comprar ahora" → **"Ir a la tienda"**. Los enlaces de la portada que iban a la tienda llevan a la página de categorías.
+- 🏢 "Comprar para empresa" abre WhatsApp.
+- 📊 Tabla de descuentos por volumen:
+  - 1–5 → 30 %, 6–48 → 35 %, 49–200 → 40 %, más de 200 → "Contáctanos" (WhatsApp);
+  - nota "Categoría Ofertas: 4 % de descuento adicional";
+  - columnas configurables.
+- ⭐ "Productos destacados" muestra los más vendidos.
+- 📐 Las categorías de la portada ocupan todo el ancho (antes quedaban amontonadas a la izquierda).
+- 💼 "¿Necesitas una cotización?" → **"Cotización personalizada"**, con botón a WhatsApp.
+- 🔄 Los valores guardados que seguían siendo los viejos por defecto pasan a los nuevos. Lo que se había editado a mano se respeta.
+
+### 🐛 Corregido
+- 📏 En las tarjetas de producto de la portada, el botón "Ver producto" ya no se sale del borde.
+
 ## [1.2.1] - 2026-10-27
 
 ### 🐛 Corregido

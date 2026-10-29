@@ -46,8 +46,15 @@ if ( empty( $extras ) || ! in_array( 'department', $extras ) ) {
 			<?php endif; ?>
             <div class="<?php echo esc_attr( $css_header_menu ); ?> mr-header-menu">
                 <div class="col-header-menu">
-					<?php martfury_header_menu(); ?>
-					<?php martfury_header_bar(); ?>
+					<?php
+					// TeDotamos: una plantilla (p. ej. V1) puede reemplazar el menú y el Header Bar con su propia barra.
+					if ( has_action( 'tedotamos_header_nav' ) ) {
+						do_action( 'tedotamos_header_nav' );
+					} else {
+						martfury_header_menu();
+						martfury_header_bar();
+					}
+					?>
                 </div>
             </div>
         </div>
