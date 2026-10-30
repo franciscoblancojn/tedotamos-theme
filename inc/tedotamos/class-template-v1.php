@@ -462,6 +462,15 @@ class TeDotamos_Template_V1 {
 		return $pages ? (int) $pages[0] : 0;
 	}
 
+	/**
+	 * ID de la página de la tienda de WooCommerce (la página de categorías va dentro de ella).
+	 */
+	public static function shop_page_id() {
+		$id = function_exists( 'wc_get_page_id' ) ? (int) wc_get_page_id( 'shop' ) : 0;
+
+		return $id > 0 ? $id : 0;
+	}
+
 	public static function categories_url() {
 		$page = self::categories_page();
 
@@ -858,12 +867,14 @@ class TeDotamos_Template_V1 {
 		$message = '';
 		$ok      = true;
 		if ( 'categories_page' === $do && ! self::categories_page() ) {
+			// Hija de la página de la tienda → /tienda/categorias/
 			$page_id = wp_insert_post(
 				array(
 					'post_type'   => 'page',
 					'post_status' => 'publish',
 					'post_title'  => 'Categorías',
 					'post_name'   => 'categorias',
+					'post_parent' => self::shop_page_id(),
 				),
 				true
 			);
@@ -872,6 +883,16 @@ class TeDotamos_Template_V1 {
 				update_post_meta( $page_id, '_wp_page_template', self::CATEGORIES_TEMPLATE );
 			}
 			$message = $ok ? 'Se creó la página "Categorías": ' . get_permalink( $page_id ) : $page_id->get_error_message();
+		} elseif ( 'move_categories_page' === $do && self::categories_page() && self::shop_page_id() ) {
+			$page_id = wp_update_post(
+				array(
+					'ID'          => self::categories_page(),
+					'post_parent' => self::shop_page_id(),
+				),
+				true
+			);
+			$ok      = ! is_wp_error( $page_id );
+			$message = $ok ? 'La página de categorías ahora está en ' . get_permalink( $page_id ) : $page_id->get_error_message();
 		} elseif ( 'offers_category' === $do && ! self::offers_term() ) {
 			$slug    = self::get( 'offers_category' ) ? self::get( 'offers_category' ) : 'ofertas';
 			$term    = wp_insert_term( 'Ofertas', 'product_cat', array( 'slug' => $slug ) );
@@ -889,13 +910,18 @@ class TeDotamos_Template_V1 {
 	private static function render_setup() {
 		$page  = self::categories_page();
 		$offer = self::offers_term();
+		$shop  = self::shop_page_id();
+		// Ya existe pero no está dentro de la tienda (creada antes en /categorias/).
+		$move  = $page && $shop && (int) wp_get_post_parent_id( $page ) !== $shop;
 		$rows  = array(
 			array(
 				'label'  => 'Página de categorías',
-				'ok'     => (bool) $page,
-				'detail' => $page ? '<a href="' . esc_url( get_permalink( $page ) ) . '" target="_blank">' . esc_html( get_permalink( $page ) ) . '</a>' : 'No existe. Los botones "Ir a la tienda" llevan a la tienda mientras tanto.',
-				'do'     => 'categories_page',
-				'button' => 'Crear página "Categorías"',
+				'ok'     => $page && ! $move,
+				'detail' => $page
+					? '<a href="' . esc_url( get_permalink( $page ) ) . '" target="_blank">' . esc_html( get_permalink( $page ) ) . '</a>' . ( $move ? ' — está fuera de la tienda; muévela para que quede en /tienda/categorias/.' : '' )
+					: 'No existe. Los botones "Ir a la tienda" llevan a la tienda mientras tanto.',
+				'do'     => $move ? 'move_categories_page' : 'categories_page',
+				'button' => $move ? 'Mover a /tienda/categorias/' : 'Crear página "Categorías"',
 			),
 			array(
 				'label'  => 'Categoría de ofertas',

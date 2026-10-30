@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🔁 Cambiado
+- 🗂️ La página de categorías se crea dentro de la tienda: **`/tienda/categorias/`** (hija de la página de la tienda de WooCommerce). Si ya existía en `/categorias/`, en Plantilla V1 → Configuración inicial aparece el botón **"Mover a /tienda/categorias/"**.
+
 ## [1.3.1] - 2026-10-29
 
 ### ✨ Añadido
