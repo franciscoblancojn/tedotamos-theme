@@ -1136,6 +1136,33 @@ body.tdt-tpl-v1 .tdt-page-head__text {
 	color: var(--tdt-muted);
 }
 
+/* Página de categorías: mosaico. Cada tarjeta mide lo que necesitan sus subcategorías (no se
+   estiran a la más alta de la fila) y se apilan en columnas, como en Pinterest. En la portada
+   las tarjetas no tienen subcategorías y se mantiene la grilla de alturas iguales. */
+body.tdt-tpl-v1 .tdt-categories-page .tdt-cats {
+	display: block;
+	columns: 5 200px; /* hasta 5 columnas de ≥ 200 px; en pantallas chicas bajan solas */
+	column-gap: 16px;
+}
+
+body.tdt-tpl-v1 .tdt-categories-page .tdt-cats > li {
+	display: flex;
+	width: 100%;
+	margin: 0 0 16px;
+	break-inside: avoid;
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+}
+
+/* Sin el "subir al pasar el mouse": en columnas el desplazamiento corta la sombra. */
+body.tdt-tpl-v1 .tdt-categories-page .tdt-cats > li:hover {
+	transform: none;
+}
+
+body.tdt-tpl-v1 .tdt-categories-page .tdt-cats > li > a {
+	flex: 0 0 auto;
+}
+
 body.tdt-tpl-v1 .tdt-cats__children {
 	display: flex;
 	flex-wrap: wrap;

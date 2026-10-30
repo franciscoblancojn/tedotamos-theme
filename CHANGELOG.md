@@ -9,7 +9,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 ### 🔁 Cambiado
 - 🗂️ Página de categorías:
   - el encabezado se ve como el hero de la portada (fondo oscuro o imagen del hero, antetítulo, título y botones);
-  - todas las tarjetas tienen la misma altura, con las subcategorías dentro de la tarjeta;
+  - tarjetas en **mosaico** (columnas CSS): cada una mide lo que necesitan sus subcategorías, que van dentro de la tarjeta, sin estirarse a la más alta. Hasta 5 columnas, que bajan solas en pantallas chicas;
   - el texto de las etiquetas de subcategorías queda centrado verticalmente.
 
 ### 🐛 Corregido
