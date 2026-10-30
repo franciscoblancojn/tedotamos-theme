@@ -1313,6 +1313,132 @@ body.tdt-tpl-v1 .tdt-bot {
 	}
 }
 
+/* ------------------------------------------------------------------ plugin "Descuentos por Volumen"
+ * Tabla "Más descuento por cantidad" de la ficha del producto (.dpv-tiers). El plugin trae su
+ * propio estilo neutro; aquí se adapta a V1 sin tocar el plugin (sigue siendo genérico).
+ * ------------------------------------------------------------------ */
+
+body.tdt-tpl-v1 .dpv-tiers {
+	margin: 16px 0 22px;
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+	box-shadow: 0 4px 14px rgba(17, 24, 39, .05);
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 .dpv-tiers__title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0;
+	padding: 12px 16px;
+	background: var(--tdt-dark);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: .01em;
+}
+
+body.tdt-tpl-v1 .dpv-tiers__title::before {
+	content: "%";
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--tdt-primary);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 800;
+}
+
+body.tdt-tpl-v1 .dpv-tiers table {
+	width: 100%;
+	margin: 0;
+	border: 0;
+	border-collapse: collapse;
+}
+
+body.tdt-tpl-v1 .dpv-tiers th,
+body.tdt-tpl-v1 .dpv-tiers td {
+	padding: 10px 16px;
+	border: 0;
+	text-align: left;
+	vertical-align: middle;
+}
+
+body.tdt-tpl-v1 .dpv-tiers th {
+	padding-top: 8px;
+	padding-bottom: 8px;
+	background: var(--tdt-soft);
+	color: var(--tdt-muted);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	opacity: 1;
+}
+
+body.tdt-tpl-v1 .dpv-tiers td {
+	border-top: 1px solid var(--tdt-border);
+	color: var(--tdt-text);
+	font-weight: 500;
+}
+
+/* Columna de descuento como etiqueta */
+body.tdt-tpl-v1 .dpv-tiers td strong {
+	display: inline-block;
+	padding: 3px 12px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--tdt-primary) 14%, #fff);
+	color: var(--tdt-primary);
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+/* Precio por unidad */
+body.tdt-tpl-v1 .dpv-tiers td:nth-child(3),
+body.tdt-tpl-v1 .dpv-tiers td:nth-child(3) .amount {
+	color: var(--tdt-text);
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+/* El último tramo (mayor descuento) resaltado */
+body.tdt-tpl-v1 .dpv-tiers tbody tr:last-child td {
+	background: color-mix(in srgb, var(--tdt-primary) 6%, #fff);
+}
+
+body.tdt-tpl-v1 .dpv-tiers tbody tr:last-child td strong {
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .dpv-tiers__contact {
+	margin: 0;
+	padding: 10px 16px;
+	border-top: 1px solid var(--tdt-border);
+	background: var(--tdt-soft);
+	color: var(--tdt-muted);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .dpv-tiers__contact a {
+	color: var(--tdt-primary);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+body.tdt-tpl-v1 .dpv-tiers__contact a:hover {
+	color: var(--tdt-dark);
+}
+
 /* ------------------------------------------------------------------ responsive */
 
 @media (max-width: 1199px) {

@@ -7,6 +7,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 ## [Sin publicar]
 
 ### ✨ Añadido
+- 🎨 Estilo V1 para la tabla "Más descuento por cantidad" del plugin *Descuentos por Volumen* en la ficha del producto. Lleva encabezado oscuro con el ícono %, el descuento como etiqueta naranja, el mayor tramo resaltado y el texto de contacto al pie. El plugin no se modifica: fuera de V1 conserva su estilo propio.
 - 🖼️ Logo **TeDotamos** del tema (`images/logo/tedotamos-td26.webp`, optimizado) en el header de V1. Ancho configurable y alto automático para que no se deforme; se puede reemplazar desde Plantilla V1.
 - 🏷️ Sección "Nuestras marcas y fabricantes" con 12 logos incluidos en el tema (`images/brands/*.webp`):
   - 3M, Aritex, Croydon, Evacol, Robusta, Dezega, E.P.I., Positex, Sigmon, Steelpro, Zubi-Ola e Inteimper;
