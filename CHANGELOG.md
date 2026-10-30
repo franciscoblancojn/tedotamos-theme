@@ -4,6 +4,18 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🔁 Cambiado
+- 🗂️ Página de categorías:
+  - el encabezado se ve como el hero de la portada (fondo oscuro o imagen del hero, antetítulo, título y botones);
+  - todas las tarjetas tienen la misma altura, con las subcategorías dentro de la tarjeta;
+  - el texto de las etiquetas de subcategorías queda centrado verticalmente.
+
+### 🐛 Corregido
+- 📏 Se quitó el espacio en blanco de 90 px sobre la portada y la página de categorías (`padding-top` de `.site-content` de Martfury).
+- 🏷️ Las etiquetas de subcategorías heredaban el estilo de la tarjeta (borde y diseño en columna), porque la regla `.tdt-cats a` también les aplicaba.
+
 ## [1.4.0] - 2026-10-30
 
 ### 🔁 Cambiado
