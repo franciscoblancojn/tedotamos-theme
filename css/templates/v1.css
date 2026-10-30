@@ -322,6 +322,28 @@ body.tdt-tpl-v1 #colophon .footer-bottom {
 	border-color: rgba(255, 255, 255, .1);
 }
 
+/* Textos del footer que traen un color oscuro escrito en el widget (style="color:#333"):
+   sobre el fondo oscuro de V1 no se leían. !important porque compiten con estilos en línea. */
+body.tdt-tpl-v1 #colophon .ps-footer__address,
+body.tdt-tpl-v1 #colophon .ps-footer__address strong,
+body.tdt-tpl-v1 #colophon .ps-footer--contact p {
+	color: #c4c8d0 !important;
+}
+
+body.tdt-tpl-v1 #colophon .ps-footer--contact a {
+	color: #ffffff !important;
+}
+
+body.tdt-tpl-v1 #colophon .ps-footer--contact a:hover {
+	color: var(--tdt-primary) !important;
+}
+
+body.tdt-tpl-v1 #colophon .footer-copyright {
+	color: #e6e8ec;
+	font-size: 15px;
+	line-height: 1.6;
+}
+
 /* ------------------------------------------------------------------ portada */
 
 body.tdt-v1-home .site-content > .container-fluid {
@@ -671,7 +693,8 @@ body.tdt-tpl-v1 .tdt-cats a:hover .tdt-cats__arrow {
 /* Productos */
 body.tdt-tpl-v1 .tdt-products {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	/* auto-fit: con pocos productos las tarjetas se estiran y ocupan todo el ancho */
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 	gap: 16px;
 	margin: 0;
 	padding: 0;
@@ -696,6 +719,8 @@ body.tdt-tpl-v1 .tdt-product:hover {
 body.tdt-tpl-v1 .tdt-product__img {
 	display: block;
 	aspect-ratio: 1;
+	max-height: 240px; /* con pocas tarjetas anchas, la foto no crece de más */
+	width: 100%;
 	margin-bottom: 12px;
 }
 
@@ -817,14 +842,18 @@ body.tdt-tpl-v1 .tdt-quote__form label {
 	font-weight: 500;
 }
 
-body.tdt-tpl-v1 .tdt-quote__form input {
+body.tdt-tpl-v1 .tdt-quote__form input,
+body.tdt-tpl-v1 .tdt-quote__form select {
+	width: 100%;
 	height: 42px;
+	background: #fff;
 	padding: 0 12px;
 	border: 1.5px solid var(--tdt-border);
 	border-radius: 6px;
 }
 
-body.tdt-tpl-v1 .tdt-quote__form input:focus {
+body.tdt-tpl-v1 .tdt-quote__form input:focus,
+body.tdt-tpl-v1 .tdt-quote__form select:focus {
 	border-color: var(--tdt-primary);
 	outline: none;
 }
@@ -839,12 +868,13 @@ body.tdt-tpl-v1 .tdt-brands {
 	list-style: none;
 }
 
-body.tdt-tpl-v1 .tdt-brands a {
+body.tdt-tpl-v1 .tdt-brands a,
+body.tdt-tpl-v1 .tdt-brands span {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 72px;
-	padding: 10px 14px;
+	height: 88px;
+	padding: 12px 16px;
 	border: 1px solid var(--tdt-border);
 	border-radius: 8px;
 	background: #fff;
@@ -854,12 +884,16 @@ body.tdt-tpl-v1 .tdt-brands a {
 }
 
 body.tdt-tpl-v1 .tdt-brands img {
-	max-height: 48px;
+	max-width: 100%;
+	max-height: 60px;
 	width: auto;
+	height: auto;
 	object-fit: contain;
-	filter: grayscale(1);
-	opacity: .8;
-	transition: filter .2s, opacity .2s;
+	transition: transform .2s;
+}
+
+body.tdt-tpl-v1 .tdt-brands a:hover img {
+	transform: scale(1.05);
 }
 
 body.tdt-tpl-v1 .tdt-brands a:hover img {

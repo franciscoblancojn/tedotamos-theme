@@ -4,6 +4,24 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 🖼️ Logo **TeDotamos** del tema (`images/logo/tedotamos-td26.webp`, optimizado) en el header de V1. Ancho configurable y alto automático para que no se deforme; se puede reemplazar desde Plantilla V1.
+- 🏷️ Sección "Nuestras marcas y fabricantes" con 12 logos incluidos en el tema (`images/brands/*.webp`):
+  - 3M, Aritex, Croydon, Evacol, Robusta, Dezega, E.P.I., Positex, Sigmon, Steelpro, Zubi-Ola e Inteimper;
+  - recortados y en WebP: pasaron de 428 KB a 68 KB;
+  - si la marca existe en WooCommerce, el logo enlaza a sus productos.
+- 📍 Cotización inteligente: campo **"Departamento de entrega"** (los 32 departamentos y Bogotá D.C.) antes de la ciudad. Se incluye en el mensaje de WhatsApp.
+
+### 🔁 Cambiado
+- 📝 Nota de la tabla de descuentos: "Categoría Ofertas: 5 – 10 % de descuento adicional".
+- 📐 La sección **Ofertas** ocupa todo el ancho, como Categorías.
+- 📞 En la barra de menú, el teléfono va al final (después de Ofertas y Marcas).
+
+### 🐛 Corregido
+- 🦶 Footer en V1: la ubicación, el correo y "Disponibilidad" no se leían, porque traían colores oscuros escritos en el widget. El copyright ahora es más grande y claro.
+
 ## [1.3.0] - 2026-10-28
 
 ### ✨ Añadido

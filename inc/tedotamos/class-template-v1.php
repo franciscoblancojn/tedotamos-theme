@@ -33,6 +33,8 @@ class TeDotamos_Template_V1 {
 			'Estilo'            => array(
 				'primary_color' => array( 'type' => 'color', 'label' => 'Color principal', 'default' => '#f57c00' ),
 				'dark_color'    => array( 'type' => 'color', 'label' => 'Color oscuro (barra superior, footer)', 'default' => '#1b1d22' ),
+				'logo'          => array( 'type' => 'image', 'label' => 'Logo del header', 'default' => '', 'help' => 'Vacío = logo TeDotamos del tema (images/logo/tedotamos-td26.webp). Reemplaza al del Customizer mientras V1 esté activa.' ),
+				'logo_width'    => array( 'type' => 'number', 'label' => 'Ancho del logo (px)', 'default' => 230, 'min' => 80, 'max' => 400, 'help' => 'El alto se ajusta solo para no deformarlo.' ),
 			),
 			'WhatsApp'          => array(
 				'quote_whatsapp' => array( 'type' => 'phone', 'label' => 'Número (con indicativo, solo números)', 'default' => '573212151598', 'help' => 'Lo usan todos los botones de WhatsApp de la portada. Cada botón tiene su propio mensaje, en su sección.' ),
@@ -88,7 +90,7 @@ class TeDotamos_Template_V1 {
 					'help'    => 'Una fila por línea, columnas separadas por <code>|</code>. Un enlace se escribe <code>[texto](url)</code>; con <code>[texto](whatsapp)</code> abre WhatsApp con el mensaje de abajo. ⚠️ Verificar que coincida con las reglas reales de descuento.',
 					'default' => "1 a 5 unidades|30 %\n6 a 48 unidades|35 %\n49 a 200 unidades|40 %\nMás de 200 unidades|[Contáctanos](whatsapp)",
 				),
-				'volume_note'      => array( 'type' => 'text', 'label' => 'Nota bajo la tabla', 'default' => 'Categoría Ofertas: 4 % de descuento adicional.' ),
+				'volume_note'      => array( 'type' => 'text', 'label' => 'Nota bajo la tabla', 'default' => 'Categoría Ofertas: 5 – 10 % de descuento adicional.' ),
 				'volume_wa_text'   => array( 'type' => 'textarea', 'label' => 'Mensaje de WhatsApp', 'default' => 'Hola, quiero comprar más de 200 unidades. ¿Me pueden dar una cotización?' ),
 			),
 			'Portada · Beneficios' => array(
@@ -142,7 +144,7 @@ class TeDotamos_Template_V1 {
 			'Portada · Marcas'  => array(
 				'brands_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
 				'brands_title'   => array( 'type' => 'text', 'label' => 'Título', 'default' => 'Nuestras marcas y fabricantes' ),
-				'brands_count'   => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 10, 'min' => 1, 'max' => 30 ),
+				'brands_count'   => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 12, 'min' => 1, 'max' => 30, 'help' => 'Logos incluidos en el tema (images/brands/). Si la marca existe en WooCommerce con el mismo nombre, el logo enlaza a sus productos.' ),
 			),
 			'Portada · Cotización personalizada' => array(
 				'cta_enabled'   => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
@@ -168,6 +170,8 @@ class TeDotamos_Template_V1 {
 		'cta_title'       => array( '¿Necesitas una cotización?' ),
 		'cta_btn_text'    => array( 'Solicitar cotización' ),
 		'quote_whatsapp'  => array( '' ),
+		'volume_note'     => array( 'Categoría Ofertas: 4 % de descuento adicional.' ),
+		'brands_count'    => array( 10 ),
 	);
 
 	// ------------------------------------------------------------------ opciones
@@ -265,6 +269,17 @@ class TeDotamos_Template_V1 {
 		if ( self::get( 'nav_enabled' ) ) {
 			add_action( 'tedotamos_header_nav', array( __CLASS__, 'render_nav' ) );
 		}
+		add_filter( 'martfury_site_logo', array( __CLASS__, 'logo_url' ) );
+		add_filter( 'martfury_logo_width', array( __CLASS__, 'logo_width' ) );
+		add_filter( 'martfury_logo_height', '__return_zero' ); // alto automático: no deformar el logo
+	}
+
+	public static function logo_url() {
+		return self::get( 'logo' ) ? self::get( 'logo' ) : get_template_directory_uri() . '/images/logo/tedotamos-td26.webp';
+	}
+
+	public static function logo_width() {
+		return (int) self::get( 'logo_width' );
 	}
 
 	/**
@@ -299,6 +314,8 @@ class TeDotamos_Template_V1 {
 				return self::get( 'primary_color' );
 			case 'footer_skin':
 				return 'light'; // el fondo oscuro lo pone v1.css
+			case 'logo_sticky':
+				return ''; // el header fijo usa el mismo logo de V1
 			case 'footer_newsletter':
 				// No mostrar el bloque si su formulario usa un shortcode de un plugin desactivado.
 				return self::newsletter_form_ok() ? $value : 0;
@@ -385,6 +402,13 @@ class TeDotamos_Template_V1 {
 	 */
 	public static function render_nav() {
 		echo '<nav class="tdt-nav" aria-label="Menú principal"><ul>';
+		foreach ( self::lines( 'nav_items', 2 ) as $item ) {
+			$url = self::resolve_link( $item[1] );
+			if ( $url ) {
+				printf( '<li><a href="%s">%s</a></li>', esc_url( $url ), esc_html( $item[0] ) );
+			}
+		}
+		// El teléfono va al final de la barra.
 		$hotline = self::get( 'nav_hotline' );
 		if ( $hotline ) {
 			printf(
@@ -393,12 +417,6 @@ class TeDotamos_Template_V1 {
 				self::icon( 'headset' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				esc_html( $hotline )
 			);
-		}
-		foreach ( self::lines( 'nav_items', 2 ) as $item ) {
-			$url = self::resolve_link( $item[1] );
-			if ( $url ) {
-				printf( '<li><a href="%s">%s</a></li>', esc_url( $url ), esc_html( $item[0] ) );
-			}
 		}
 		echo '</ul></nav>';
 	}
@@ -575,6 +593,60 @@ class TeDotamos_Template_V1 {
 		}
 
 		return $products;
+	}
+
+	/** Departamentos de Colombia (y Bogotá D.C.) para el formulario de cotización. */
+	const COLOMBIA_DEPARTMENTS = array(
+		'Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bogotá D.C.', 'Bolívar', 'Boyacá', 'Caldas', 'Caquetá',
+		'Casanare', 'Cauca', 'Cesar', 'Chocó', 'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila',
+		'La Guajira', 'Magdalena', 'Meta', 'Nariño', 'Norte de Santander', 'Putumayo', 'Quindío', 'Risaralda',
+		'San Andrés y Providencia', 'Santander', 'Sucre', 'Tolima', 'Valle del Cauca', 'Vaupés', 'Vichada',
+	);
+
+	/**
+	 * Logos de marcas incluidos en el tema (images/brands/*.webp, optimizados): archivo => nombre.
+	 */
+	const BRAND_LOGOS = array(
+		'3m'        => '3M',
+		'aritex'    => 'Aritex',
+		'croydon'   => 'Croydon',
+		'evacol'    => 'Evacol',
+		'robusta'   => 'Robusta',
+		'dezega'    => 'Dezega',
+		'epi'       => 'E.P.I.',
+		'positex'   => 'Positex',
+		'sigmon'    => 'Sigmon',
+		'steelpro'  => 'Steelpro',
+		'zubi-ola'  => 'Zubi-Ola',
+		'inteimper' => 'Inteimper',
+	);
+
+	/**
+	 * Logos de la sección de marcas. Si existe la marca en WooCommerce (product_brand) con el
+	 * mismo nombre, el logo enlaza a sus productos.
+	 *
+	 * @return array<int, array{name:string, image:string, link:string}>
+	 */
+	public static function brand_logos() {
+		$out = array();
+		foreach ( array_slice( self::BRAND_LOGOS, 0, (int) self::get( 'brands_count' ), true ) as $file => $name ) {
+			$link = '';
+			if ( taxonomy_exists( 'product_brand' ) ) {
+				$term = get_term_by( 'name', $name, 'product_brand' );
+				$term = $term ? $term : get_term_by( 'slug', $file, 'product_brand' );
+				if ( $term instanceof WP_Term ) {
+					$url  = get_term_link( $term );
+					$link = is_wp_error( $url ) ? '' : $url;
+				}
+			}
+			$out[] = array(
+				'name'  => $name,
+				'image' => get_template_directory_uri() . '/images/brands/' . $file . '.webp',
+				'link'  => $link,
+			);
+		}
+
+		return $out;
 	}
 
 	/**

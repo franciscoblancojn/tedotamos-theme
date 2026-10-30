@@ -240,6 +240,14 @@ get_header();
 							<p class="tdt-quote__form-title"><?php echo $v1::icon( 'whatsapp' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> Cuéntanos qué necesitas</p>
 							<label>Producto o referencia<input type="text" name="producto" required></label>
 							<label>Cantidad<input type="text" name="cantidad" inputmode="numeric" required></label>
+							<label>Departamento de entrega
+								<select name="departamento" required>
+									<option value="">Selecciona…</option>
+									<?php foreach ( $v1::COLOMBIA_DEPARTMENTS as $dpto ) : ?>
+										<option><?php echo esc_html( $dpto ); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</label>
 							<label>Ciudad de entrega<input type="text" name="ciudad" required></label>
 							<button type="submit" class="tdt-btn tdt-btn--dark tdt-btn--block">Enviar por WhatsApp</button>
 						</form>
@@ -249,7 +257,7 @@ get_header();
 		</section>
 	<?php endif; ?>
 
-	<?php $brands = $v1::get( 'brands_enabled' ) ? $v1::brands() : array(); ?>
+	<?php $brands = $v1::get( 'brands_enabled' ) ? $v1::brand_logos() : array(); ?>
 	<?php if ( $brands ) : ?>
 		<section class="tdt-section" id="tdt-brands">
 			<div class="tdt-container">
@@ -258,11 +266,13 @@ get_header();
 				</header>
 				<ul class="tdt-brands">
 					<?php foreach ( $brands as $brand ) : ?>
-						<?php $logo = get_term_meta( $brand->term_id, 'thumbnail_id', true ); ?>
+						<?php $img = '<img src="' . esc_url( $brand['image'] ) . '" alt="' . esc_attr( $brand['name'] ) . '" loading="lazy" decoding="async" height="60">'; ?>
 						<li>
-							<a href="<?php echo esc_url( get_term_link( $brand ) ); ?>" title="<?php echo esc_attr( $brand->name ); ?>">
-								<?php echo $logo ? wp_get_attachment_image( $logo, 'medium', false, array( 'alt' => $brand->name ) ) : '<span>' . esc_html( $brand->name ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							</a>
+							<?php if ( $brand['link'] ) : ?>
+								<a href="<?php echo esc_url( $brand['link'] ); ?>" title="<?php echo esc_attr( $brand['name'] ); ?>"><?php echo $img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
+							<?php else : ?>
+								<span title="<?php echo esc_attr( $brand['name'] ); ?>"><?php echo $img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -311,6 +321,7 @@ get_header();
 				var text = 'Hola, quiero una cotización:' +
 					'\n• Producto: ' + form.producto.value +
 					'\n• Cantidad: ' + form.cantidad.value +
+					'\n• Departamento: ' + form.departamento.value +
 					'\n• Ciudad: ' + form.ciudad.value;
 				window.open( 'https://wa.me/' + form.dataset.whatsapp + '?text=' + encodeURIComponent( text ), '_blank', 'noopener' );
 			} );
