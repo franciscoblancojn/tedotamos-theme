@@ -4,12 +4,20 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.4.2] - 2026-10-30
+
+### 🔁 Cambiado
+- 🧱 Página de categorías en **mosaico** (columnas CSS):
+  - cada tarjeta mide lo que necesitan sus subcategorías, sin estirarse a la más alta de la fila;
+  - hasta 5 columnas, que bajan solas en pantallas chicas (1 en móvil);
+  - la portada mantiene la grilla de alturas iguales.
+
 ## [1.4.1] - 2026-10-30
 
 ### 🔁 Cambiado
 - 🗂️ Página de categorías:
   - el encabezado se ve como el hero de la portada (fondo oscuro o imagen del hero, antetítulo, título y botones);
-  - tarjetas en **mosaico** (columnas CSS): cada una mide lo que necesitan sus subcategorías, que van dentro de la tarjeta, sin estirarse a la más alta. Hasta 5 columnas, que bajan solas en pantallas chicas;
+  - todas las tarjetas tienen la misma altura, con las subcategorías dentro de la tarjeta;
   - el texto de las etiquetas de subcategorías queda centrado verticalmente.
 
 ### 🐛 Corregido
