@@ -3734,6 +3734,9 @@ class Martfury_WooCommerce {
 		}
 
 
+		// TeDotamos: permite agregar etiquetas propias (p. ej. "+10%" de la subcategoría de Ofertas).
+		$output = apply_filters( 'tedotamos_product_ribbons', $output, $product );
+
 		if ( $output ) {
 			printf( '<span class="ribbons">%s</span>', implode( '', $output ) );
 		}

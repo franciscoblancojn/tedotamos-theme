@@ -772,6 +772,21 @@ body.tdt-tpl-v1 .tdt-product .tdt-btn {
 	font-size: 14px;
 }
 
+/* Etiquetas de la tarjeta ("Oferta" / "-30 %" y "+5%" / "+10%" de la subcategoría de Ofertas) */
+body.tdt-tpl-v1 .tdt-badges {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+body.tdt-tpl-v1 .tdt-badges .tdt-badge {
+	position: static;
+}
+
 body.tdt-tpl-v1 .tdt-badge {
 	position: absolute;
 	top: 10px;
@@ -783,6 +798,10 @@ body.tdt-tpl-v1 .tdt-badge {
 	color: #fff;
 	font-size: 12px;
 	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .tdt-badge--extra {
+	background: var(--tdt-dark);
 }
 
 /* Cotización inteligente */
@@ -1564,6 +1583,9 @@ body.tdt-tpl-v1.woocommerce ul.products li.product .ribbons .ribbon {
 	font-weight: 600;
 	line-height: 1.4;
 	animation: none;
+	/* El círculo de 6rem de "Oferta" (tedotamos.css) pasa a pastilla, igual que "+10%". */
+	width: auto;
+	aspect-ratio: auto;
 }
 
 /* Siempre dos líneas (rebajado arriba; tachado + "IVA incluido" abajo) para que el precio
@@ -1665,6 +1687,12 @@ body.tdt-tpl-v1.woocommerce ul.products li.product .add_to_cart_button .add-to-c
 	body.tdt-tpl-v1.woocommerce ul.products li.product .price {
 		font-size: 16px;
 	}
+}
+
+/* "+5%" / "+10%" (subcategoría de Ofertas): oscuro para distinguirla del naranja de la oferta */
+body.tdt-tpl-v1.woocommerce ul.products li.product .ribbons .ribbon.tdt-offer-extra {
+	background: var(--tdt-dark) !important;
+	color: #fff;
 }
 
 /* Paginación */

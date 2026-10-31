@@ -100,7 +100,7 @@ class TeDotamos_Template_V1 {
 					'type'    => 'lines',
 					'label'   => 'Elementos',
 					'help'    => 'Una línea por elemento: <code>icono|título|texto</code>.',
-					'default' => "card|Medios de pago|Transferencia · Consignación · Wompi · Llave\ncredit|Créditos personales|Sistecrédito · Addi · Suma+Play · Compra ahora, paga después Bancolombia\ntruck|Envíos|A todo el país y el mundo\nshield|Garantía de satisfacción|Tu compra protegida\nbuilding|Ventas corporativas|Soluciones a la medida de tu empresa",
+					'default' => "card|Medios de pago|Transferencia · Consignación · Wompi · Llave\ncredit|Créditos personales|Sistecrédito · Addi · Suma+Play · Compra ahora, paga después Bancolombia\ntruck|Envíos|A todo el país y el mundo\nshield|Garantía de satisfacción|Tu compra protegida",
 				),
 			),
 			'Portada · Categorías' => array(
@@ -173,6 +173,7 @@ class TeDotamos_Template_V1 {
 		'quote_whatsapp'  => array( '' ),
 		'volume_note'     => array( 'Categoría Ofertas: 4 % de descuento adicional.' ),
 		'brands_count'    => array( 10 ),
+		'benefits_items'  => array( "card|Medios de pago|Transferencia · Consignación · Wompi · Llave\ncredit|Créditos personales|Sistecrédito · Addi · Suma+Play · Compra ahora, paga después Bancolombia\ntruck|Envíos|A todo el país y el mundo\nshield|Garantía de satisfacción|Tu compra protegida\nbuilding|Ventas corporativas|Soluciones a la medida de tu empresa" ),
 	);
 
 	// ------------------------------------------------------------------ opciones
@@ -310,6 +311,7 @@ class TeDotamos_Template_V1 {
 	 */
 	public static function init_always() {
 		add_filter( 'theme_page_templates', array( __CLASS__, 'register_page_template' ) );
+		add_filter( 'tedotamos_product_ribbons', array( __CLASS__, 'offer_ribbons' ), 10, 2 );
 		add_action( 'admin_post_tedotamos_v1_setup', array( __CLASS__, 'handle_setup' ) );
 	}
 
@@ -535,6 +537,53 @@ class TeDotamos_Template_V1 {
 				'order'      => 'DESC',
 			)
 		);
+	}
+
+	/**
+	 * Etiquetas extra de oferta según las subcategorías de la categoría Ofertas en las que está el
+	 * producto: subcategoría "10%" → "+10%", "5%" → "+5%". Si el nombre no tiene un %, se usa tal cual.
+	 *
+	 * @param WC_Product $product
+	 * @return string[]
+	 */
+	public static function offer_extra_labels( $product ) {
+		$offers = self::offers_term();
+		if ( ! $offers || ! $product ) {
+			return array();
+		}
+		$id    = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+		$terms = get_the_terms( $id, 'product_cat' );
+		if ( ! $terms || is_wp_error( $terms ) ) {
+			return array();
+		}
+		$labels = array();
+		foreach ( $terms as $term ) {
+			if ( (int) $term->parent !== (int) $offers->term_id ) {
+				continue;
+			}
+			$labels[] = preg_match( '/(\d+(?:[.,]\d+)?)\s*%/', $term->name, $m ) ? '+' . $m[1] . '%' : $term->name;
+		}
+		$labels = array_unique( $labels );
+		// De mayor a menor descuento, si hubiera varias.
+		usort(
+			$labels,
+			function ( $a, $b ) {
+				return (float) str_replace( ',', '.', ltrim( $b, '+' ) ) <=> (float) str_replace( ',', '.', ltrim( $a, '+' ) );
+			}
+		);
+
+		return $labels;
+	}
+
+	/**
+	 * Agrega las etiquetas "+5%" / "+10%" a las de Martfury (catálogo y ficha del producto).
+	 */
+	public static function offer_ribbons( $output, $product ) {
+		foreach ( self::offer_extra_labels( $product ) as $label ) {
+			$output[] = '<span class="tdt-offer-extra ribbon">' . esc_html( $label ) . '</span>';
+		}
+
+		return $output;
 	}
 
 	/**
@@ -780,9 +829,17 @@ class TeDotamos_Template_V1 {
 				}
 			}
 			?>
+			<?php $extra = self::offer_extra_labels( $product ); ?>
 			<li class="tdt-product">
-				<?php if ( $badge ) : ?>
-					<span class="tdt-badge"><?php echo esc_html( $badge ); ?></span>
+				<?php if ( $badge || $extra ) : ?>
+					<span class="tdt-badges">
+						<?php if ( $badge ) : ?>
+							<span class="tdt-badge"><?php echo esc_html( $badge ); ?></span>
+						<?php endif; ?>
+						<?php foreach ( $extra as $label ) : ?>
+							<span class="tdt-badge tdt-badge--extra"><?php echo esc_html( $label ); ?></span>
+						<?php endforeach; ?>
+					</span>
 				<?php endif; ?>
 				<a class="tdt-product__img" href="<?php echo esc_url( $product->get_permalink() ); ?>">
 					<?php echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

@@ -618,3 +618,10 @@ ul.products li.product .product-inner {
   line-height: 1.2;
   text-align: center;
 }
+
+/* TeDotamos: etiqueta "+5%" / "+10%" de la subcategoría de Ofertas (catálogo y ficha del
+   producto), en oscuro para distinguirla del color de la oferta. */
+.woocommerce .ribbons .ribbon.tdt-offer-extra {
+  background: #1b1d22 !important;
+  color: #fff;
+}

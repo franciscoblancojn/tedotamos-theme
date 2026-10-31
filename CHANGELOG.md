@@ -4,6 +4,15 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.4.6] - 2026-10-30
+
+### ✨ Añadido
+- 🏷️ **Etiqueta extra de Ofertas**: si el producto está en una subcategoría de "Ofertas" (p. ej. "10%" o "5%"), muestra una etiqueta oscura **+10%** / **+5%** junto a la de oferta, en la portada, la tienda, las categorías y los productos relacionados. El texto sale del nombre de la subcategoría ("10%" → "+10%"). Otros temas o plugins pueden añadir etiquetas con el filtro `tedotamos_product_ribbons`.
+
+### 🔁 Cambiado
+- 🧩 Portada: se quita el beneficio "Ventas corporativas · Soluciones a la medida de tu empresa" (solo cambia el valor por defecto; si editaste la lista, quítalo en Plantilla V1 → Beneficios).
+- 🏷️ Tienda V1: la etiqueta de oferta pasa de círculo a pastilla, igual que la nueva "+10%".
+
 ## [1.4.5] - 2026-10-30
 
 ### 🐛 Corregido
