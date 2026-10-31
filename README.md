@@ -2,7 +2,7 @@
 
 > 🏭 Tema propio de **[TeDotamos.com](https://tedotamos.com)**: tienda B2B de dotación y seguridad industrial, con precios de fábrica para empresas y negocios.
 
-**Versión:** 1.4.2 · **WordPress:** 6.1+ (probado hasta 7.1) · **PHP:** 7.0+ · **Licencia:** GPLv2 o posterior
+**Versión:** 1.4.3 · **WordPress:** 6.1+ (probado hasta 7.1) · **PHP:** 7.0+ · **Licencia:** GPLv2 o posterior
 
 📋 [Registro de cambios](CHANGELOG.md) · 📝 [Notas técnicas](TEDOTAMOS.md) · 📦 [Releases](https://github.com/franciscoblancojn/tedotamos-theme/releases)
 
