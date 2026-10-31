@@ -1368,6 +1368,310 @@ body.tdt-tpl-v1 .tdt-bot {
 	}
 }
 
+/* ------------------------------------------------------------------ catálogo (tienda y categorías)
+ * Las páginas de Martfury (header, migas, catálogo, footer) usan .martfury-container a todo el
+ * ancho; aquí se alinean con el contenedor de la portada (.tdt-container) y se pasan a tarjetas
+ * blancas como el resto de V1. Algunas reglas llevan !important porque compiten con las de
+ * css/tedotamos.css, que también usan !important.
+ * ------------------------------------------------------------------ */
+
+body.tdt-tpl-v1 .martfury-container {
+	max-width: var(--tdt-container);
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+/* Migas de pan */
+body.tdt-tpl-v1 .page-header-catalog,
+body.tdt-tpl-v1 .page-header-catalog .page-breadcrumbs {
+	background: #fff;
+}
+
+body.tdt-tpl-v1 .page-header-catalog {
+	padding: 0;
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .page-header-catalog .breadcrumbs {
+	padding: 14px 0;
+	color: var(--tdt-muted);
+	font-size: 13px;
+}
+
+body.tdt-tpl-v1 .page-header-catalog .breadcrumbs a {
+	color: var(--tdt-text);
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1 .page-header-catalog .breadcrumbs a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1.mf-catalog-page .site-content {
+	padding-top: 28px;
+}
+
+/* Barra lateral: cada widget es una tarjeta */
+body.tdt-tpl-v1 .catalog-sidebar {
+	background: transparent;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .widget {
+	margin: 0 0 16px;
+	padding: 18px;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .widget-title {
+	margin: 0 0 14px;
+	padding: 0 0 10px;
+	border-bottom: 1px solid var(--tdt-border);
+	color: var(--tdt-text);
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.3;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .product-categories a {
+	color: var(--tdt-text);
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .product-categories a:hover,
+body.tdt-tpl-v1 .catalog-sidebar .product-categories .current-cat > a,
+body.tdt-tpl-v1 .catalog-sidebar .product-categories .mf-current-tax > a {
+	color: var(--tdt-primary);
+}
+
+/* Martfury posiciona el rango de precio en absoluto dentro de una caja de 20 px: se salía. */
+body.tdt-tpl-v1 .catalog-sidebar .price_slider_amount {
+	height: auto;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .price_slider_amount .price_label {
+	position: static;
+	margin-top: 12px;
+	color: var(--tdt-text);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+body.tdt-tpl-v1 .catalog-sidebar .price_slider .ui-slider-range,
+body.tdt-tpl-v1 .catalog-sidebar .price_slider .ui-slider-handle {
+	background: var(--tdt-primary);
+	border-color: var(--tdt-primary);
+}
+
+/* Barra de "productos encontrados / ordenar / vista" */
+body.tdt-tpl-v1 #mf-catalog-toolbar {
+	margin-bottom: 16px;
+	padding: 10px 16px;
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+}
+
+body.tdt-tpl-v1 #mf-catalog-toolbar .products-found {
+	color: var(--tdt-muted);
+	font-size: 14px;
+}
+
+body.tdt-tpl-v1 #mf-catalog-toolbar .products-found strong {
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1 #mf-catalog-toolbar .woocommerce-ordering > li {
+	border: 1.5px solid var(--tdt-border);
+	border-radius: 6px;
+}
+
+body.tdt-tpl-v1 #mf-catalog-toolbar .mf-shop-view.current,
+body.tdt-tpl-v1 #mf-catalog-toolbar .mf-shop-view:hover {
+	color: var(--tdt-primary);
+}
+
+/* Descripción de la categoría (contenido editable) */
+body.tdt-tpl-v1 .woocommerce-products-header .term-description {
+	margin-bottom: 16px;
+	border-radius: var(--tdt-radius);
+}
+
+/* Tarjetas de producto */
+body.tdt-tpl-v1.woocommerce ul.products li.product {
+	padding: 8px;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .product-inner {
+	/* css/tedotamos.css usa una grilla (auto 1fr) que estiraba la foto al igualar el alto de la
+	   fila y bajaba el precio; en columna flexible la foto queda fija y solo crece el contenido. */
+	display: flex;
+	flex-direction: column;
+	padding: 14px !important; /* tedotamos.css pone padding-inline: 0 !important en móvil */
+	border: 1px solid var(--tdt-border);
+	border-radius: var(--tdt-radius);
+	background: #fff;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .mf-product-thumbnail {
+	flex: 0 0 auto;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .mf-product-details {
+	flex: 1 1 auto;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product a img {
+	height: 200px; /* css/tedotamos.css la deja en 300 px */
+	object-fit: contain;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .ribbons .ribbon {
+	padding: 3px 10px;
+	border-radius: 999px !important;
+	background: var(--tdt-primary) !important;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+	animation: none;
+}
+
+/* Siempre dos líneas (rebajado arriba; tachado + "IVA incluido" abajo) para que el precio
+   quede a la misma altura en todas las tarjetas, sea largo o corto. */
+body.tdt-tpl-v1.woocommerce ul.products li.product .price {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 8px;
+	color: var(--tdt-text);
+	font-size: 18px;
+	font-weight: 800;
+	line-height: 1.35;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .price ins {
+	order: 0;
+	flex: 0 0 100%;
+	color: var(--tdt-primary);
+	text-decoration: none;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .price del {
+	order: 1;
+	color: var(--tdt-muted);
+	font-size: 13px;
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .price .woocommerce-price-suffix {
+	order: 2;
+	color: var(--tdt-muted);
+	font-size: 12px;
+	font-weight: 500;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .woo-loop-product__title {
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .woo-loop-product__title a {
+	color: var(--tdt-text);
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .woo-loop-product__title a:hover {
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .meta-brand {
+	margin-top: 4px;
+	color: var(--tdt-muted);
+	font-size: 12.5px;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .meta-brand a {
+	color: var(--tdt-primary);
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .mf-product-price-box .button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: 6px !important;
+	background: var(--tdt-primary);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+body.tdt-tpl-v1.woocommerce ul.products li.product .mf-product-price-box .button:hover {
+	background: color-mix(in srgb, var(--tdt-primary) 85%, #000);
+}
+
+/* En móvil tedotamos.css cambia el texto del botón por "Añadir" / "Seleccionar" a 16 px. */
+body.tdt-tpl-v1.woocommerce ul.products li.product .add_to_cart_button .add-to-cart-text::before {
+	font-size: 14px;
+}
+
+@media (max-width: 767px) {
+	body.tdt-tpl-v1.woocommerce ul.products li.product {
+		padding: 5px;
+	}
+
+	body.tdt-tpl-v1.woocommerce ul.products li.product .product-inner {
+		padding: 10px !important;
+	}
+
+	body.tdt-tpl-v1.woocommerce ul.products li.product a img {
+		height: 150px;
+	}
+
+	body.tdt-tpl-v1.woocommerce ul.products li.product .price {
+		font-size: 16px;
+	}
+}
+
+/* Paginación */
+body.tdt-tpl-v1 .woocommerce-pagination ul.page-numbers {
+	border: 0;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination ul.page-numbers li {
+	border: 0;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination .page-numbers a,
+body.tdt-tpl-v1 .woocommerce-pagination .page-numbers span {
+	min-width: 38px;
+	height: 38px;
+	margin: 0 3px;
+	border: 1px solid var(--tdt-border);
+	border-radius: 6px;
+	color: var(--tdt-text);
+	font-weight: 600;
+	line-height: 36px;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination .page-numbers span.current,
+body.tdt-tpl-v1 .woocommerce-pagination .page-numbers a:hover {
+	border-color: var(--tdt-primary);
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
 /* ------------------------------------------------------------------ plugin "Descuentos por Volumen"
  * Tabla "Más descuento por cantidad" de la ficha del producto (.dpv-tiers). El plugin trae su
  * propio estilo neutro; aquí se adapta a V1 sin tocar el plugin (sigue siendo genérico).

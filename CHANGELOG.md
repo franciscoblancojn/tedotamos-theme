@@ -4,6 +4,21 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🔁 Cambiado
+- 🛍️ Tienda y páginas de categoría con el estilo de la portada V1:
+  - contenido centrado a 1.320 px, igual que la portada. Antes el header, las migas y el catálogo iban de borde a borde;
+  - migas de pan sobre fondo blanco, con enlaces del color del texto (antes azules);
+  - barra lateral, filtros y barra de "ordenar / vista" como tarjetas blancas, con títulos sin mayúsculas forzadas;
+  - tarjetas de producto con la foto a altura fija, precio rebajado en naranja arriba y tachado + "IVA incluido" abajo, etiquetas "Nuevo" / "-30 %" redondeadas, marca en naranja y botón de 14 px;
+  - paginación con botones redondeados.
+
+### 🐛 Corregido
+- 💲 Filtro de precio de la barra lateral: el rango se salía de la tarjeta (Martfury lo posiciona en absoluto).
+- 📏 En las tarjetas de producto la foto se estiraba para igualar el alto de la fila y bajaba el precio; ahora el precio queda a la misma altura en todas.
+- 📱 En móvil el contenido de la tarjeta quedaba pegado al borde (`padding-inline: 0 !important` de `css/tedotamos.css`).
+
 ## [1.4.2] - 2026-10-30
 
 ### 🔁 Cambiado
