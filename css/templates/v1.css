@@ -1136,6 +1136,22 @@ body.tdt-tpl-v1 .tdt-page-head__text {
 	color: var(--tdt-muted);
 }
 
+/* Portada: "Categorías principales" en 3 columnas (6 categorías = 3 + 3). */
+body.tdt-v1-home .tdt-cats {
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+}
+
+body.tdt-v1-home .tdt-cats__img {
+	aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 991px) {
+	body.tdt-v1-home .tdt-cats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
 /* Página de categorías: mosaico. Cada tarjeta mide lo que necesitan sus subcategorías (no se
    estiran a la más alta de la fila) y se apilan en columnas, como en Pinterest. En la portada
    las tarjetas no tienen subcategorías y se mantiene la grilla de alturas iguales. */

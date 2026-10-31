@@ -4,6 +4,18 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 📱 **Ancho del logo en móvil** (160 px por defecto) en Plantilla V1.
+
+### 🔁 Cambiado
+- 🗂️ Portada: "Categorías principales" en 3 columnas (6 categorías = 3 + 3) y fotos en 16:9. En tablet y móvil, 2 columnas.
+
+### 🐛 Corregido
+- 🗂️ La página de categorías (y la portada sin categorías marcadas) ocultaba **"Dotación y Vestuario"**: es la categoría por defecto de WooCommerce renombrada. Ahora solo se oculta la categoría por defecto si de verdad es "Sin categorizar".
+- 📱 En móvil se veía el logo móvil del Customizer en lugar del logo de V1 (la versión móvil de Martfury registra su filtro después y lo reemplazaba).
+
 ## [1.4.3] - 2026-10-30
 
 ### 🔁 Cambiado

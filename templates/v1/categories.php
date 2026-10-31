@@ -23,7 +23,7 @@ $categories = get_terms(
 		'parent'     => 0,
 		'hide_empty' => true,
 		'menu_order' => 'ASC',
-		'exclude'    => array( (int) get_option( 'default_product_cat' ) ),
+		'exclude'    => $v1::excluded_default_category(),
 	)
 );
 

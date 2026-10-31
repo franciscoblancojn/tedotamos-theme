@@ -35,6 +35,7 @@ class TeDotamos_Template_V1 {
 				'dark_color'    => array( 'type' => 'color', 'label' => 'Color oscuro (barra superior, footer)', 'default' => '#1b1d22' ),
 				'logo'          => array( 'type' => 'image', 'label' => 'Logo del header', 'default' => '', 'help' => 'Vacío = logo TeDotamos del tema (images/logo/tedotamos-td26.webp). Reemplaza al del Customizer mientras V1 esté activa.' ),
 				'logo_width'    => array( 'type' => 'number', 'label' => 'Ancho del logo (px)', 'default' => 230, 'min' => 80, 'max' => 400, 'help' => 'El alto se ajusta solo para no deformarlo.' ),
+				'logo_mobile_width' => array( 'type' => 'number', 'label' => 'Ancho del logo en móvil (px)', 'default' => 160, 'min' => 60, 'max' => 300, 'help' => 'Header de la versión móvil de Martfury. Reemplaza al "logo móvil" del Customizer mientras V1 esté activa.' ),
 			),
 			'WhatsApp'          => array(
 				'quote_whatsapp' => array( 'type' => 'phone', 'label' => 'Número (con indicativo, solo números)', 'default' => '573212151598', 'help' => 'Lo usan todos los botones de WhatsApp de la portada. Cada botón tiene su propio mensaje, en su sección.' ),
@@ -269,9 +270,11 @@ class TeDotamos_Template_V1 {
 		if ( self::get( 'nav_enabled' ) ) {
 			add_action( 'tedotamos_header_nav', array( __CLASS__, 'render_nav' ) );
 		}
-		add_filter( 'martfury_site_logo', array( __CLASS__, 'logo_url' ) );
-		add_filter( 'martfury_logo_width', array( __CLASS__, 'logo_width' ) );
-		add_filter( 'martfury_logo_height', '__return_zero' ); // alto automático: no deformar el logo
+		// Prioridad 99: la versión móvil de Martfury (Martfury_Mobile, en after_setup_theme:100)
+		// registra sus propios filtros de logo después y, con la misma prioridad, ganaba en móvil.
+		add_filter( 'martfury_site_logo', array( __CLASS__, 'logo_url' ), 99 );
+		add_filter( 'martfury_logo_width', array( __CLASS__, 'logo_width' ), 99 );
+		add_filter( 'martfury_logo_height', '__return_zero', 99 ); // alto automático: no deformar el logo
 	}
 
 	public static function logo_url() {
@@ -279,7 +282,26 @@ class TeDotamos_Template_V1 {
 	}
 
 	public static function logo_width() {
-		return (int) self::get( 'logo_width' );
+		$mobile = function_exists( 'martfury_is_mobile' ) && intval( martfury_is_mobile() );
+
+		return (int) self::get( $mobile ? 'logo_mobile_width' : 'logo_width' );
+	}
+
+	/**
+	 * Categoría por defecto de WooCommerce, solo si sigue siendo "Sin categorizar". En este sitio
+	 * se renombró a una categoría real (p. ej. "Dotación y Vestuario") y no hay que ocultarla.
+	 *
+	 * @return int[]
+	 */
+	public static function excluded_default_category() {
+		$term = get_term( (int) get_option( 'default_product_cat' ), 'product_cat' );
+		if ( ! $term instanceof WP_Term ) {
+			return array();
+		}
+		$is_placeholder = in_array( $term->slug, array( 'uncategorized', 'sin-categorizar', 'sin-categoria' ), true )
+			|| preg_match( '/^(sin categor|uncategori)/i', $term->name );
+
+		return $is_placeholder ? array( $term->term_id ) : array();
 	}
 
 	/**
@@ -563,7 +585,7 @@ class TeDotamos_Template_V1 {
 		} else {
 			$args['parent']     = 0;
 			$args['menu_order'] = 'ASC';
-			$args['exclude']    = array( (int) get_option( 'default_product_cat' ) );
+			$args['exclude']    = self::excluded_default_category();
 		}
 		$terms = get_terms( $args );
 
