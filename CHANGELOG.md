@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.4.7] - 2026-10-30
+
+### 🐛 Corregido
+- 🏷️ Tienda, categorías y ficha del producto: cuando un producto tenía dos etiquetas ("Nuevo" u "Oferta" + "+10%"), se tapaban porque Martfury pone cada una en la misma esquina. Ahora se apilan una debajo de otra.
+
 ## [1.4.6] - 2026-10-30
 
 ### ✨ Añadido

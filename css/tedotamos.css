@@ -625,3 +625,23 @@ ul.products li.product .product-inner {
   background: #1b1d22 !important;
   color: #fff;
 }
+
+/* Martfury pone cada etiqueta en top:0/right:0 (cuenta con que solo haya una). Con dos
+   ("Nuevo"/"Oferta" + "+10%") se tapaban: el contenedor pasa a ser el que se posiciona y
+   las etiquetas se apilan dentro, una debajo de otra. */
+.woocommerce .ribbons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.woocommerce .ribbons .ribbon {
+  position: static;
+}
+.mf-quick-view-modal.woocommerce .ribbons {
+  top: 20px;
+}
