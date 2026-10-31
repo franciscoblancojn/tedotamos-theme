@@ -364,10 +364,17 @@ body.tdt-tpl-v1 .tdt-section {
 
 body.tdt-tpl-v1 .tdt-section__head {
 	display: flex;
+	/* Si título y enlace no caben juntos (móvil), el enlace baja a la línea de abajo en lugar de
+	   apretar el título o salirse de la pantalla. */
+	flex-wrap: wrap;
 	align-items: baseline;
 	justify-content: space-between;
-	gap: 16px;
+	gap: 6px 16px;
 	margin-bottom: 20px;
+}
+
+body.tdt-tpl-v1 .tdt-section__head h2 {
+	min-width: 0;
 }
 
 body.tdt-tpl-v1 .tdt-section__head h2 {

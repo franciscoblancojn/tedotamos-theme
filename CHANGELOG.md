@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🐛 Corregido
+- 📱 Cabeceras de sección de la portada ("Categorías principales", "Ofertas", "Productos destacados"): en móvil, si el título y "Ver todos…" no caben juntos, el enlace baja a la línea de abajo. Antes apretaba el título en dos líneas y se salía del margen.
+
 ## [1.4.4] - 2026-10-30
 
 ### ✨ Añadido
