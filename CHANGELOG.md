@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.4.9] - 2026-11-03
 
 ### 🐛 Corregido
 - 📱 El menú del botón ☰ (el que aparece en el computador con la ventana estrecha o en el modo responsive del navegador) seguía mostrando las 5 categorías del menú de Martfury sin íconos. Ahora muestra la misma lista que el panel "Categoría" del celular: todas las categorías con su ícono y sus subcategorías.
