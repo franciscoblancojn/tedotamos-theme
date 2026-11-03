@@ -1852,24 +1852,24 @@ body.tdt-tpl-v1 .dpv-tiers__contact a:hover {
 /* ------------------------------------------------------------------ menú móvil: panel de categorías
  * Panel "Categoría" del menú inferior (render_mobile_categories()). Todas las categorías
  * principales con su ícono; al tocar una se despliegan sus subcategorías (JS de Martfury). */
-body.tdt-tpl-v1 #mf-category-mobile-nav .mobile-nav-header__title a {
+body.tdt-tpl-v1 .primary-mobile-nav .mobile-nav-header__title a {
 	color: inherit;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats {
 	margin: 0;
 	padding: 6px 0 90px;
 	list-style: none;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li {
 	position: relative;
 	margin: 0;
 	padding: 0;
 	border-bottom: 1px solid #eef0f2;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li > a {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li > a {
 	display: flex;
 	align-items: center;
 	gap: 14px;
@@ -1881,7 +1881,7 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li > a {
 	color: #1b1d22;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__icon {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats__icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -1893,17 +1893,17 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__icon {
 	color: var(--tdt-primary, #f57c00);
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__icon .tdt-icon {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats__icon .tdt-icon {
 	width: 22px;
 	height: 22px;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__name {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats__name {
 	flex: 1;
 	min-width: 0;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__chevron {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats__chevron {
 	flex: 0 0 18px;
 	width: 18px;
 	height: 18px;
@@ -1911,7 +1911,7 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__chevron {
 }
 
 /* Botón "+" que agrega el JS de Martfury: al final de la fila (al abrir, Martfury lo cambia a "−"). */
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li > a .toggle-menu-children {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li > a .toggle-menu-children {
 	position: static;
 	transform: none;
 	order: 3;
@@ -1931,17 +1931,17 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li > a .toggle-menu-childre
 	transition: background-color 0.2s, color 0.2s;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li.active > a .toggle-menu-children {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li.active > a .toggle-menu-children {
 	background: var(--tdt-primary, #f57c00);
 	color: #fff;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li.active > a,
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > li.current-menu-item > a {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li.active > a,
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li.current-menu-item > a {
 	color: var(--tdt-primary, #f57c00);
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats .sub-menu {
 	margin: 0;
 	padding: 0 16px 12px 72px;
 	list-style: none;
@@ -1949,13 +1949,13 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu {
 	background: transparent;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu li {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats .sub-menu li {
 	margin: 0;
 	padding: 0;
 	border: 0;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu a {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats .sub-menu a {
 	display: block;
 	padding: 8px 0;
 	font-size: 14px;
@@ -1964,25 +1964,25 @@ body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu a {
 	color: #444;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats .sub-menu .tdt-mcats__all-in a {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats .sub-menu .tdt-mcats__all-in a {
 	font-weight: 600;
 	color: var(--tdt-primary, #f57c00);
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats__count {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats__count {
 	font-size: 12px;
 	color: #9aa0a6;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > .tdt-mcats__all {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > .tdt-mcats__all {
 	border-bottom: 0;
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > .tdt-mcats__all > a {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > .tdt-mcats__all > a {
 	color: var(--tdt-primary, #f57c00);
 }
 
-body.tdt-tpl-v1 #mf-category-mobile-nav .tdt-mcats > .tdt-mcats__all .tdt-mcats__icon {
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > .tdt-mcats__all .tdt-mcats__icon {
 	background: var(--tdt-primary, #f57c00);
 	color: #fff;
 }

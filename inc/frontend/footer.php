@@ -435,6 +435,11 @@ if ( ! function_exists( 'martfury_off_canvas_mobile_menu' ) ) :
 
 				<?php
 
+				// TeDotamos: una plantilla (V1) puede reemplazar la lista del panel (mismo gancho que el panel de categorías del móvil).
+				if ( has_action( 'tedotamos_mobile_category_menu' ) ) {
+					do_action( 'tedotamos_mobile_category_menu' );
+				} else {
+
 				$location = '';
 				if ( has_nav_menu( 'mobile' ) ) {
 					$location = 'mobile';
@@ -451,6 +456,8 @@ if ( ! function_exists( 'martfury_off_canvas_mobile_menu' ) ) :
 						'walker'         => new Martfury_Mobile_Walker()
 					) );
 				}
+
+				} // TeDotamos: fin del else.
 				?>
 
             </div>

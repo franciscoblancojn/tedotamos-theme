@@ -350,6 +350,8 @@ class TeDotamos_Template_V1 {
 				return ''; // el header fijo usa el mismo logo de V1
 			case 'navigation_cat_panel_mobile_title':
 				return self::get( 'mcats_enabled' ) && self::get( 'mcats_title' ) ? self::get( 'mcats_title' ) : $value;
+			case 'header_menu_panel_mobile_title': // panel del botón ☰ (ventana estrecha sin versión móvil)
+				return self::get( 'mcats_enabled' ) && self::get( 'mcats_title' ) && ! $value ? self::get( 'mcats_title' ) : $value;
 			case 'navigation_cat_panel_mobile_link':
 				return self::get( 'mcats_enabled' ) && ! $value ? self::categories_url() : $value;
 			case 'footer_newsletter':
@@ -650,8 +652,8 @@ class TeDotamos_Template_V1 {
 	}
 
 	/**
-	 * Panel "Categoría" del menú inferior en móvil (gancho tedotamos_mobile_category_menu en
-	 * inc/mobile/layout.php). Usa las clases del menú de Martfury (.menu, .menu-item-has-children,
+	 * Panel "Categoría" del menú inferior en móvil y panel del botón ☰ (gancho
+	 * tedotamos_mobile_category_menu en inc/mobile/layout.php e inc/frontend/footer.php). Usa las clases del menú de Martfury (.menu, .menu-item-has-children,
 	 * .sub-menu) para que su JS despliegue las subcategorías al tocar la categoría; por eso la
 	 * primera subcategoría es "Ver todo", que lleva a la categoría.
 	 */
