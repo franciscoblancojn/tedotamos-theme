@@ -59,6 +59,11 @@ class TeDotamos_Template_V1 {
 					'default' => "Ofertas|{ofertas}\nMarcas|{marcas}",
 				),
 			),
+			'Menú móvil · Categorías' => array(
+				'mcats_enabled'  => array( 'type' => 'checkbox', 'label' => 'En el panel "Categoría" del menú inferior del celular, mostrar todas las categorías (como la página de categorías) con su ícono, en lugar del menú de Martfury', 'default' => 1, 'help' => 'El ícono de cada categoría se elige solo según el nombre; se puede cambiar en Productos → Categorías → Editar → "Ícono (TeDotamos)".' ),
+				'mcats_title'    => array( 'type' => 'text', 'label' => 'Título del panel', 'default' => 'Categorías', 'help' => 'Enlaza a la página de categorías.' ),
+				'mcats_children' => array( 'type' => 'checkbox', 'label' => 'Mostrar las subcategorías (se despliegan al tocar la categoría)', 'default' => 1 ),
+			),
 			'Portada'           => array(
 				'home_enabled' => array( 'type' => 'checkbox', 'label' => 'Usar la portada V1 (reemplaza la portada de Elementor mientras V1 esté activa)', 'default' => 1 ),
 			),
@@ -271,6 +276,9 @@ class TeDotamos_Template_V1 {
 		if ( self::get( 'nav_enabled' ) ) {
 			add_action( 'tedotamos_header_nav', array( __CLASS__, 'render_nav' ) );
 		}
+		if ( self::get( 'mcats_enabled' ) ) {
+			add_action( 'tedotamos_mobile_category_menu', array( __CLASS__, 'render_mobile_categories' ) );
+		}
 		// Prioridad 99: la versión móvil de Martfury (Martfury_Mobile, en after_setup_theme:100)
 		// registra sus propios filtros de logo después y, con la misma prioridad, ganaba en móvil.
 		add_filter( 'martfury_site_logo', array( __CLASS__, 'logo_url' ), 99 );
@@ -340,6 +348,10 @@ class TeDotamos_Template_V1 {
 				return 'light'; // el fondo oscuro lo pone v1.css
 			case 'logo_sticky':
 				return ''; // el header fijo usa el mismo logo de V1
+			case 'navigation_cat_panel_mobile_title':
+				return self::get( 'mcats_enabled' ) && self::get( 'mcats_title' ) ? self::get( 'mcats_title' ) : $value;
+			case 'navigation_cat_panel_mobile_link':
+				return self::get( 'mcats_enabled' ) && ! $value ? self::categories_url() : $value;
 			case 'footer_newsletter':
 				// No mostrar el bloque si su formulario usa un shortcode de un plugin desactivado.
 				return self::newsletter_form_ok() ? $value : 0;
@@ -615,6 +627,76 @@ class TeDotamos_Template_V1 {
 		}
 
 		return 'https://wa.me/' . $phone . ( $text ? '?text=' . rawurlencode( $text ) : '' );
+	}
+
+	/**
+	 * Todas las categorías principales con productos, en su orden (página de categorías y
+	 * panel de categorías del móvil).
+	 *
+	 * @return WP_Term[]
+	 */
+	public static function top_categories() {
+		$terms = get_terms(
+			array(
+				'taxonomy'   => 'product_cat',
+				'parent'     => 0,
+				'hide_empty' => true,
+				'menu_order' => 'ASC',
+				'exclude'    => self::excluded_default_category(),
+			)
+		);
+
+		return is_wp_error( $terms ) ? array() : $terms;
+	}
+
+	/**
+	 * Panel "Categoría" del menú inferior en móvil (gancho tedotamos_mobile_category_menu en
+	 * inc/mobile/layout.php). Usa las clases del menú de Martfury (.menu, .menu-item-has-children,
+	 * .sub-menu) para que su JS despliegue las subcategorías al tocar la categoría; por eso la
+	 * primera subcategoría es "Ver todo", que lleva a la categoría.
+	 */
+	public static function render_mobile_categories() {
+		$categories = self::top_categories();
+		echo '<ul class="menu tdt-mcats">';
+		foreach ( $categories as $cat ) {
+			$link     = get_term_link( $cat );
+			$children = array();
+			if ( self::get( 'mcats_children' ) ) {
+				$children = get_terms( array( 'taxonomy' => 'product_cat', 'parent' => $cat->term_id, 'hide_empty' => true, 'menu_order' => 'ASC' ) );
+				$children = is_wp_error( $children ) ? array() : $children;
+			}
+			$active = is_tax( 'product_cat', $cat->term_id ) || ( is_tax( 'product_cat' ) && term_is_ancestor_of( $cat, get_queried_object(), 'product_cat' ) );
+			printf(
+				'<li class="menu-item tdt-mcats__item%s%s"><a href="%s"><span class="tdt-mcats__icon">%s</span><span class="tdt-mcats__name">%s</span>%s</a>',
+				$children ? ' menu-item-has-children' : '',
+				$active ? ' current-menu-item' : '',
+				esc_url( $link ),
+				TeDotamos_Category_Icons::svg( $cat ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				esc_html( $cat->name ),
+				$children ? '' : self::icon( 'chevron', 'tdt-icon tdt-mcats__chevron' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			);
+			if ( $children ) {
+				echo '<ul class="sub-menu">';
+				printf( '<li class="menu-item tdt-mcats__all-in"><a href="%s">Ver todo en %s</a></li>', esc_url( $link ), esc_html( $cat->name ) );
+				foreach ( $children as $child ) {
+					printf(
+						'<li class="menu-item"><a href="%s">%s <span class="tdt-mcats__count">(%d)</span></a></li>',
+						esc_url( get_term_link( $child ) ),
+						esc_html( $child->name ),
+						(int) $child->count
+					);
+				}
+				echo '</ul>';
+			}
+			echo '</li>';
+		}
+		printf(
+			'<li class="menu-item tdt-mcats__all"><a href="%s">%s<span class="tdt-mcats__name">Ver todas las categorías</span>%s</a></li>',
+			esc_url( self::categories_url() ),
+			'<span class="tdt-mcats__icon">' . self::icon( 'cart' ) . '</span>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			self::icon( 'chevron', 'tdt-icon tdt-mcats__chevron' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+		echo '</ul>';
 	}
 
 	/**
@@ -918,6 +1000,16 @@ class TeDotamos_Template_V1 {
 			'lock'     => '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
 			'chat'     => '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
 			'arrow'    => '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+			'chevron'  => '<path d="m9 18 6-6-6-6"/>',
+			// Categorías (ver TeDotamos_Category_Icons).
+			'boot'     => '<path d="M6 3h7v8l4.7 1.9A3.5 3.5 0 0 1 20 16.1V18H6z"/><path d="M6 21h14"/><path d="M9 7h4"/>',
+			'shirt'    => '<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>',
+			'hardhat'  => '<path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M14 6a6 6 0 0 1 6 6v3"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><rect x="2" y="15" width="20" height="4" rx="1"/>',
+			'umbrella' => '<path d="M22 12a10.06 10.06 1 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/>',
+			'firstaid' => '<path d="M12 11v4"/><path d="M14 13h-4"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M18 6v14"/><path d="M6 6v14"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+			'glove'    => '<path d="M18 11V6a2 2 0 0 0-4 0v0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>',
+			'tool'     => '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+			'box'      => '<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
 			'whatsapp' => '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.2 8.6c.3-.4.8-.4 1.1 0l.8 1.4c.2.3.1.7-.1 1l-.5.5a6 6 0 0 0 2.5 2.5l.5-.5c.3-.3.7-.3 1-.1l1.4.8c.4.3.4.8 0 1.1l-.6.6c-.5.5-1.3.7-2 .4a9 9 0 0 1-4.7-4.7c-.3-.7-.1-1.5.4-2z"/>',
 		);
 		if ( ! isset( $paths[ $name ] ) ) {
@@ -928,7 +1020,7 @@ class TeDotamos_Template_V1 {
 	}
 
 	public static function icon_names() {
-		return 'truck, shield, building, card, credit, percent, headset, user, cart, quote, check, tag, lock, chat, whatsapp, arrow';
+		return 'truck, shield, building, card, credit, percent, headset, user, cart, quote, check, tag, lock, chat, whatsapp, arrow, boot, shirt, hardhat, umbrella, firstaid, glove, tool, box';
 	}
 
 	// ------------------------------------------------------------------ admin

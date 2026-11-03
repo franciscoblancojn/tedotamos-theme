@@ -21,6 +21,8 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `inc/tedotamos/class-legacy-plugins.php` | Anula el plugin Martfury Custom si sigue activo |
 | `template-parts/headers/layout-1.php` | Gancho `tedotamos_header_nav`: una plantilla (V1) puede reemplazar el menú y el Header Bar |
 | `templates/v1/` + `css/templates/v1.css` + `inc/tedotamos/class-template-v1.php` | Plantilla V1: portada, página de categorías, barra de menú, estilos |
+| `inc/mobile/layout.php` | Gancho `tedotamos_mobile_category_menu`: una plantilla (V1) puede reemplazar la lista del panel "Categoría" del menú inferior en móvil |
+| `inc/tedotamos/class-category-icons.php` | Ícono de cada categoría de producto (automático según el nombre o elegido a mano, term meta `tedotamos_icon`) |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |

@@ -645,3 +645,186 @@ ul.products li.product .product-inner {
 .mf-quick-view-modal.woocommerce .ribbons {
   top: 20px;
 }
+
+/* ------------------------------------------------------------------
+ * TeDotamos: botones de compra de la ficha del producto (simple y variable,
+ * escritorio y móvil). Orden:
+ *   1. Cantidad · Favorito · Comparar (misma línea)
+ *   2. Añadir al carrito
+ *   3. Pagar ahora
+ *   4. Comprar por WhatsApp (va después del formulario, ver .wa-order-class)
+ * ------------------------------------------------------------------ */
+.single-product div.product form.cart:not(.variations_form),
+.single-product div.product .woocommerce-variation-add-to-cart {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 12px !important;
+}
+.single-product div.product .woocommerce-variation-add-to-cart {
+  margin: 0 !important;
+}
+.single-product div.product form.variations_form {
+  margin-bottom: 12px !important;
+}
+.single-product div.product form.cart:not(.variations_form) > *,
+.single-product div.product .woocommerce-variation-add-to-cart > * {
+  grid-column: 1 / -1;
+  order: 5;
+}
+.single-product div.product form.cart:not(.variations_form)::before,
+.single-product div.product form.cart:not(.variations_form)::after,
+.single-product div.product .woocommerce-variation-add-to-cart::before,
+.single-product div.product .woocommerce-variation-add-to-cart::after {
+  display: none !important;
+}
+
+/* 1. Cantidad + Favorito + Comparar */
+.single-product div.product form.cart .quantity {
+  grid-column: 1;
+  order: 1;
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+.single-product div.product form.cart .quantity .label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #666;
+}
+.single-product div.product form.cart .quantity .qty-box {
+  display: inline-flex;
+  align-items: center;
+  width: 150px;
+  height: 50px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.single-product div.product form.cart .quantity .qty-box .qty {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0 !important;
+  padding: 0 !important;
+  text-align: center;
+  font-weight: 600;
+  background: transparent;
+}
+.single-product div.product form.cart .quantity .qty-box .increase,
+.single-product div.product form.cart .quantity .qty-box .decrease {
+  position: static !important;
+  transform: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 42px;
+  height: 100%;
+  cursor: pointer;
+}
+.single-product div.product form.cart .actions-button {
+  grid-column: 2;
+  order: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start !important;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  width: auto !important;
+}
+.single-product div.product form.cart .actions-button > div {
+  margin: 0 !important;
+  float: none !important;
+}
+.single-product div.product form.cart .actions-button a {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 50px !important;
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #dcdcdc !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #333 !important;
+  line-height: 1 !important;
+  transition: border-color 0.2s, color 0.2s;
+}
+.single-product div.product form.cart .actions-button a:hover,
+.single-product div.product form.cart .actions-button a.added {
+  border-color: var(--mf-primary-color, #f57c00) !important;
+  color: var(--mf-primary-color, #f57c00) !important;
+}
+.single-product div.product form.cart .actions-button a [class*="__text"],
+.single-product div.product form.cart .actions-button a::after {
+  display: none !important;
+}
+.single-product div.product form.cart .actions-button a [class*="__icon"] {
+  display: inline-flex;
+  margin: 0 !important;
+}
+.single-product div.product form.cart .actions-button a svg {
+  width: 20px !important;
+  height: 20px !important;
+  fill: currentColor;
+}
+
+/* 2 y 3. Añadir al carrito y Pagar ahora: a todo el ancho */
+.single-product div.product form.cart .single_add_to_cart_button,
+.single-product div.product form.cart .buy-now,
+.single-product div.product form.cart .buy-now-button {
+  float: none !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+  font-size: 17px !important;
+  font-weight: 700;
+  line-height: 1.2 !important;
+  border-radius: 12px !important;
+}
+.single-product div.product form.cart .single_add_to_cart_button {
+  order: 3;
+}
+.single-product div.product form.cart .buy-now,
+.single-product div.product form.cart .buy-now-button {
+  order: 4;
+  background: var(--tdt-dark, #1b1d22) !important;
+  border-color: var(--tdt-dark, #1b1d22) !important;
+  color: #fff !important;
+}
+.single-product div.product form.cart .buy-now:hover,
+.single-product div.product form.cart .buy-now-button:hover {
+  opacity: 0.9;
+}
+
+/* 4. WhatsApp: debajo, a todo el ancho */
+.single-product div.product .wa-order-class {
+  display: block;
+  width: 100%;
+  margin: 0 0 20px;
+}
+.single-product div.product .wa-order-class .wa-order-button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100% !important;
+  height: 54px;
+  margin: 0 !important;
+  font-size: 17px !important;
+  border-radius: 12px !important;
+}

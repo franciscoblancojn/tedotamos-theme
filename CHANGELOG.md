@@ -4,6 +4,15 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 📱 **Panel "Categoría" del menú inferior en el celular**: ahora muestra **todas las categorías principales** (las mismas y en el mismo orden que la página de categorías de la tienda), cada una con su **ícono**. Al tocar una categoría se despliegan sus subcategorías, con "Ver todo en …" para ir a la categoría completa, y al final "Ver todas las categorías". El título del panel pasa a ser "Categorías" y enlaza a esa página. Se configura en Plantilla V1 → Menú móvil · Categorías.
+- 🧩 **Ícono de cada categoría**: se elige solo según el nombre (calzado → bota, dotación → camisa, seguridad → casco, impermeables → paraguas, emergencia → botiquín, ofertas → etiqueta). Se puede cambiar a mano en Productos → Categorías → Editar → "Ícono (TeDotamos)", y la lista de categorías muestra una columna "Ícono".
+
+### 🔁 Cambiado
+- 🛒 **Botones de compra de la ficha del producto** (simples y variables, en computador y celular), en este orden: **cantidad, favorito y comparar** en la misma línea; debajo **Añadir al carrito**; debajo **Pagar ahora** (en oscuro, para distinguirlo); y debajo **Comprar por WhatsApp**, todos a lo ancho. Antes, en computador, favorito y comparar se salían por la derecha y los botones quedaban desalineados.
+
 ## [1.4.7] - 2026-10-30
 
 ### 🐛 Corregido

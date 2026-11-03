@@ -17,15 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $v1         = 'TeDotamos_Template_V1';
-$categories = get_terms(
-	array(
-		'taxonomy'   => 'product_cat',
-		'parent'     => 0,
-		'hide_empty' => true,
-		'menu_order' => 'ASC',
-		'exclude'    => $v1::excluded_default_category(),
-	)
-);
+$categories = $v1::top_categories();
 
 get_header();
 ?>

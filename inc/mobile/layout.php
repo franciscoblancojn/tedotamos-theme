@@ -615,6 +615,11 @@ class Martfury_Mobile {
 
 				<?php
 
+				// TeDotamos: una plantilla (V1) puede reemplazar la lista del panel de categorías.
+				if ( has_action( 'tedotamos_mobile_category_menu' ) ) {
+					do_action( 'tedotamos_mobile_category_menu' );
+				} else {
+
 				$location = '';
 				if ( has_nav_menu( 'category_mobile' ) ) {
 					$location = 'category_mobile';
@@ -631,6 +636,8 @@ class Martfury_Mobile {
 						'walker'         => new Martfury_Mobile_Walker()
 					) );
 				}
+
+				} // TeDotamos: fin del else.
 				?>
 
             </div>
