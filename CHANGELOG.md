@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.4.8] - 2026-11-03
 
 ### ✨ Añadido
 - 📱 **Panel "Categoría" del menú inferior en el celular**: ahora muestra **todas las categorías principales** (las mismas y en el mismo orden que la página de categorías de la tienda), cada una con su **ícono**. Al tocar una categoría se despliegan sus subcategorías, con "Ver todo en …" para ir a la categoría completa, y al final "Ver todas las categorías". El título del panel pasa a ser "Categorías" y enlaza a esa página. Se configura en Plantilla V1 → Menú móvil · Categorías.
