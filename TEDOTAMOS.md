@@ -30,6 +30,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `woocommerce/myaccount/form-login.php` | Botón y pestaña de acceso: "Ingresar" (la traducción de "Log in" es "Mi Cuenta", que usa el header) |
 | `css/templates/v1-fonts.css` + `fonts/inter/` | Fuente Inter alojada en el tema (LiteSpeed elimina Google Fonts) |
 | `js/v1-topbar.js` | Barra superior de V1 como slider en móvil |
+| `js/v1-nav-feedback.js` | Aviso de carga (color + indicador) al tocar una categoría |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |

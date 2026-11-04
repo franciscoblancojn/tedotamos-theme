@@ -413,6 +413,8 @@ class TeDotamos_Template_V1 {
 	}
 
 	public static function enqueue() {
+		$nav_js = get_template_directory() . '/js/v1-nav-feedback.js';
+		wp_enqueue_script( 'tedotamos-v1-nav-feedback', get_template_directory_uri() . '/js/v1-nav-feedback.js', array(), filemtime( $nav_js ), true );
 		if ( self::get( 'topbar_enabled' ) && count( self::lines( 'topbar_items', 3 ) ) > 1 ) {
 			$js = get_template_directory() . '/js/v1-topbar.js';
 			wp_enqueue_script( 'tedotamos-v1-topbar', get_template_directory_uri() . '/js/v1-topbar.js', array(), filemtime( $js ), true );

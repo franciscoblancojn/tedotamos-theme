@@ -2231,6 +2231,103 @@ body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > .tdt-mcats__all .tdt-mcats__ico
 	color: #fff;
 }
 
+/* ------------------------------------------------------------------ aviso de carga al tocar una categoría
+ * js/v1-nav-feedback.js pone .is-navigating en el enlace (y su <li>) al tocarlo: color
+ * principal + indicador girando hasta que abre la página nueva. */
+@keyframes tdt-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+body.tdt-tpl-v1 .tdt-mcats a.is-navigating::after,
+body.tdt-tpl-v1 .tdt-dcats a.is-navigating::after,
+body.tdt-tpl-v1 .tdt-cats a.is-navigating .tdt-cats__body::after,
+body.tdt-tpl-v1 .tdt-cats__children a.is-navigating::after {
+	content: "";
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 16px;
+	height: 16px;
+	margin-left: 8px;
+	vertical-align: -3px;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: tdt-spin .7s linear infinite;
+}
+
+/* Panel del celular (☰ y "Categoría") */
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats a:active,
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats a.is-navigating {
+	background: #fff3e6;
+	background: color-mix(in srgb, var(--tdt-primary, #f57c00) 10%, #fff);
+	color: var(--tdt-primary, #f57c00) !important;
+}
+
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats .sub-menu a.is-navigating {
+	margin: 0 -16px 0 -12px;
+	padding-left: 12px;
+	padding-right: 16px;
+	border-radius: 8px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li > a.is-navigating .tdt-mcats__icon {
+	background: var(--tdt-primary, #f57c00);
+	color: #fff;
+}
+
+body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > li > a.is-navigating .tdt-mcats__chevron {
+	display: none;
+}
+
+/* Desplegable "Categorías" del computador */
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats a.is-navigating {
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > li > a.is-navigating .tdt-dcats__chevron {
+	display: none;
+}
+
+/* Tarjetas de categorías (portada y página de categorías) */
+body.tdt-tpl-v1 .tdt-cats > li.is-navigating {
+	border-color: var(--tdt-primary, #f57c00);
+	box-shadow: 0 0 0 2px var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .tdt-cats a.is-navigating .tdt-cats__body strong {
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .tdt-cats a.is-navigating .tdt-cats__arrow {
+	display: none;
+}
+
+body.tdt-tpl-v1 .tdt-cats a.is-navigating .tdt-cats__body::after {
+	margin: auto 0 0;
+	width: 20px;
+	height: 20px;
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .tdt-cats__children a.is-navigating {
+	border-color: var(--tdt-primary, #f57c00);
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .tdt-cats__children li.is-navigating {
+	box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.tdt-tpl-v1 .is-navigating::after,
+	body.tdt-tpl-v1 .is-navigating .tdt-cats__body::after {
+		animation-duration: 2s;
+	}
+}
+
 /* ------------------------------------------------------------------ responsive */
 
 @media (max-width: 1199px) {

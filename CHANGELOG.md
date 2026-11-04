@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 👆 **Aviso de carga al tocar una categoría**: en el menú de categorías del celular (panel "Categoría" y botón ☰), en el desplegable "Categorías" del computador y en las tarjetas de categorías (portada y página de categorías), la opción tocada se pinta con el color principal y un indicador girando hasta que abre la página nueva, para que se note que está cambiando de página. Tocar una categoría que solo despliega sus subcategorías no la marca, y al volver con "Atrás" se limpia (`js/v1-nav-feedback.js`).
+
 ## [1.5.1] - 2026-11-03
 
 ### 🔁 Cambiado
