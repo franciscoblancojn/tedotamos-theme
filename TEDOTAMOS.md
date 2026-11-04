@@ -25,6 +25,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `inc/frontend/footer.php` | Mismo gancho `tedotamos_mobile_category_menu` en el panel del botón ☰ (`#primary-mobile-nav`) |
 | `inc/functions/header.php` | Filtro `tedotamos_department_menu` en `martfury_extra_department()`: una plantilla (V1) puede reemplazar la lista del desplegable "Categorías" del header |
 | `inc/tedotamos/class-category-icons.php` | Ícono de cada categoría de producto (automático según el nombre o elegido a mano, term meta `tedotamos_icon`) |
+| `js/v1-hero.js` + `images/hero/` | Slider de fondo del banner de la portada (V1) |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |

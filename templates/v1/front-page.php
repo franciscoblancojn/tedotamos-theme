@@ -42,11 +42,11 @@ get_header();
 
 	<?php if ( $v1::get( 'hero_enabled' ) ) : ?>
 		<?php
-		$hero_image = $v1::get( 'hero_image' );
 		$hero_btn1  = $v1::get( 'hero_btn1_url' ) ? $v1::resolve_link( $v1::get( 'hero_btn1_url' ) ) : $cats_url;
 		$hero_btn2  = $tdt_wa_or( 'hero_btn2_url', 'hero_wa_text' );
 		?>
-		<section class="tdt-hero<?php echo $hero_image ? ' has-image' : ''; ?>"<?php echo $hero_image ? ' style="--tdt-hero-image:url(' . esc_url( $hero_image ) . ')"' : ''; ?>>
+		<section class="tdt-hero tdt-hero--home">
+			<?php $v1::render_hero_slides(); ?>
 			<div class="tdt-container tdt-hero__inner">
 				<div class="tdt-hero__content">
 					<?php if ( $v1::get( 'hero_kicker' ) ) : ?>

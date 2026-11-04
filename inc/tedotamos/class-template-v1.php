@@ -79,7 +79,9 @@ class TeDotamos_Template_V1 {
 				'hero_btn2_text' => array( 'type' => 'text', 'label' => 'Botón 2: texto', 'default' => 'Comprar para empresa' ),
 				'hero_btn2_url'  => array( 'type' => 'url', 'label' => 'Botón 2: enlace', 'default' => '', 'help' => 'Vacío = WhatsApp con el mensaje de abajo.' ),
 				'hero_wa_text'   => array( 'type' => 'textarea', 'label' => 'Botón 2: mensaje de WhatsApp', 'default' => 'Hola, quiero comprar para mi empresa. ¿Me pueden asesorar con una cotización?' ),
-				'hero_image'     => array( 'type' => 'image', 'label' => 'Imagen de fondo', 'default' => '', 'help' => 'Recomendado: 1920×700 px o más, con la persona o el producto a la derecha.' ),
+				'hero_slides'    => array( 'type' => 'lines', 'label' => 'Slider de fondo: imágenes', 'default' => '', 'help' => 'Una URL de imagen por línea (súbelas a Medios y copia su URL). Vacío = las imágenes del tema (images/hero/). Recomendado: 1920×800 px, con lo importante a la derecha (el texto va a la izquierda).' ),
+				'hero_interval'  => array( 'type' => 'number', 'label' => 'Slider de fondo: segundos por imagen', 'default' => 6, 'min' => 3, 'max' => 20 ),
+				'hero_image'     => array( 'type' => 'image', 'label' => 'Imagen de fondo (página de categorías)', 'default' => '', 'help' => 'Fondo del encabezado de la página de categorías. La portada usa el slider de arriba.' ),
 				'hero_side_text' => array( 'type' => 'text', 'label' => 'Frase lateral', 'default' => 'Tu seguridad y la de tu equipo empieza aquí' ),
 			),
 			'Portada · Descuentos por volumen' => array(
@@ -394,6 +396,10 @@ class TeDotamos_Template_V1 {
 	}
 
 	public static function enqueue() {
+		if ( self::is_v1_front_page() && self::get( 'hero_enabled' ) && count( self::hero_slides() ) > 1 ) {
+			$js = get_template_directory() . '/js/v1-hero.js';
+			wp_enqueue_script( 'tedotamos-v1-hero', get_template_directory_uri() . '/js/v1-hero.js', array(), filemtime( $js ), true );
+		}
 		$file = get_template_directory() . '/css/templates/v1.css';
 		wp_enqueue_style( 'tedotamos-v1-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap', array(), null );
 		wp_enqueue_style( 'tedotamos-v1', get_template_directory_uri() . '/css/templates/v1.css', array( 'martfury' ), filemtime( $file ) );
@@ -422,6 +428,64 @@ class TeDotamos_Template_V1 {
 			echo '<li>' . ( $url ? '<a href="' . esc_url( $url ) . '">' . $inner . '</a>' : $inner ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 		echo '</ul></div></div>';
+	}
+
+	/**
+	 * Imágenes del slider de fondo del hero de la portada.
+	 *
+	 * @return string[] URLs.
+	 */
+	public static function hero_slides() {
+		$urls = array();
+		foreach ( self::lines( 'hero_slides', 1 ) as $line ) {
+			$url = esc_url_raw( $line[0] );
+			if ( $url ) {
+				$urls[] = $url;
+			}
+		}
+		if ( ! $urls ) {
+			$files = glob( get_template_directory() . '/images/hero/*' );
+			foreach ( $files ? $files : array() as $file ) {
+				if ( preg_match( '/\.(webp|jpe?g|png)$/i', $file ) ) {
+					$urls[] = get_template_directory_uri() . '/images/hero/' . rawurlencode( basename( $file ) );
+				}
+			}
+		}
+
+		return $urls;
+	}
+
+	/**
+	 * Slider de fondo del hero (las imágenes se alternan con js/v1-hero.js; sin JS se queda la
+	 * primera). La primera imagen carga con prioridad (es lo primero que se ve).
+	 */
+	public static function render_hero_slides() {
+		$slides = self::hero_slides();
+		if ( ! $slides ) {
+			return;
+		}
+		echo '<div class="tdt-hero__slides" data-interval="' . (int) self::get( 'hero_interval' ) . '">';
+		foreach ( $slides as $i => $url ) {
+			printf(
+				'<img class="tdt-hero__slide%s" src="%s" alt="" aria-hidden="true" decoding="async"%s>',
+				0 === $i ? ' is-active' : '',
+				esc_url( $url ),
+				0 === $i ? ' fetchpriority="high"' : ' loading="lazy"'
+			);
+		}
+		echo '</div>';
+		if ( count( $slides ) > 1 ) {
+			echo '<div class="tdt-hero__dots" role="tablist" aria-label="Imágenes del banner">';
+			foreach ( $slides as $i => $url ) {
+				printf(
+					'<button type="button" class="tdt-hero__dot%s" aria-label="Imagen %d"%s></button>',
+					0 === $i ? ' is-active' : '',
+					$i + 1,
+					0 === $i ? ' aria-current="true"' : ''
+				);
+			}
+			echo '</div>';
+		}
 	}
 
 	public static function is_v1_front_page() {

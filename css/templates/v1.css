@@ -411,6 +411,79 @@ body.tdt-tpl-v1 .tdt-hero.has-image {
 		var(--tdt-hero-image) center right / cover no-repeat;
 }
 
+/* Slider de fondo de la portada (render_hero_slides() + js/v1-hero.js): imágenes apiladas
+   que se alternan con un fundido; encima, un degradado oscuro para que se lea el texto. */
+body.tdt-tpl-v1 .tdt-hero__slides {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: #1b1d22;
+}
+
+body.tdt-tpl-v1 .tdt-hero__slides::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(10, 11, 14, .92) 0%, rgba(10, 11, 14, .78) 38%, rgba(10, 11, 14, .25) 70%, rgba(10, 11, 14, .1) 100%);
+}
+
+body.tdt-tpl-v1 .tdt-hero__slide {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	object-fit: cover;
+	object-position: center right;
+	opacity: 0;
+	transform: scale(1.04);
+	transition: opacity 1.2s ease, transform 7s ease-out;
+}
+
+body.tdt-tpl-v1 .tdt-hero__slide.is-active {
+	opacity: 1;
+	transform: none;
+}
+
+body.tdt-tpl-v1 .tdt-hero__dots {
+	position: absolute;
+	left: 50%;
+	bottom: 56px;
+	z-index: 2;
+	display: flex;
+	gap: 8px;
+	transform: translateX(-50%);
+}
+
+body.tdt-tpl-v1 .tdt-hero__dot {
+	width: 10px;
+	height: 10px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, .45);
+	cursor: pointer;
+	transition: width .3s, background-color .3s;
+}
+
+body.tdt-tpl-v1 .tdt-hero__dot.is-active {
+	width: 28px;
+	background: var(--tdt-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.tdt-tpl-v1 .tdt-hero__slide {
+		transform: none;
+		transition: none;
+	}
+}
+
+body.tdt-tpl-v1 .tdt-hero--home .tdt-hero__inner {
+	z-index: 1;
+	min-height: 560px;
+}
+
 body.tdt-tpl-v1 .tdt-hero__inner {
 	position: relative;
 	display: flex;
@@ -2200,6 +2273,23 @@ body.tdt-tpl-v1 .primary-mobile-nav .tdt-mcats > .tdt-mcats__all .tdt-mcats__ico
 		min-height: 0;
 		padding-top: 40px;
 		padding-bottom: 72px;
+	}
+
+	body.tdt-tpl-v1 .tdt-hero--home .tdt-hero__inner {
+		min-height: 520px;
+		padding-bottom: 96px;
+	}
+
+	body.tdt-tpl-v1 .tdt-hero__slides::after {
+		background: linear-gradient(180deg, rgba(10, 11, 14, .82) 0%, rgba(10, 11, 14, .72) 60%, rgba(10, 11, 14, .55) 100%);
+	}
+
+	body.tdt-tpl-v1 .tdt-hero__slide {
+		object-position: 70% center;
+	}
+
+	body.tdt-tpl-v1 .tdt-hero__dots {
+		bottom: 52px;
 	}
 
 	body.tdt-tpl-v1 .tdt-section {

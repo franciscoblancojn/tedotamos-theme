@@ -4,6 +4,15 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 🖼️ **Banner de la portada con slider de fondo**: las imágenes se alternan con un fundido cada 6 segundos (configurable) y se pueden elegir con los puntos de abajo. Lleva un degradado oscuro a la izquierda para que el texto se lea. Por defecto usa las imágenes del tema (`images/hero/`, en WebP); se pueden cambiar en Plantilla V1 → Portada · Hero → "Slider de fondo: imágenes" (una URL por línea). No avanza solo si el visitante pidió reducir el movimiento y se pausa con la pestaña oculta.
+
+### 🔁 Cambiado
+- 🖼️ El banner de la portada es más alto: 560 px en computador (antes 440) y 520 px en celular.
+- 🖼️ "Imagen de fondo" del hero pasa a ser solo el fondo del encabezado de la página de categorías (la portada usa el slider).
+
 ## [1.4.10] - 2026-11-03
 
 ### ✨ Añadido
