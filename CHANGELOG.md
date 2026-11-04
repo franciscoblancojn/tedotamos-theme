@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.1] - 2026-11-03
 
 ### 🔁 Cambiado
 - 📝 Página de categorías: el texto del banner es ahora "¡Todo lo que necesitas para tu empresa, en un solo lugar! 👇 ¡Explora nuestras categorías y encuentra las mejores opciones para ti!", editable en Plantilla V1 → Tienda → "Página de categorías: texto del banner" (antes repetía el texto del banner de la portada).
