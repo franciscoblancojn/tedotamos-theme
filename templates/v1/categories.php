@@ -39,7 +39,7 @@ get_header();
 						}
 					}
 					if ( ! $has_content ) {
-						echo '<p>' . esc_html( $v1::get( 'hero_text' ) ) . '</p>';
+						echo wpautop( esc_html( $v1::get( 'categories_page_text' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					}
 					?>
 				</div>

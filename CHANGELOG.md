@@ -4,6 +4,12 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🔁 Cambiado
+- 📝 Página de categorías: el texto del banner es ahora "¡Todo lo que necesitas para tu empresa, en un solo lugar! 👇 ¡Explora nuestras categorías y encuentra las mejores opciones para ti!", editable en Plantilla V1 → Tienda → "Página de categorías: texto del banner" (antes repetía el texto del banner de la portada).
+- 📱 **Barra superior** ("Envíos a todo el país…", "Garantía…", "Ventas corporativas"): más espacio entre el ícono y el texto, y en el celular pasa a ser un **slider** que muestra un mensaje a la vez y cambia cada 4 segundos (antes solo se veía el primero).
+
 ## [1.5.0] - 2026-11-03
 
 ### ✨ Añadido

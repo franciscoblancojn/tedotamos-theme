@@ -41,6 +41,7 @@ class TeDotamos_Template_V1 {
 				'quote_whatsapp' => array( 'type' => 'phone', 'label' => 'Número (con indicativo, solo números)', 'default' => '573212151598', 'help' => 'Lo usan todos los botones de WhatsApp de la portada. Cada botón tiene su propio mensaje, en su sección.' ),
 			),
 			'Tienda'            => array(
+				'categories_page_text' => array( 'type' => 'textarea', 'label' => 'Página de categorías: texto del banner', 'default' => "¡Todo lo que necesitas para tu empresa, en un solo lugar!\n\n👇 ¡Explora nuestras categorías y encuentra las mejores opciones para ti!", 'help' => 'Una línea en blanco separa párrafos. Si la página tiene contenido escrito en el editor, se usa ese contenido en su lugar.' ),
 				'catalog_per_page' => array( 'type' => 'number', 'label' => 'Productos por página (tienda, categorías, marcas y búsqueda)', 'default' => 24, 'min' => 0, 'max' => 100, 'help' => 'Con más productos por página la tienda tarda mucho en cargar (con todos, 182, el servidor tardaba 24 s). 0 = usar el valor del Customizer de Martfury.' ),
 			),
 			'Barra superior'    => array(
@@ -412,6 +413,10 @@ class TeDotamos_Template_V1 {
 	}
 
 	public static function enqueue() {
+		if ( self::get( 'topbar_enabled' ) && count( self::lines( 'topbar_items', 3 ) ) > 1 ) {
+			$js = get_template_directory() . '/js/v1-topbar.js';
+			wp_enqueue_script( 'tedotamos-v1-topbar', get_template_directory_uri() . '/js/v1-topbar.js', array(), filemtime( $js ), true );
+		}
 		if ( self::is_v1_front_page() && self::get( 'hero_enabled' ) && count( self::hero_slides() ) > 1 ) {
 			$js = get_template_directory() . '/js/v1-hero.js';
 			wp_enqueue_script( 'tedotamos-v1-hero', get_template_directory_uri() . '/js/v1-hero.js', array(), filemtime( $js ), true );
@@ -473,11 +478,16 @@ class TeDotamos_Template_V1 {
 		if ( ! $items ) {
 			return;
 		}
+		// En móvil es un slider (js/v1-topbar.js): se ve un elemento a la vez; sin JS, el primero.
 		echo '<div class="tdt-topbar"><div class="tdt-container"><ul class="tdt-topbar__items">';
-		foreach ( $items as $item ) {
+		foreach ( $items as $i => $item ) {
 			list( $icon, $text, $url ) = $item;
 			$inner = self::icon( $icon ) . '<span>' . esc_html( $text ) . '</span>';
-			echo '<li>' . ( $url ? '<a href="' . esc_url( $url ) . '">' . $inner . '</a>' : $inner ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			printf(
+				'<li class="tdt-topbar__slide%s">%s</li>',
+				0 === $i ? ' is-active' : '',
+				$url ? '<a class="tdt-topbar__item" href="' . esc_url( $url ) . '">' . $inner . '</a>' : '<span class="tdt-topbar__item">' . $inner . '</span>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			);
 		}
 		echo '</ul></div></div>';
 	}
