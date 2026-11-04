@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.0] - 2026-11-03
 
 ### ✨ Añadido
 - 🛍️ **Productos por página** en Plantilla V1 → Tienda (24 por defecto). La tienda mostraba los 182 productos en una sola página: el servidor tardaba 24 s y el HTML pesaba 1,8 MB. Se aplica a la tienda, las categorías, las marcas y la búsqueda (0 = usar el valor del Customizer).
