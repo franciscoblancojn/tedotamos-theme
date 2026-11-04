@@ -4,6 +4,19 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- 🛍️ **Productos por página** en Plantilla V1 → Tienda (24 por defecto). La tienda mostraba los 182 productos en una sola página: el servidor tardaba 24 s y el HTML pesaba 1,8 MB. Se aplica a la tienda, las categorías, las marcas y la búsqueda (0 = usar el valor del Customizer).
+
+### 🔁 Cambiado
+- 🔤 **Fuente Inter alojada en el tema** (`fonts/inter/`, licencia OFL), con precarga. Antes venía de Google Fonts y la opción "Eliminar Google Fonts" de LiteSpeed la quitaba, así que el sitio se veía en Roboto (que llegaba por Elementor). Con V1 tampoco se piden ya Work Sans ni Libre Baskerville a Google.
+- ⚡ **Portada V1 sin Elementor**: ya no carga el JS y el CSS de Elementor (unos 60 KB de JS, más las fuentes Roboto), que la portada V1 no usa. Se quita también el error "elementorFrontendConfig is not defined".
+- 🔐 Mi cuenta: el botón y la pestaña de acceso dicen "Ingresar" (antes "Mi Cuenta").
+
+### 🐛 Corregido
+- 🌐 **Textos en inglés**: "Filter", "Username or email address", "Password", "There are no reviews yet.", "Reviews", "Clear", "Wishlist", "Quick View", "Compare products", los botones del visor de fotos, "The wishlist is empty.", "Return to shop" y las etiquetas de accesibilidad de favoritos, comparar y rango de precios. Solo se traducen si no tienen traducción (no pisa Loco Translate); la lista está en `inc/tedotamos/class-translations.php`.
+
 ## [1.4.12] - 2026-11-03
 
 ### 🔁 Cambiado

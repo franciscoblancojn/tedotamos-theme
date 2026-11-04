@@ -40,6 +40,9 @@ class TeDotamos_Template_V1 {
 			'WhatsApp'          => array(
 				'quote_whatsapp' => array( 'type' => 'phone', 'label' => 'Número (con indicativo, solo números)', 'default' => '573212151598', 'help' => 'Lo usan todos los botones de WhatsApp de la portada. Cada botón tiene su propio mensaje, en su sección.' ),
 			),
+			'Tienda'            => array(
+				'catalog_per_page' => array( 'type' => 'number', 'label' => 'Productos por página (tienda, categorías, marcas y búsqueda)', 'default' => 24, 'min' => 0, 'max' => 100, 'help' => 'Con más productos por página la tienda tarda mucho en cargar (con todos, 182, el servidor tardaba 24 s). 0 = usar el valor del Customizer de Martfury.' ),
+			),
 			'Barra superior'    => array(
 				'topbar_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar la barra superior', 'default' => 1 ),
 				'topbar_items'   => array(
@@ -278,6 +281,8 @@ class TeDotamos_Template_V1 {
 		add_filter( 'body_class', array( __CLASS__, 'body_class' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ), 30 );
 		add_action( 'martfury_before_header', array( __CLASS__, 'render_topbar' ), 1 );
+		add_action( 'wp_head', array( __CLASS__, 'preload_font' ), 2 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'dequeue_elementor_on_home' ), 999 );
 		add_filter( 'template_include', array( __CLASS__, 'front_page_template' ), 100 );
 		if ( self::get( 'nav_enabled' ) ) {
 			add_action( 'tedotamos_header_nav', array( __CLASS__, 'render_nav' ) );
@@ -355,8 +360,16 @@ class TeDotamos_Template_V1 {
 				return self::get( 'primary_color' );
 			case 'footer_skin':
 				return 'light'; // el fondo oscuro lo pone v1.css
+			case 'font_families_typo':
+				return array(); // V1 usa Inter (en el tema): sin Work Sans / Libre Baskerville de Google ni sus preconnect
 			case 'logo_sticky':
 				return ''; // el header fijo usa el mismo logo de V1
+			case 'products_per_page_1': // un valor por cada "Catalog Layout" de Martfury
+			case 'products_per_page_3':
+			case 'products_per_page_10':
+			case 'products_per_page_12':
+				$per_page = (int) self::get( 'catalog_per_page' );
+				return $per_page > 0 ? $per_page : $value;
 			case 'navigation_cat_panel_mobile_title':
 				return self::get( 'mcats_enabled' ) && self::get( 'mcats_title' ) ? self::get( 'mcats_title' ) : $value;
 			case 'header_menu_panel_mobile_title': // panel del botón ☰ (ventana estrecha sin versión móvil)
@@ -404,7 +417,9 @@ class TeDotamos_Template_V1 {
 			wp_enqueue_script( 'tedotamos-v1-hero', get_template_directory_uri() . '/js/v1-hero.js', array(), filemtime( $js ), true );
 		}
 		$file = get_template_directory() . '/css/templates/v1.css';
-		wp_enqueue_style( 'tedotamos-v1-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap', array(), null );
+		// Inter alojada en el tema (LiteSpeed elimina los enlaces a Google Fonts).
+		$fonts = get_template_directory() . '/css/templates/v1-fonts.css';
+		wp_enqueue_style( 'tedotamos-v1-fonts', get_template_directory_uri() . '/css/templates/v1-fonts.css', array(), filemtime( $fonts ) );
 		wp_enqueue_style( 'tedotamos-v1', get_template_directory_uri() . '/css/templates/v1.css', array( 'martfury' ), filemtime( $file ) );
 		wp_add_inline_style(
 			'tedotamos-v1',
@@ -414,6 +429,40 @@ class TeDotamos_Template_V1 {
 				self::get( 'dark_color' )
 			)
 		);
+	}
+
+	/**
+	 * Precarga Inter (subconjunto latino): es la fuente de todo el texto.
+	 */
+	public static function preload_font() {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( get_template_directory_uri() . '/fonts/inter/inter-latin.woff2' )
+		);
+	}
+
+	/**
+	 * La portada V1 es una plantilla propia: no pinta el contenido de Elementor de la página de
+	 * inicio, pero Elementor seguía cargando su JS y CSS (unos 60 KB de JS, más fuentes Roboto) y
+	 * su JS fallaba ("elementorFrontendConfig is not defined") porque nunca se imprime su
+	 * configuración. Se quitan solo en la portada V1. Se deja el CSS del kit (post-8: variables
+	 * globales) y Font Awesome (lo usa Martfury).
+	 */
+	public static function dequeue_elementor_on_home() {
+		if ( ! self::is_v1_front_page() ) {
+			return;
+		}
+		foreach ( array( 'elementor-frontend', 'elementor-frontend-modules', 'elementor-webpack-runtime', 'martfury-elementor', 'elementor-pro-frontend', 'pro-elements-handlers' ) as $handle ) {
+			wp_dequeue_script( $handle );
+		}
+		$styles = array( 'elementor-frontend', 'widget-image', 'elementor-gf-local-roboto', 'elementor-gf-local-robotoslab' );
+		$post   = get_queried_object_id();
+		if ( $post ) {
+			$styles[] = 'elementor-post-' . $post;
+		}
+		foreach ( $styles as $handle ) {
+			wp_dequeue_style( $handle );
+		}
 	}
 
 	public static function render_topbar() {

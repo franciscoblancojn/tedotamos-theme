@@ -51,7 +51,7 @@ if ( $login_form_layout == 'promotion' ) {
             <div class="<?php echo esc_attr( $login_layout ); ?>">
                 <ul class="tabs-nav">
                     <li class="active"><a href="#"
-                                          class="<?php echo esc_attr( $login_class ); ?>"><?php esc_html_e( 'Log in', 'martfury' ); ?></a>
+                                          class="<?php echo esc_attr( $login_class ); ?>"><?php // TeDotamos: pestaña "Ingresar" (ver el botón). ?>Ingresar</a>
                     </li>
 					<?php if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) : ?>
                         <li><a class="<?php echo esc_attr( $register_class ); ?>"
@@ -97,7 +97,7 @@ if ( $login_form_layout == 'promotion' ) {
 
 								<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
                                 <button type="submit" class="woocommerce-Button button" name="login"
-                                        value="<?php esc_attr_e( 'Log in', 'martfury' ); ?>"><?php esc_html_e( 'Log in', 'martfury' ); ?></button>
+                                        value="Ingresar"><?php // TeDotamos: "Log in" está traducido como "Mi Cuenta" (lo usa el header); aquí debe decir "Ingresar". ?>Ingresar</button>
                             </p>
 
 							<?php do_action( 'woocommerce_login_form_end' ); ?>
