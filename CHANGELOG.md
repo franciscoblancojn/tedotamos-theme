@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🔁 Cambiado
+- 🖼️ **Imágenes del slider de la portada con editor**: en Plantilla V1 → Portada · Hero → "Slider de fondo: imágenes" ahora se ven las miniaturas; "Añadir imágenes" abre la biblioteca de medios (se pueden elegir varias), se ordenan arrastrándolas, se quitan con la ✕ y "Restaurar las del tema" vuelve a las 2 que trae el tema (las que hay por defecto). Si se quitan todas, se usan las del tema. Antes había que pegar las URL a mano, una por línea (lo guardado así se sigue leyendo).
+
 ## [1.4.11] - 2026-11-03
 
 ### ✨ Añadido

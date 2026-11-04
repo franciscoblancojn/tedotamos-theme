@@ -79,7 +79,7 @@ class TeDotamos_Template_V1 {
 				'hero_btn2_text' => array( 'type' => 'text', 'label' => 'Botón 2: texto', 'default' => 'Comprar para empresa' ),
 				'hero_btn2_url'  => array( 'type' => 'url', 'label' => 'Botón 2: enlace', 'default' => '', 'help' => 'Vacío = WhatsApp con el mensaje de abajo.' ),
 				'hero_wa_text'   => array( 'type' => 'textarea', 'label' => 'Botón 2: mensaje de WhatsApp', 'default' => 'Hola, quiero comprar para mi empresa. ¿Me pueden asesorar con una cotización?' ),
-				'hero_slides'    => array( 'type' => 'lines', 'label' => 'Slider de fondo: imágenes', 'default' => '', 'help' => 'Una URL de imagen por línea (súbelas a Medios y copia su URL). Vacío = las imágenes del tema (images/hero/). Recomendado: 1920×800 px, con lo importante a la derecha (el texto va a la izquierda).' ),
+				'hero_slides'    => array( 'type' => 'gallery', 'label' => 'Slider de fondo: imágenes', 'default' => self::theme_hero_images(), 'help' => 'Arrastra para cambiar el orden. Sin imágenes = las del tema (images/hero/). Recomendado: 1920×800 px o más, con lo importante a la derecha (el texto va a la izquierda).' ),
 				'hero_interval'  => array( 'type' => 'number', 'label' => 'Slider de fondo: segundos por imagen', 'default' => 6, 'min' => 3, 'max' => 20 ),
 				'hero_image'     => array( 'type' => 'image', 'label' => 'Imagen de fondo (página de categorías)', 'default' => '', 'help' => 'Fondo del encabezado de la página de categorías. La portada usa el slider de arriba.' ),
 				'hero_side_text' => array( 'type' => 'text', 'label' => 'Frase lateral', 'default' => 'Tu seguridad y la de tu equipo empieza aquí' ),
@@ -249,6 +249,9 @@ class TeDotamos_Template_V1 {
 					break;
 				case 'terms':
 					$clean[ $key ] = array_values( array_filter( array_map( 'sanitize_title', (array) $value ) ) );
+					break;
+				case 'gallery':
+					$clean[ $key ] = array_values( array_filter( array_map( 'esc_url_raw', array_map( 'trim', (array) $value ) ) ) );
 					break;
 				case 'term':
 					$clean[ $key ] = sanitize_title( $value );
@@ -436,19 +439,27 @@ class TeDotamos_Template_V1 {
 	 * @return string[] URLs.
 	 */
 	public static function hero_slides() {
-		$urls = array();
-		foreach ( self::lines( 'hero_slides', 1 ) as $line ) {
-			$url = esc_url_raw( $line[0] );
-			if ( $url ) {
-				$urls[] = $url;
-			}
+		$value = self::get( 'hero_slides' );
+		if ( is_string( $value ) ) {
+			// 1.4.11 guardaba una URL por línea (campo de texto).
+			$value = preg_split( '/\r\n|\r|\n/', $value );
 		}
-		if ( ! $urls ) {
-			$files = glob( get_template_directory() . '/images/hero/*' );
-			foreach ( $files ? $files : array() as $file ) {
-				if ( preg_match( '/\.(webp|jpe?g|png)$/i', $file ) ) {
-					$urls[] = get_template_directory_uri() . '/images/hero/' . rawurlencode( basename( $file ) );
-				}
+		$urls = array_values( array_filter( array_map( 'esc_url_raw', array_map( 'trim', (array) $value ) ) ) );
+
+		return $urls ? $urls : self::theme_hero_images();
+	}
+
+	/**
+	 * Imágenes del slider incluidas en el tema (images/hero/), en orden alfabético.
+	 *
+	 * @return string[] URLs.
+	 */
+	public static function theme_hero_images() {
+		$urls  = array();
+		$files = glob( get_template_directory() . '/images/hero/*' );
+		foreach ( $files ? $files : array() as $file ) {
+			if ( preg_match( '/\.(webp|jpe?g|png)$/i', $file ) ) {
+				$urls[] = get_template_directory_uri() . '/images/hero/' . rawurlencode( basename( $file ) );
 			}
 		}
 
@@ -1288,8 +1299,35 @@ class TeDotamos_Template_V1 {
 		}
 	}
 
+	/**
+	 * Campo galería: miniaturas ordenables (arrastrar), quitar, "Añadir imágenes" (biblioteca de
+	 * medios, selección múltiple) y "Restaurar las del tema". Envía un array de URLs.
+	 */
+	private static function render_gallery_field( $id, $field, $urls, $defaults ) {
+		printf(
+			'<div class="tdt-gallery" id="%s" data-name="%s" data-defaults="%s">',
+			esc_attr( $id ),
+			esc_attr( $field . '[]' ),
+			esc_attr( wp_json_encode( array_values( (array) $defaults ) ) )
+		);
+		echo '<ul class="tdt-gallery__list">';
+		foreach ( $urls as $url ) {
+			printf(
+				'<li class="tdt-gallery__item"><img src="%1$s" alt=""><input type="hidden" name="%2$s" value="%1$s"><button type="button" class="tdt-gallery__remove" aria-label="Quitar">&times;</button></li>',
+				esc_url( $url ),
+				esc_attr( $field . '[]' )
+			);
+		}
+		echo '</ul>';
+		echo '<p class="tdt-gallery__empty description">Sin imágenes: se usarán las del tema.</p>';
+		echo '<button type="button" class="button tdt-gallery__add">Añadir imágenes</button> ';
+		echo '<button type="button" class="button-link tdt-gallery__reset">Restaurar las del tema</button>';
+		echo '</div>';
+	}
+
 	public static function render_settings() {
 		wp_enqueue_media();
+		wp_enqueue_script( 'jquery-ui-sortable' );
 		$name = self::OPTION;
 		self::render_setup();
 		?>
@@ -1336,6 +1374,9 @@ class TeDotamos_Template_V1 {
 									case 'term':
 										self::render_terms_field( $id, $field, $f, $value );
 										break;
+									case 'gallery':
+										self::render_gallery_field( $id, $field, self::hero_slides(), $f['default'] );
+										break;
 									case 'image':
 										printf(
 											'<input type="url" id="%1$s" name="%2$s" value="%3$s" class="regular-text"> <button type="button" class="button tdt-media" data-target="%1$s">Elegir imagen</button>',
@@ -1369,8 +1410,58 @@ class TeDotamos_Template_V1 {
 					} );
 					frame.open();
 				} );
+
+				// Campo galería (slider del hero).
+				$( '.tdt-gallery' ).each( function () {
+					var $box = $( this );
+					var $list = $box.find( '.tdt-gallery__list' );
+					var name = $box.data( 'name' );
+					function item( url ) {
+						var $li = $( '<li class="tdt-gallery__item"><img alt=""><input type="hidden"><button type="button" class="tdt-gallery__remove" aria-label="Quitar">&times;</button></li>' );
+						$li.find( 'img' ).attr( 'src', url );
+						$li.find( 'input' ).attr( 'name', name ).val( url );
+						return $li;
+					}
+					function empty() {
+						$box.find( '.tdt-gallery__empty' ).toggle( ! $list.children().length );
+					}
+					$list.sortable( { items: '> li', cursor: 'move', tolerance: 'pointer' } );
+					$box.on( 'click', '.tdt-gallery__remove', function () {
+						$( this ).closest( 'li' ).remove();
+						empty();
+					} );
+					$box.on( 'click', '.tdt-gallery__add', function ( e ) {
+						e.preventDefault();
+						var frame = wp.media( { title: 'Imágenes del slider', button: { text: 'Añadir al slider' }, multiple: 'add', library: { type: 'image' } } );
+						frame.on( 'select', function () {
+							frame.state().get( 'selection' ).each( function ( att ) {
+								$list.append( item( att.toJSON().url ) );
+							} );
+							empty();
+						} );
+						frame.open();
+					} );
+					$box.on( 'click', '.tdt-gallery__reset', function ( e ) {
+						e.preventDefault();
+						$list.empty();
+						$.each( $box.data( 'defaults' ) || [], function ( i, url ) {
+							$list.append( item( url ) );
+						} );
+						empty();
+					} );
+					empty();
+				} );
 			} );
 		</script>
+		<style>
+			.tdt-gallery__list { margin: 0 0 10px; padding: 0; list-style: none; font-size: 0; }
+			.tdt-gallery__item { position: relative; display: inline-block; vertical-align: top; width: 200px; height: 90px; margin: 0 10px 10px 0; border: 1px solid #c3c4c7; border-radius: 4px; overflow: hidden; background: #1b1d22; cursor: move; }
+			.tdt-gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+			.tdt-gallery__remove { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: rgba(0,0,0,.7); color: #fff; font-size: 16px; line-height: 24px; cursor: pointer; }
+			.tdt-gallery__remove:hover { background: #d63638; }
+			.tdt-gallery__item.ui-sortable-placeholder { visibility: visible !important; border: 2px dashed #2271b1; background: #f0f6fc; }
+			.tdt-gallery__empty { margin: 0 0 10px; font-style: italic; }
+		</style>
 		<?php
 	}
 }
