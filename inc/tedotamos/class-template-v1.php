@@ -59,8 +59,9 @@ class TeDotamos_Template_V1 {
 					'default' => "Ofertas|{ofertas}\nMarcas|{marcas}",
 				),
 			),
-			'Menú móvil · Categorías' => array(
-				'mcats_enabled'  => array( 'type' => 'checkbox', 'label' => 'En el panel "Categoría" del menú inferior del celular, mostrar todas las categorías (como la página de categorías) con su ícono, en lugar del menú de Martfury', 'default' => 1, 'help' => 'El ícono de cada categoría se elige solo según el nombre; se puede cambiar en Productos → Categorías → Editar → "Ícono (TeDotamos)".' ),
+			'Menú de categorías' => array(
+				'dcats_enabled'  => array( 'type' => 'checkbox', 'label' => 'Computador: en el desplegable "Categorías" del header, mostrar todas las categorías con su ícono (y sus subcategorías al pasar el ratón), en lugar del menú "Comprar por departamento"', 'default' => 1 ),
+				'mcats_enabled'  => array( 'type' => 'checkbox', 'label' => 'Celular: en el panel "Categoría" del menú inferior del celular, mostrar todas las categorías (como la página de categorías) con su ícono, en lugar del menú de Martfury', 'default' => 1, 'help' => 'El ícono de cada categoría se elige solo según el nombre; se puede cambiar en Productos → Categorías → Editar → "Ícono (TeDotamos)".' ),
 				'mcats_title'    => array( 'type' => 'text', 'label' => 'Título del panel', 'default' => 'Categorías', 'help' => 'Enlaza a la página de categorías.' ),
 				'mcats_children' => array( 'type' => 'checkbox', 'label' => 'Mostrar las subcategorías (se despliegan al tocar la categoría)', 'default' => 1 ),
 			),
@@ -278,6 +279,9 @@ class TeDotamos_Template_V1 {
 		}
 		if ( self::get( 'mcats_enabled' ) ) {
 			add_action( 'tedotamos_mobile_category_menu', array( __CLASS__, 'render_mobile_categories' ) );
+		}
+		if ( self::get( 'dcats_enabled' ) ) {
+			add_filter( 'tedotamos_department_menu', array( __CLASS__, 'department_menu' ) );
 		}
 		// Prioridad 99: la versión móvil de Martfury (Martfury_Mobile, en after_setup_theme:100)
 		// registra sus propios filtros de logo después y, con la misma prioridad, ganaba en móvil.
@@ -699,6 +703,58 @@ class TeDotamos_Template_V1 {
 			self::icon( 'chevron', 'tdt-icon tdt-mcats__chevron' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 		echo '</ul>';
+	}
+
+	/**
+	 * Desplegable "Categorías" del header en computador (filtro tedotamos_department_menu en
+	 * inc/functions/header.php). Cada categoría con su ícono; al pasar el ratón se abre a la
+	 * derecha un panel con sus subcategorías. Sin <ul> directo dentro de los <li> para que no
+	 * se apliquen los submenús de Martfury (.menu li:hover > ul).
+	 */
+	public static function department_menu() {
+		ob_start();
+		echo '<ul class="menu tdt-dcats">';
+		foreach ( self::top_categories() as $cat ) {
+			$link     = get_term_link( $cat );
+			$children = get_terms( array( 'taxonomy' => 'product_cat', 'parent' => $cat->term_id, 'hide_empty' => true, 'menu_order' => 'ASC' ) );
+			$children = is_wp_error( $children ) ? array() : $children;
+			printf(
+				'<li class="menu-item tdt-dcats__item%s"><a href="%s"><span class="tdt-dcats__icon">%s</span><span class="tdt-dcats__name">%s</span>%s</a>',
+				$children ? ' tdt-dcats__item--parent' : '',
+				esc_url( $link ),
+				TeDotamos_Category_Icons::svg( $cat ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				esc_html( $cat->name ),
+				$children ? self::icon( 'chevron', 'tdt-icon tdt-dcats__chevron' ) : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			);
+			if ( $children ) {
+				echo '<div class="tdt-dcats__panel">';
+				printf(
+					'<a class="tdt-dcats__panel-title" href="%s">%s<span>Ver todo %s</span></a>',
+					esc_url( $link ),
+					esc_html( $cat->name ),
+					self::icon( 'arrow' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				);
+				echo '<div class="tdt-dcats__links">';
+				foreach ( $children as $child ) {
+					printf(
+						'<a href="%s">%s <span class="tdt-dcats__count">(%d)</span></a>',
+						esc_url( get_term_link( $child ) ),
+						esc_html( $child->name ),
+						(int) $child->count
+					);
+				}
+				echo '</div></div>';
+			}
+			echo '</li>';
+		}
+		printf(
+			'<li class="menu-item tdt-dcats__all"><a href="%s"><span class="tdt-dcats__icon">%s</span><span class="tdt-dcats__name">Ver todas las categorías</span></a></li>',
+			esc_url( self::categories_url() ),
+			self::icon( 'cart' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+		echo '</ul>';
+
+		return ob_get_clean();
 	}
 
 	/**

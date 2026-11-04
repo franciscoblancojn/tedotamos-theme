@@ -780,7 +780,8 @@ if ( ! function_exists( 'martfury_extra_department' ) ) :
 			return;
 		}
 
-		if ( ! has_nav_menu( $location ) ) {
+		// TeDotamos: con el filtro tedotamos_department_menu (plantilla V1) no hace falta el menú de WordPress.
+		if ( ! has_nav_menu( $location ) && ! has_filter( 'tedotamos_department_menu' ) ) {
 			return;
 		}
 
@@ -813,6 +814,11 @@ if ( ! function_exists( 'martfury_extra_department' ) ) :
             <div class="toggle-product-cats nav" <?php echo esc_attr( $cat_style ); ?>>
 				<?php
 				global $martfury_department_menu;
+
+				// TeDotamos: una plantilla (V1) puede reemplazar la lista del desplegable "Categorías".
+				if ( empty( $martfury_department_menu ) && has_filter( 'tedotamos_department_menu' ) ) {
+					$martfury_department_menu = apply_filters( 'tedotamos_department_menu', '' );
+				}
 
 				if ( empty( $martfury_department_menu ) ) {
 

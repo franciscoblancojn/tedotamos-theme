@@ -1849,6 +1849,171 @@ body.tdt-tpl-v1 .dpv-tiers__contact a:hover {
 	color: var(--tdt-dark);
 }
 
+/* ------------------------------------------------------------------ header: desplegable "Categorías" (computador)
+ * department_menu(): todas las categorías con su ícono; al pasar el ratón, panel a la derecha
+ * con las subcategorías. */
+body.tdt-tpl-v1 .site-header .products-cats-menu .toggle-product-cats .menu.tdt-dcats {
+	position: relative;
+	padding: 8px 0;
+	border: 1px solid #e6e8eb;
+	border-radius: 0 0 12px 12px;
+	background: #fff;
+	box-shadow: 0 12px 30px rgba(17, 24, 39, 0.12);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .menu.tdt-dcats > li {
+	position: static;
+	padding: 0 8px;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .menu.tdt-dcats > li:first-child,
+body.tdt-tpl-v1 .site-header .products-cats-menu .menu.tdt-dcats > li:last-child {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .menu.tdt-dcats > li > a {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 7px 8px;
+	border-radius: 10px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.25;
+	color: #1b1d22;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .menu.tdt-dcats > li:hover > a {
+	background: #f5f6f8;
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 34px;
+	height: 34px;
+	border-radius: 10px;
+	background: #fff3e6;
+	background: color-mix(in srgb, var(--tdt-primary, #f57c00) 12%, #fff);
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__icon .tdt-icon {
+	width: 19px;
+	height: 19px;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__name {
+	flex: 1;
+	min-width: 0;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__chevron {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	color: #a0a4ab;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > li:hover .tdt-dcats__chevron {
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > .tdt-dcats__all {
+	margin-top: 6px;
+	padding-top: 6px;
+	border-top: 1px solid #eef0f2;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > .tdt-dcats__all > a {
+	font-weight: 600;
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > .tdt-dcats__all .tdt-dcats__icon {
+	background: var(--tdt-primary, #f57c00);
+	color: #fff;
+}
+
+/* Panel de subcategorías */
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__panel {
+	position: absolute;
+	top: -1px;
+	left: calc(100% - 4px);
+	z-index: 9999;
+	min-width: 520px;
+	min-height: calc(100% + 2px);
+	padding: 18px 22px;
+	border: 1px solid #e6e8eb;
+	border-radius: 0 12px 12px 0;
+	background: #fff;
+	box-shadow: 12px 12px 30px rgba(17, 24, 39, 0.12);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateX(8px);
+	transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats > li:hover > .tdt-dcats__panel {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__panel-title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 16px;
+	margin: 0 0 12px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eef0f2;
+	font-size: 16px;
+	font-weight: 700;
+	color: #1b1d22;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__panel-title span {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--tdt-primary, #f57c00);
+	white-space: nowrap;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__panel-title .tdt-icon {
+	width: 14px;
+	height: 14px;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__links {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 2px 20px;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__links a {
+	display: block;
+	padding: 6px 0;
+	font-size: 14px;
+	line-height: 1.35;
+	color: #444;
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__links a:hover {
+	color: var(--tdt-primary, #f57c00);
+}
+
+body.tdt-tpl-v1 .site-header .products-cats-menu .tdt-dcats__count {
+	font-size: 12px;
+	color: #9aa0a6;
+}
+
 /* ------------------------------------------------------------------ menú móvil: panel de categorías
  * Panel "Categoría" del menú inferior (render_mobile_categories()). Todas las categorías
  * principales con su ícono; al tocar una se despliegan sus subcategorías (JS de Martfury). */

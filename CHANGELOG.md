@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.4.10] - 2026-11-03
+
+### ✨ Añadido
+- 🖥️ **Desplegable "Categorías" del header en computador**: ahora muestra **todas las categorías principales** con su ícono (antes, solo las 5 del menú "Comprar por departamento", sin Ofertas). Al pasar el ratón por una categoría se abre a la derecha un panel con sus subcategorías y "Ver todo"; al final, "Ver todas las categorías". Se puede desactivar en Plantilla V1 → Menú de categorías.
+
 ## [1.4.9] - 2026-11-03
 
 ### 🐛 Corregido
