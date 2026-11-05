@@ -1802,6 +1802,72 @@ body.tdt-tpl-v1 .woocommerce-pagination .page-numbers a:hover {
 	color: #fff;
 }
 
+/* Scroll infinito (woocommerce/loop/pagination.php): solo el enlace a la página siguiente, con
+   un indicador girando. El JS de Martfury lo pulsa al aparecer en pantalla; también se puede
+   tocar (sirve de "cargar más" si el scroll automático no lo dispara). */
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite {
+	display: flex;
+	justify-content: center;
+	margin: 28px 0 8px;
+	padding: 0;
+	border: 0;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite:empty {
+	display: none;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite a.next {
+	display: inline-flex;
+	align-items: center;
+	width: auto;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 12px 22px;
+	border: 1px solid var(--tdt-border);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--tdt-text);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite a.next:hover {
+	border-color: var(--tdt-primary);
+	background: #fff;
+	color: var(--tdt-primary);
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite .tdt-infinite__loading {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	line-height: inherit;
+	letter-spacing: 0;
+}
+
+body.tdt-tpl-v1 .woocommerce-pagination.tdt-infinite .tdt-infinite__loading::before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	border: 2px solid var(--tdt-primary);
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: tdt-spin .7s linear infinite;
+}
+
 /* ------------------------------------------------------------------ plugin "Descuentos por Volumen"
  * Tabla "Más descuento por cantidad" de la ficha del producto (.dpv-tiers). El plugin trae su
  * propio estilo neutro; aquí se adapta a V1 sin tocar el plugin (sigue siendo genérico).

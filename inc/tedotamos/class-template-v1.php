@@ -42,6 +42,17 @@ class TeDotamos_Template_V1 {
 			),
 			'Tienda'            => array(
 				'categories_page_text' => array( 'type' => 'textarea', 'label' => 'Página de categorías: texto del banner', 'default' => "¡Todo lo que necesitas para tu empresa, en un solo lugar!\n\n👇 ¡Explora nuestras categorías y encuentra las mejores opciones para ti!", 'help' => 'Una línea en blanco separa párrafos. Si la página tiene contenido escrito en el editor, se usa ese contenido en su lugar.' ),
+				'catalog_nav'      => array(
+					'type'    => 'select',
+					'label'   => 'Navegación del catálogo',
+					'default' => 'infinite',
+					'choices' => array(
+						'infinite' => 'Scroll infinito (carga más productos al llegar al final)',
+						'numbers'  => 'Números de página',
+						''         => 'La del Customizer de Martfury',
+					),
+					'help'    => 'Tienda, categorías, marcas y búsqueda.',
+				),
 				'catalog_per_page' => array( 'type' => 'number', 'label' => 'Productos por página (tienda, categorías, marcas y búsqueda)', 'default' => 24, 'min' => 0, 'max' => 100, 'help' => 'Con más productos por página la tienda tarda mucho en cargar (con todos, 182, el servidor tardaba 24 s). 0 = usar el valor del Customizer de Martfury.' ),
 			),
 			'Barra superior'    => array(
@@ -370,6 +381,9 @@ class TeDotamos_Template_V1 {
 				return array(); // V1 usa Inter (en el tema): sin Work Sans / Libre Baskerville de Google ni sus preconnect
 			case 'logo_sticky':
 				return ''; // el header fijo usa el mismo logo de V1
+			case 'catalog_nav_type':
+				$nav = (string) self::get( 'catalog_nav' );
+				return '' !== $nav ? $nav : $value;
 			case 'products_per_page_1': // un valor por cada "Catalog Layout" de Martfury
 			case 'products_per_page_3':
 			case 'products_per_page_10':

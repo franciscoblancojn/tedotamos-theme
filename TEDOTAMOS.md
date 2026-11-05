@@ -31,6 +31,8 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `css/templates/v1-fonts.css` + `fonts/inter/` | Fuente Inter alojada en el tema (LiteSpeed elimina Google Fonts) |
 | `js/v1-topbar.js` | Barra superior de V1 como slider en móvil |
 | `js/v1-nav-feedback.js` | Aviso de carga (color + indicador) al tocar una categoría |
+| `inc/frontend/woocommerce.php` | `get_product_single_excerpt()`: unas "características" sin contenido visible ya no ocultan la descripción corta |
+| `woocommerce/loop/pagination.php` | Scroll infinito: solo el enlace a la página siguiente (y el `<nav>` vacío en la última página) |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |

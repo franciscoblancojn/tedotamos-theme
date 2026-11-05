@@ -3614,6 +3614,12 @@ class Martfury_WooCommerce {
 		}
 
 		$featured_text = get_post_meta( get_the_ID(), 'product_features_desc', true );
+		// TeDotamos: un texto de características sin contenido visible (p. ej. "<h3></h3>" que
+		// queda al editar) ocultaba la descripción corta. Si no tiene texto ni imágenes, se usa
+		// la descripción corta.
+		if ( ! empty( $featured_text ) && '' === trim( html_entity_decode( wp_strip_all_tags( $featured_text ), ENT_QUOTES, 'UTF-8' ), " \t\n\r\0\x0B\xC2\xA0" ) && false === stripos( $featured_text, '<img' ) ) {
+			$featured_text = '';
+		}
 		if ( ! empty( $featured_text ) ) {
 			echo '<div class="woocommerce-product-details__short-description">';
 			echo '<div class="mf-features-text">';

@@ -28,12 +28,25 @@ $next_text = sprintf( '%s <i class="icon-chevron-right"></i>', esc_html__( 'Next
 $prev_text = sprintf( '<i class="icon-chevron-left"></i> %s', esc_html__( 'Previous Page', 'martfury' ) );
 
 $type = 'list';
-if ( martfury_get_option( 'catalog_nav_type' ) == 'infinite' ) {
-	$next_text = '<span id="martfury-products-loading" class="dots-loading"><span>.</span><span>.</span><span>.</span>' . esc_html__( 'Loading', 'martfury' ) . '<span>.</span><span>.</span><span>.</span></span>';
-	$type      = 'plain';
+if ( $total <= 1 ) {
+	return;
 }
 
-if ( $total <= 1 ) {
+// TeDotamos: en scroll infinito solo se imprime el enlace a la página siguiente (Martfury
+// imprimía también los números). El JS de Martfury lo pulsa al verlo en pantalla, añade los
+// productos y reemplaza este <nav> por el de la página cargada; por eso en la última página se
+// imprime vacío (si no, el enlace anterior quedaría y volvería a cargar la última página).
+// Sin JS, o para los buscadores, es un enlace normal a la página siguiente.
+if ( martfury_get_option( 'catalog_nav_type' ) == 'infinite' ) {
+	printf(
+		'<nav class="woocommerce-pagination tdt-infinite" aria-label="%s">%s</nav>',
+		esc_attr__( 'Product Pagination', 'woocommerce' ),
+		$current < $total ? sprintf(
+			'<a class="next page-numbers" href="%s"><span id="martfury-products-loading" class="tdt-infinite__loading">%s</span></a>',
+			esc_url( str_replace( '%#%', $current + 1, $base ) ),
+			esc_html__( 'Loading more products', 'martfury' )
+		) : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	);
 	return;
 }
 ?>

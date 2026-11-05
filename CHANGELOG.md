@@ -4,6 +4,14 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.4] - 2026-11-04
+
+### ✨ Añadido
+- ♾️ **Scroll infinito** en la tienda, las categorías, las marcas y la búsqueda: al llegar al final de la lista se cargan solos los siguientes productos, con un indicador "Cargando más productos…". Se elige en Plantilla V1 → Tienda → "Navegación del catálogo" (scroll infinito, números de página o lo del Customizer). Usa el scroll infinito de Martfury, pero la paginación imprime solo el enlace a la página siguiente (los buscadores lo siguen y sirve de "cargar más" si hiciera falta). Antes, en ese modo, Martfury mostraba también los números de página y podía volver a cargar la última página.
+
+### 🐛 Corregido
+- 📝 **Descripción corta que no se mostraba** en algunas fichas (p. ej. "Polo Hombre Manga Larga 2XL Positex Línea Cross" y "Camiseta Polo Manga Larga Hombre"): con la opción de Martfury "características en lugar de la descripción corta", un campo de características con solo un título vacío (`<h3></h3>`) reemplazaba a la descripción. Ahora, si las características no tienen texto ni imágenes, se muestra la descripción corta. Los 40 productos con características reales siguen igual.
+
 ## [1.5.3] - 2026-11-04
 
 ### ✨ Añadido

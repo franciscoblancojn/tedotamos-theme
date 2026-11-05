@@ -34,6 +34,7 @@ class TeDotamos_Translations {
 		'Next Page'                       => 'Página siguiente',
 		'Previous Page'                   => 'Página anterior',
 		'Loading'                         => 'Cargando',
+		'Loading more products'           => 'Cargando más productos…',
 		'Product Pagination'              => 'Paginación de productos',
 		// Visor de fotos de la ficha (PhotoSwipe).
 		'Close (Esc)'                     => 'Cerrar (Esc)',
