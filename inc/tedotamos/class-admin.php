@@ -22,6 +22,12 @@ class TeDotamos_Admin {
 		'cache_hours'   => 6, // cada cuánto se consulta GitHub
 		'update_notice' => 1, // aviso en el escritorio cuando hay versión nueva
 		'template'      => 'default', // plantilla de estilos (ver TeDotamos_Templates::TEMPLATES)
+
+		// Buscador (ver TeDotamos_Search).
+		'search_cache'           => 1, // cachear la respuesta del desplegable
+		'search_cache_ttl'       => 5, // minutos
+		'search_ajax_title_only' => 1, // el desplegable busca solo en el título
+		'search_sku_heuristic'   => 1, // buscar SKU solo si el término parece un SKU
 	);
 
 	public static function init() {
@@ -69,11 +75,28 @@ class TeDotamos_Admin {
 		$input = (array) $input;
 
 		$hours = isset( $input['cache_hours'] ) ? absint( $input['cache_hours'] ) : self::DEFAULTS['cache_hours'];
+		$ttl   = isset( $input['search_cache_ttl'] ) ? absint( $input['search_cache_ttl'] ) : self::DEFAULTS['search_cache_ttl'];
 		$clean = array(
 			'cache_hours'   => min( 24, max( 1, $hours ) ),
 			'update_notice' => empty( $input['update_notice'] ) ? 0 : 1,
 			'template'      => isset( $input['template'], TeDotamos_Templates::TEMPLATES[ $input['template'] ] ) ? $input['template'] : 'default',
+
+			'search_cache'           => empty( $input['search_cache'] ) ? 0 : 1,
+			'search_cache_ttl'       => min( 60, $ttl ),
+			'search_ajax_title_only' => empty( $input['search_ajax_title_only'] ) ? 0 : 1,
+			'search_sku_heuristic'   => empty( $input['search_sku_heuristic'] ) ? 0 : 1,
 		);
+
+		// Si cambian las opciones del buscador, que no se sirvan respuestas viejas.
+		$search_keys = array( 'search_cache', 'search_cache_ttl', 'search_ajax_title_only', 'search_sku_heuristic' );
+		foreach ( $search_keys as $key ) {
+			if ( (int) $clean[ $key ] !== (int) self::get_option( $key ) ) {
+				if ( class_exists( 'TeDotamos_Search' ) ) {
+					TeDotamos_Search::bump_cache_version();
+				}
+				break;
+			}
+		}
 
 		// Si cambia la frecuencia, que la próxima consulta use el nuevo valor.
 		if ( (int) $clean['cache_hours'] !== (int) self::get_option( 'cache_hours' ) ) {
@@ -284,6 +307,27 @@ class TeDotamos_Admin {
 							<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[update_notice]" value="1" <?php checked( self::get_option( 'update_notice' ) ); ?>>
 							Mostrar un aviso en el escritorio cuando haya una versión nueva del tema
 						</label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Buscador</th>
+					<td>
+						<label>
+							<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[search_cache]" value="1" <?php checked( self::get_option( 'search_cache' ) ); ?>>
+							Cachear la respuesta del desplegable durante
+							<input type="number" min="0" max="60" name="<?php echo esc_attr( $name ); ?>[search_cache_ttl]" value="<?php echo esc_attr( self::get_option( 'search_cache_ttl' ) ); ?>" class="small-text"> minutos
+						</label>
+						<p class="description">Se invalida sola al guardar productos, precios o stock. 0 = no cachear.</p>
+						<label>
+							<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[search_ajax_title_only]" value="1" <?php checked( self::get_option( 'search_ajax_title_only' ) ); ?>>
+							Buscar solo en el título en el desplegable
+						</label>
+						<p class="description">Más rápido y más certero en una lista corta. Al pulsar Enter, la página de resultados busca en las columnas elegidas en el Customizer (Título, Extracto y Contenido por defecto).</p>
+						<label>
+							<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[search_sku_heuristic]" value="1" <?php checked( self::get_option( 'search_sku_heuristic' ) ); ?>>
+							Buscar en el SKU solo cuando el término parece un SKU (sin espacios y con algún número)
+						</label>
+						<p class="description">Evita recorrer toda la tabla de metadatos con palabras normales como "taladro".</p>
 					</td>
 				</tr>
 			</table>

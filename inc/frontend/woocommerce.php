@@ -3217,11 +3217,18 @@ class Martfury_WooCommerce {
 			$response = $this->instance_search_products_result();
 		}
 
+		$has_results = ! empty( $response );
+
 		if ( empty( $response ) ) {
 			$response[] = sprintf( '<li>%s</li>', esc_html__( 'Nothing found', 'martfury' ) );
 		}
 
 		$output = sprintf( '<ul>%s</ul>', implode( ' ', $response ) );
+
+		// TeDotamos: cachea la respuesta del desplegable (ver inc/tedotamos/class-search.php).
+		if ( class_exists( 'TeDotamos_Search' ) ) {
+			TeDotamos_Search::store_cached_response( $output, $has_results );
+		}
 
 		wp_send_json_success( $output );
 		die();
@@ -3479,17 +3486,27 @@ class Martfury_WooCommerce {
 			if ( is_admin() && is_numeric( $term ) ) {
 				$search_ids[] = $term;
 			}
-			// search for variations with a matching sku and return the parent.
 
-			$sku_to_parent_id = $wpdb->get_col( $wpdb->prepare( "SELECT p.post_parent as post_id FROM {$wpdb->posts} as p join {$wpdb->postmeta} pm on p.ID = pm.post_id and pm.meta_key='_sku' and pm.meta_value LIKE '%%%s%%' where p.post_parent <> 0 group by p.post_parent", wc_clean( $term ) ) );
+			// TeDotamos: si el término no puede ser un SKU, no se escanea wp_postmeta.
+			if ( class_exists( 'TeDotamos_Search' ) && ! TeDotamos_Search::should_search_sku( $term ) ) {
+				continue;
+			}
+			$sku_limit = class_exists( 'TeDotamos_Search' ) ? TeDotamos_Search::MAX_SKU_IDS : 100;
+
+			$like = '%' . $wpdb->esc_like( wc_clean( $term ) ) . '%';
+
+			// TeDotamos: sólo variaciones, con tope de IDs (antes unía wp_posts completo).
+			// search for variations with a matching sku and return the parent.
+			$sku_to_parent_id = $wpdb->get_col( $wpdb->prepare( "SELECT p.post_parent as post_id FROM {$wpdb->posts} as p INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key='_sku' AND pm.meta_value LIKE %s WHERE p.post_type = 'product_variation' AND p.post_parent <> 0 GROUP BY p.post_parent LIMIT %d", $like, $sku_limit ) );
 
 			//Search for a regular product that matches the sku.
-			$sku_to_id = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value LIKE '%%%s%%';", wc_clean( $term ) ) );
+			$sku_to_id = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key='_sku' AND meta_value LIKE %s LIMIT %d", $like, $sku_limit ) );
 
-			$search_ids = array_merge( $search_ids, $sku_to_id, $sku_to_parent_id );
+			$search_ids = array_merge( $search_ids, $sku_to_id, $sku_to_parent_id ); // TeDotamos: includes the limit above.
 		}
 
-		$search_ids = array_filter( array_map( 'absint', $search_ids ) );
+		// TeDotamos: tope total de IDs para no armar un IN gigante.
+		$search_ids = array_slice( array_filter( array_map( 'absint', $search_ids ) ), 0, 200 );
 
 		if ( sizeof( $search_ids ) > 0 ) {
 			$where = str_replace( ')))', ") OR ({$wpdb->posts}.ID IN (" . implode( ',', $search_ids ) . "))))", $where );

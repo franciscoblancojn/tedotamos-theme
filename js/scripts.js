@@ -1393,6 +1393,9 @@
 
         var xhr = null,
             searchCache = {},
+            // TeDotamos: retrasa la consulta para no pedir en cada pulsación.
+            searchTimer = null,
+            searchDelay = 250,
             $form = martfury.$body.find('form.products-search');
 
         $form.on('keyup', '.search-field', function (e) {
@@ -1408,6 +1411,12 @@
                 return;
             }
 
+            // TeDotamos: Enter envía el formulario; no hace falta pedir el desplegable.
+            if (e.which === 13) {
+                clearTimeout(searchTimer);
+                return;
+            }
+
             if (xhr) {
                 xhr.abort();
             }
@@ -1417,13 +1426,21 @@
 
             if ($search.val().length < 2) {
                 $currentForm.removeClass('searching searched actived found-products found-no-product invalid-length');
+                clearTimeout(searchTimer);
+                search($currentForm);
+                return;
             }
 
-            search($currentForm);
+            // TeDotamos: una sola consulta cuando deja de escribir.
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(function () {
+                search($currentForm);
+            }, searchDelay);
         }).on('change', '#header-search-product-cat', function () {
             if (xhr) {
                 xhr.abort();
             }
+            clearTimeout(searchTimer);
 
             var $currentForm = $(this).closest('.products-search');
 
@@ -1432,8 +1449,14 @@
             var $currentForm = $(this).closest('.products-search'),
                 $search = $currentForm.find('input.search-field');
             if ($search.val().length < 2) {
+                clearTimeout(searchTimer);
                 $currentForm.removeClass('searching searched actived found-products found-no-product invalid-length');
             }
+        });
+
+        // TeDotamos: al enviar el formulario no hace falta esperar la consulta pendiente.
+        $form.on('submit', function () {
+            clearTimeout(searchTimer);
         });
 
 

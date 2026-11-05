@@ -4,6 +4,13 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ⚡ Mejorado
+- 🔍 **Buscador del header más rápido**: el desplegable espera 250 ms desde la última tecla (antes lanzaba una petición por pulsación), busca solo en el título y cachea la respuesta unos minutos (se invalida al guardar productos, precios o stock). Las consultas de SKU solo corren cuando el término parece un SKU (sin espacios y con algún número), en vez de recorrer `wp_postmeta` con cada palabra. El término se valida entre 2 y 80 caracteres: una sola letra tardaba ~2 s.
+- 🗂️ **Búsqueda por SKU en la página de resultados**: acotada a variaciones y con tope de 100 IDs por consulta, para no recorrer toda la tabla de metadatos. Mismos resultados en los SKU reales.
+- ⚙️ Opciones en Apariencia → TeDotamos → General: caché y minutos, buscar solo en el título en el desplegable y heurística de SKU. Se pueden desactivar.
+
 ## [1.5.5] - 2026-11-04
 
 ### 🐛 Corregido

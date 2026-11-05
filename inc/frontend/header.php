@@ -118,7 +118,8 @@ function martfury_enqueue_scripts() {
 			'slick',
 			'notify',
 		),
-		'20260820',
+		// TeDotamos: versión del tema para invalidar la caché del navegador al publicar.
+		wp_get_theme()->get( 'Version' ),
 		array(
 			'in_footer' => true,
 			'strategy'  => 'defer',

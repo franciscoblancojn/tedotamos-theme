@@ -31,9 +31,13 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `css/templates/v1-fonts.css` + `fonts/inter/` | Fuente Inter alojada en el tema (LiteSpeed elimina Google Fonts) |
 | `js/v1-topbar.js` | Barra superior de V1 como slider en móvil |
 | `js/v1-nav-feedback.js` | Aviso de carga (color + indicador) al tocar una categoría |
-| `inc/frontend/woocommerce.php` | `get_product_single_excerpt()`: unas "características" sin contenido visible ya no ocultan la descripción corta |
+| `inc/frontend/woocommerce.php` | `get_product_single_excerpt()`: unas "características" sin contenido visible ya no ocultan la descripción corta. Buscador: `instance_search_result()` guarda la caché y `product_search_sku()` no escanea `wp_postmeta` con palabras normales y limita los IDs |
 | `woocommerce/loop/pagination.php` | Scroll infinito: solo el enlace a la página siguiente (y el `<nav>` vacío en la última página); expande el marcador `%_%` con el formato de paginación de WooCommerce 11 (`page/%#%/`) antes de poner el número |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
+| `inc/tedotamos/class-search.php` | Buscador: valida el término, cachea el desplegable, busca SKU solo si el término parece un SKU y acota los IDs. Opciones en Apariencia → TeDotamos → General |
+| `js/scripts.js` | Buscador: espera 250 ms antes de consultar (antes lanzaba una petición por tecla) y cancela la pendiente al cambiar de categoría |
+| `inc/frontend/header.php` | La versión de `js/scripts.js` es la del tema, para invalidar la caché del navegador al publicar |
+| `inc/tedotamos/bootstrap.php` | Carga `class-search.php` |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
 
