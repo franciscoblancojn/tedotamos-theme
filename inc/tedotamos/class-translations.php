@@ -31,6 +31,10 @@ class TeDotamos_Translations {
 		'There are no reviews yet.'       => 'Todavía no hay reseñas.',
 		'Email'                           => 'Correo electrónico',
 		'Price range: %1$s through %2$s'  => 'Rango de precios: de %1$s a %2$s',
+		'Next Page'                       => 'Página siguiente',
+		'Previous Page'                   => 'Página anterior',
+		'Loading'                         => 'Cargando',
+		'Product Pagination'              => 'Paginación de productos',
 		// Visor de fotos de la ficha (PhotoSwipe).
 		'Close (Esc)'                     => 'Cerrar (Esc)',
 		'Share'                           => 'Compartir',

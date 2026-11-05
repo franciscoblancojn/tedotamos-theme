@@ -811,6 +811,15 @@ ul.products li.product .product-inner {
   opacity: 0.9;
 }
 
+/* 4. WhatsApp: debajo, a todo el ancho. .cpw-button--product es el botón del plugin
+   Chat por WhatsApp (reemplaza a OneClick Chat to Order, .wa-order-class). */
+.single-product div.product .cpw-button--product {
+  height: 54px;
+  margin: 0 0 20px;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
 /* 4. WhatsApp: debajo, a todo el ancho */
 .single-product div.product .wa-order-class {
   display: block;
@@ -827,4 +836,31 @@ ul.products li.product .product-inner {
   margin: 0 !important;
   font-size: 17px !important;
   border-radius: 12px !important;
+}
+
+/* ------------------------------------------------------------------
+ * TeDotamos: medio de pago Wompi en el checkout. El plugin pone el texto antes del logo en
+ * el <label>: se invierte el orden para que quede el logo arriba (a la altura del círculo
+ * de selección, que el tema dibuja con label:before) y el texto debajo.
+ * ------------------------------------------------------------------ */
+.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label:before {
+  top: 14px;
+}
+
+/* El PNG del plugin (307×173) tiene mucho margen transparente alrededor del logo (219×75):
+   a 110 px de ancho, los márgenes negativos lo recortan para alinearlo con el texto. */
+.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label img {
+  display: block;
+  float: none;
+  width: 110px !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: -17px 0 -15px -16px !important;
 }

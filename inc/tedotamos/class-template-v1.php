@@ -125,7 +125,7 @@ class TeDotamos_Template_V1 {
 				'offers_enabled'  => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
 				'offers_title'    => array( 'type' => 'text', 'label' => 'Título', 'default' => 'Ofertas' ),
 				'offers_category' => array( 'type' => 'term', 'taxonomy' => 'product_cat', 'label' => 'Categoría de ofertas', 'default' => 'ofertas', 'help' => 'Si la categoría no existe o está vacía, la sección no se muestra.' ),
-				'offers_count'    => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 8, 'min' => 1, 'max' => 24 ),
+				'offers_count'    => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 6, 'min' => 1, 'max' => 24, 'help' => 'En computador caben 6 por fila: con más se hace una segunda fila.' ),
 			),
 			'Portada · Productos' => array(
 				'products_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
@@ -142,7 +142,7 @@ class TeDotamos_Template_V1 {
 					),
 					'help'    => 'Si no hay productos de ese tipo, se muestran los más recientes.',
 				),
-				'products_count'   => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 6, 'min' => 1, 'max' => 12 ),
+				'products_count'   => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 6, 'min' => 1, 'max' => 6, 'help' => 'Máximo 6 (una fila en computador).' ),
 			),
 			'Portada · Cotización inteligente' => array(
 				'quote_enabled'  => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
@@ -157,7 +157,8 @@ class TeDotamos_Template_V1 {
 			'Portada · Marcas'  => array(
 				'brands_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
 				'brands_title'   => array( 'type' => 'text', 'label' => 'Título', 'default' => 'Nuestras marcas y fabricantes' ),
-				'brands_count'   => array( 'type' => 'number', 'label' => 'Cantidad', 'default' => 12, 'min' => 1, 'max' => 30, 'help' => 'Logos incluidos en el tema (images/brands/). Si la marca existe en WooCommerce con el mismo nombre, el logo enlaza a sus productos.' ),
+				'brands_items'   => array( 'type' => 'brand_items', 'label' => 'Logos', 'default' => self::default_brand_items(), 'help' => 'Cada logo lleva a la página de su marca en la tienda (o a otra URL). Arrastra las filas para cambiar el orden. "Restaurar los del tema" vuelve a los logos incluidos en el tema.' ),
+				'brands_count'   => array( 'type' => 'number', 'label' => 'Cantidad máxima', 'default' => 30, 'min' => 1, 'max' => 30, 'help' => 'Se muestran los primeros de la lista.' ),
 			),
 			'Portada · Cotización personalizada' => array(
 				'cta_enabled'   => array( 'type' => 'checkbox', 'label' => 'Mostrar', 'default' => 1 ),
@@ -176,6 +177,7 @@ class TeDotamos_Template_V1 {
 	 * (nadie lo editó), se usa el nuevo por defecto; lo que el usuario cambió se respeta.
 	 */
 	const OLD_DEFAULTS = array(
+		'offers_count'    => array( 8 ),
 		'hero_btn1_text'  => array( 'Comprar ahora' ),
 		'volume_rows'     => array( "1 a 5|15 %|Compra directa|Medios habilitados\n6 a 24|20 %|Compra directa|Medios habilitados\n25 a 60|35 %|Cotización revisada|Transferencia anticipada\n61 o más|40 %|Cotización autorizada|Transferencia anticipada" ),
 		'categories_count' => array( 6 ),
@@ -184,7 +186,7 @@ class TeDotamos_Template_V1 {
 		'cta_btn_text'    => array( 'Solicitar cotización' ),
 		'quote_whatsapp'  => array( '' ),
 		'volume_note'     => array( 'Categoría Ofertas: 4 % de descuento adicional.' ),
-		'brands_count'    => array( 10 ),
+		'brands_count'    => array( 10, 12 ),
 		'benefits_items'  => array( "card|Medios de pago|Transferencia · Consignación · Wompi · Llave\ncredit|Créditos personales|Sistecrédito · Addi · Suma+Play · Compra ahora, paga después Bancolombia\ntruck|Envíos|A todo el país y el mundo\nshield|Garantía de satisfacción|Tu compra protegida\nbuilding|Ventas corporativas|Soluciones a la medida de tu empresa" ),
 	);
 
@@ -253,6 +255,9 @@ class TeDotamos_Template_V1 {
 					break;
 				case 'terms':
 					$clean[ $key ] = array_values( array_filter( array_map( 'sanitize_title', (array) $value ) ) );
+					break;
+				case 'brand_items':
+					$clean[ $key ] = self::sanitize_brand_items( $value );
 					break;
 				case 'gallery':
 					$clean[ $key ] = array_values( array_filter( array_map( 'esc_url_raw', array_map( 'trim', (array) $value ) ) ) );
@@ -700,6 +705,20 @@ class TeDotamos_Template_V1 {
 	 * @param WC_Product $product
 	 * @return string[]
 	 */
+	/**
+	 * ¿El producto está en la categoría Ofertas (o en una de sus subcategorías)?
+	 */
+	public static function in_offers( $product ) {
+		$offers = self::offers_term();
+		if ( ! $offers || ! $product ) {
+			return false;
+		}
+		$id  = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+		$ids = array_merge( array( (int) $offers->term_id ), array_map( 'intval', (array) get_term_children( $offers->term_id, 'product_cat' ) ) );
+
+		return has_term( $ids, 'product_cat', $id );
+	}
+
 	public static function offer_extra_labels( $product ) {
 		$offers = self::offers_term();
 		if ( ! $offers || ! $product ) {
@@ -924,7 +943,7 @@ class TeDotamos_Template_V1 {
 		if ( ! function_exists( 'wc_get_products' ) ) {
 			return array();
 		}
-		$limit = (int) self::get( 'products_count' );
+		$limit = min( 6, max( 1, (int) self::get( 'products_count' ) ) ); // máximo 6, aunque se haya guardado más
 		$base  = array(
 			'status'     => 'publish',
 			'visibility' => 'catalog',
@@ -978,27 +997,102 @@ class TeDotamos_Template_V1 {
 	);
 
 	/**
-	 * Logos de la sección de marcas. Si existe la marca en WooCommerce (product_brand) con el
-	 * mismo nombre, el logo enlaza a sus productos.
+	 * Logos por defecto: los incluidos en el tema, con la marca de WooCommerce (product_brand) a la
+	 * que llevan. Enlace: "brand:<slug>" (página de la marca), una URL o vacío (sin enlace).
+	 * Sigmon tiene tres marcas en la tienda (botiquines, guantes, ropa): lleva a la búsqueda.
+	 */
+	public static function default_brand_items() {
+		$links = array(
+			'3m'        => 'brand:3m-colombia',
+			'aritex'    => '',
+			'croydon'   => 'brand:croydon-colombia',
+			'evacol'    => '',
+			'robusta'   => 'brand:botas-robusta',
+			'dezega'    => '',
+			'epi'       => 'brand:epi-safety',
+			'positex'   => 'brand:camisetas-positex',
+			'sigmon'    => home_url( '/?s=Sigmon&post_type=product' ),
+			'steelpro'  => 'brand:steelpro',
+			'zubi-ola'  => 'brand:zubi-ola',
+			'inteimper' => 'brand:integral-impermeable',
+		);
+		$items = array();
+		foreach ( self::BRAND_LOGOS as $file => $name ) {
+			$items[] = array(
+				'image' => get_template_directory_uri() . '/images/brands/' . $file . '.webp',
+				'name'  => $name,
+				'link'  => isset( $links[ $file ] ) ? $links[ $file ] : '',
+			);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Filas del editor de marcas: [ ['image', 'name', 'link', 'url'], … ] → [ ['image', 'name', 'link'], … ].
+	 * En el formulario, "link" es "brand:<slug>", "url" (y la URL va en "url") o vacío.
+	 */
+	public static function sanitize_brand_items( $value ) {
+		$items = array();
+		foreach ( (array) $value as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$image = esc_url_raw( trim( (string) ( $row['image'] ?? '' ) ) );
+			if ( ! $image ) {
+				continue;
+			}
+			$link = trim( (string) ( $row['link'] ?? '' ) );
+			if ( 'url' === $link ) {
+				$link = esc_url_raw( trim( (string) ( $row['url'] ?? '' ) ) );
+			} elseif ( 0 === strpos( $link, 'brand:' ) ) {
+				$link = 'brand:' . sanitize_title( substr( $link, 6 ) );
+			} elseif ( preg_match( '#^https?://#', $link ) ) {
+				$link = esc_url_raw( $link );
+			} else {
+				$link = '';
+			}
+			$items[] = array(
+				'image' => $image,
+				'name'  => sanitize_text_field( (string) ( $row['name'] ?? '' ) ),
+				'link'  => $link,
+			);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * URL de un enlace guardado ("brand:<slug>" o URL). Vacío si la marca ya no existe.
+	 */
+	public static function resolve_brand_link( $link ) {
+		if ( 0 === strpos( (string) $link, 'brand:' ) ) {
+			if ( ! taxonomy_exists( 'product_brand' ) ) {
+				return '';
+			}
+			$term = get_term_by( 'slug', substr( $link, 6 ), 'product_brand' );
+			$url  = $term instanceof WP_Term ? get_term_link( $term ) : '';
+
+			return $url && ! is_wp_error( $url ) ? $url : '';
+		}
+
+		return (string) $link;
+	}
+
+	/**
+	 * Logos de la sección de marcas de la portada (editor de Plantilla V1 → Portada · Marcas).
 	 *
 	 * @return array<int, array{name:string, image:string, link:string}>
 	 */
 	public static function brand_logos() {
-		$out = array();
-		foreach ( array_slice( self::BRAND_LOGOS, 0, (int) self::get( 'brands_count' ), true ) as $file => $name ) {
-			$link = '';
-			if ( taxonomy_exists( 'product_brand' ) ) {
-				$term = get_term_by( 'name', $name, 'product_brand' );
-				$term = $term ? $term : get_term_by( 'slug', $file, 'product_brand' );
-				if ( $term instanceof WP_Term ) {
-					$url  = get_term_link( $term );
-					$link = is_wp_error( $url ) ? '' : $url;
-				}
-			}
+		$items = self::get( 'brands_items' );
+		$items = is_array( $items ) && $items ? $items : self::default_brand_items();
+		$out   = array();
+		foreach ( array_slice( $items, 0, (int) self::get( 'brands_count' ) ) as $item ) {
 			$out[] = array(
-				'name'  => $name,
-				'image' => get_template_directory_uri() . '/images/brands/' . $file . '.webp',
-				'link'  => $link,
+				'name'  => (string) $item['name'],
+				'image' => (string) $item['image'],
+				'link'  => self::resolve_brand_link( $item['link'] ),
 			);
 		}
 
@@ -1096,7 +1190,9 @@ class TeDotamos_Template_V1 {
 		echo '<ul class="tdt-products">';
 		foreach ( $products as $product ) {
 			$badge = '';
-			if ( $product->is_on_sale() ) {
+			// Solo los productos de la categoría Ofertas llevan la etiqueta: con Descuentos por
+			// Volumen todo el catálogo tiene precio rebajado y is_on_sale() sería siempre cierto.
+			if ( $product->is_on_sale() && self::in_offers( $product ) ) {
 				$badge = 'Oferta';
 				$regular = (float) $product->get_regular_price();
 				$sale    = (float) $product->get_sale_price();
@@ -1364,6 +1460,73 @@ class TeDotamos_Template_V1 {
 	 * Campo galería: miniaturas ordenables (arrastrar), quitar, "Añadir imágenes" (biblioteca de
 	 * medios, selección múltiple) y "Restaurar las del tema". Envía un array de URLs.
 	 */
+	/**
+	 * Fila del editor de marcas. $i es un índice cualquiera (el orden lo da el HTML).
+	 */
+	private static function brand_row( $field, $i, $item, $brands ) {
+		$link    = (string) ( $item['link'] ?? '' );
+		$is_url  = '' !== $link && 0 !== strpos( $link, 'brand:' );
+		$name    = $field . '[' . $i . ']';
+		$options = '<option value="">Sin enlace</option><optgroup label="Marcas de la tienda">';
+		foreach ( $brands as $term ) {
+			$value    = 'brand:' . $term->slug;
+			$options .= sprintf( '<option value="%s"%s>%s (%d)</option>', esc_attr( $value ), selected( $link, $value, false ), esc_html( $term->name ), (int) $term->count );
+		}
+		$options .= '</optgroup><option value="url"' . selected( $is_url, true, false ) . '>Otra URL…</option>';
+
+		return sprintf(
+			'<li class="tdt-brand-row">
+				<span class="tdt-brand-row__handle dashicons dashicons-move" title="Arrastrar"></span>
+				<img class="tdt-brand-row__img" src="%1$s" alt="">
+				<input type="hidden" class="tdt-brand-row__image" name="%2$s[image]" value="%1$s">
+				<button type="button" class="button-link tdt-brand-row__change">Cambiar logo</button>
+				<input type="text" class="regular-text tdt-brand-row__name" name="%2$s[name]" value="%3$s" placeholder="Nombre de la marca">
+				<select class="tdt-brand-row__link" name="%2$s[link]">%4$s</select>
+				<input type="url" class="regular-text tdt-brand-row__url" name="%2$s[url]" value="%5$s" placeholder="https://…"%6$s>
+				<button type="button" class="tdt-brand-row__remove" aria-label="Quitar">&times;</button>
+			</li>',
+			esc_url( (string) ( $item['image'] ?? '' ) ),
+			esc_attr( $name ),
+			esc_attr( (string) ( $item['name'] ?? '' ) ),
+			$options, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escapado arriba
+			esc_attr( $is_url ? $link : '' ),
+			$is_url ? '' : ' hidden'
+		);
+	}
+
+	/**
+	 * Editor de marcas: logo (biblioteca de medios), nombre y enlace (marca de la tienda u otra URL).
+	 */
+	private static function render_brands_field( $id, $field, $items, $defaults ) {
+		$brands = array();
+		if ( taxonomy_exists( 'product_brand' ) ) {
+			$terms  = get_terms( array( 'taxonomy' => 'product_brand', 'hide_empty' => false, 'orderby' => 'name' ) );
+			$brands = is_wp_error( $terms ) ? array() : $terms;
+		}
+		$rows = '';
+		foreach ( array_values( (array) $items ) as $i => $item ) {
+			$rows .= self::brand_row( $field, $i, $item, $brands );
+		}
+		$defaults_html = '';
+		foreach ( array_values( (array) $defaults ) as $i => $item ) {
+			$defaults_html .= self::brand_row( $field, 'd' . $i, $item, $brands );
+		}
+		printf(
+			'<div class="tdt-brands-editor" id="%1$s" data-field="%2$s">
+				<ul class="tdt-brands-editor__list">%3$s</ul>
+				<template class="tdt-brands-editor__template">%4$s</template>
+				<template class="tdt-brands-editor__defaults">%5$s</template>
+				<p><button type="button" class="button tdt-brands-editor__add">+ Añadir marca</button>
+				<button type="button" class="button-link tdt-brands-editor__reset">Restaurar los del tema</button></p>
+			</div>',
+			esc_attr( $id ),
+			esc_attr( $field ),
+			$rows, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			self::brand_row( $field, '__i__', array(), $brands ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$defaults_html // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+	}
+
 	private static function render_gallery_field( $id, $field, $urls, $defaults ) {
 		printf(
 			'<div class="tdt-gallery" id="%s" data-name="%s" data-defaults="%s">',
@@ -1435,6 +1598,9 @@ class TeDotamos_Template_V1 {
 									case 'term':
 										self::render_terms_field( $id, $field, $f, $value );
 										break;
+									case 'brand_items':
+										self::render_brands_field( $id, $field, is_array( $value ) ? $value : $f['default'], $f['default'] );
+										break;
 									case 'gallery':
 										self::render_gallery_field( $id, $field, self::hero_slides(), $f['default'] );
 										break;
@@ -1470,6 +1636,70 @@ class TeDotamos_Template_V1 {
 						target.val( frame.state().get( 'selection' ).first().toJSON().url );
 					} );
 					frame.open();
+				} );
+
+				// Editor de marcas.
+				$( '.tdt-brands-editor' ).each( function () {
+					var $box = $( this );
+					var $list = $box.find( '.tdt-brands-editor__list' );
+					var n = 0;
+					// Filas nuevas a partir de una <template>: cada una con su propio índice en los
+					// nombres de los campos (si se repitiera, al guardar se pisarían entre sí).
+					function fresh( html ) {
+						var $rows = $( $.parseHTML( $.trim( html ) ) ).filter( 'li' );
+						$rows.each( function () {
+							n++;
+							var key = 'n' + Date.now() + n;
+							$( this ).find( '[name]' ).each( function () {
+								this.name = this.name.replace( /\[[^\]]+\](\[\w+\])$/, '[' + key + ']$1' );
+							} );
+						} );
+						return $rows;
+					}
+					function pick( multiple, done ) {
+						var frame = wp.media( { title: 'Logo de la marca', button: { text: 'Usar este logo' }, multiple: multiple, library: { type: 'image' } } );
+						frame.on( 'select', function () {
+							done( frame.state().get( 'selection' ).toJSON() );
+						} );
+						frame.open();
+					}
+					$list.sortable( { items: '> li', handle: '.tdt-brand-row__handle', axis: 'y', cursor: 'move' } );
+					$box.on( 'change', '.tdt-brand-row__link', function () {
+						var $url = $( this ).siblings( '.tdt-brand-row__url' );
+						$url.prop( 'hidden', 'url' !== this.value );
+						if ( 'url' === this.value ) {
+							$url.trigger( 'focus' );
+						}
+					} );
+					$box.on( 'click', '.tdt-brand-row__remove', function () {
+						$( this ).closest( 'li' ).remove();
+					} );
+					$box.on( 'click', '.tdt-brand-row__change', function ( e ) {
+						e.preventDefault();
+						var $row = $( this ).closest( 'li' );
+						pick( false, function ( files ) {
+							$row.find( '.tdt-brand-row__img' ).attr( 'src', files[0].url );
+							$row.find( '.tdt-brand-row__image' ).val( files[0].url );
+						} );
+					} );
+					$box.on( 'click', '.tdt-brands-editor__add', function ( e ) {
+						e.preventDefault();
+						pick( true, function ( files ) {
+							$.each( files, function ( i, file ) {
+								var $row = fresh( $box.find( '.tdt-brands-editor__template' ).html() );
+								$row.find( '.tdt-brand-row__img' ).attr( 'src', file.url );
+								$row.find( '.tdt-brand-row__image' ).val( file.url );
+								$row.find( '.tdt-brand-row__name' ).val( file.title || '' );
+								$list.append( $row );
+							} );
+						} );
+					} );
+					$box.on( 'click', '.tdt-brands-editor__reset', function ( e ) {
+						e.preventDefault();
+						if ( window.confirm( '¿Volver a los logos del tema? Se pierden los cambios de esta lista que no hayas guardado.' ) ) {
+							$list.empty().append( fresh( $box.find( '.tdt-brands-editor__defaults' ).html() ) );
+						}
+					} );
 				} );
 
 				// Campo galería (slider del hero).
@@ -1522,6 +1752,16 @@ class TeDotamos_Template_V1 {
 			.tdt-gallery__remove:hover { background: #d63638; }
 			.tdt-gallery__item.ui-sortable-placeholder { visibility: visible !important; border: 2px dashed #2271b1; background: #f0f6fc; }
 			.tdt-gallery__empty { margin: 0 0 10px; font-style: italic; }
+			.tdt-brands-editor__list { margin: 0 0 10px; padding: 0; list-style: none; max-width: 980px; }
+			.tdt-brand-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 8px; padding: 8px 10px; border: 1px solid #c3c4c7; border-radius: 4px; background: #fff; }
+			.tdt-brand-row__handle { cursor: move; color: #8c8f94; }
+			.tdt-brand-row__img { width: 96px; height: 44px; object-fit: contain; border: 1px solid #f0f0f1; background: #fff; }
+			.tdt-brand-row__name { width: 180px !important; }
+			.tdt-brand-row__link { max-width: 280px; }
+			.tdt-brand-row__url { width: 260px !important; }
+			.tdt-brand-row__remove { margin-left: auto; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: #f0f0f1; font-size: 16px; line-height: 26px; cursor: pointer; }
+			.tdt-brand-row__remove:hover { background: #d63638; color: #fff; }
+			.tdt-brand-row.ui-sortable-placeholder { visibility: visible !important; height: 60px; border: 2px dashed #2271b1; background: #f0f6fc; }
 		</style>
 		<?php
 	}

@@ -4,6 +4,20 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.3] - 2026-11-04
+
+### ✨ Añadido
+- 🏷️ **Editor de marcas** en Plantilla V1 → Portada · Marcas: cada logo con su imagen (de la biblioteca de medios), su nombre y a dónde lleva (una marca de la tienda de la lista u otra URL). Se ordenan arrastrando, se quitan con la ✕ y "+ Añadir marca" agrega logos nuevos (p. ej. Botas Cana → su página de marca). Por defecto vienen los 12 logos del tema, ahora con enlace: antes solo Steelpro y Zubi-Ola enlazaban, porque se buscaba una marca con el mismo nombre (y en la tienda se llaman "3M Colombia", "Croydon Colombia", "Integral Impermeable"…). Sigmon lleva a la búsqueda (tiene tres marcas en la tienda); Aritex, Evacol y Dezega quedan sin enlace porque no tienen marca en la tienda.
+
+### 🔁 Cambiado
+- 🏠 Portada → **Ofertas**: 6 productos por defecto (una sola fila en computador; antes 8, en dos filas).
+- 🏠 Portada → **Productos destacados** (los más vendidos): máximo 6, y la etiqueta **"Oferta"** solo en los productos de la categoría Ofertas. Antes la llevaban todos, porque con Descuentos por Volumen todo el catálogo tiene precio rebajado.
+- 💳 Checkout → **Wompi**: el logo queda a la altura del círculo de selección y el texto "PSE, Bancolombia, Tarjetas…" debajo (antes el texto quedaba encima y el logo desalineado).
+- 💬 Ficha del producto: estilo del botón del plugin **Chat por WhatsApp** (`.cpw-button--product`), igual que los demás botones de compra, para cuando reemplace a OneClick Chat to Order.
+
+### 🐛 Corregido
+- 🌐 Paginación de la tienda y las categorías en español: "Página siguiente" / "Página anterior" (antes "Next Page" / "Previous Page").
+
 ## [1.5.2] - 2026-11-04
 
 ### ✨ Añadido
