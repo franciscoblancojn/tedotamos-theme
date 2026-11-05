@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.5] - 2026-11-04
+
+### 🐛 Corregido
+- ♾️ **Scroll infinito de la tienda, categorías, marcas y búsqueda**: se quedaba en "Cargando más productos…" sin añadir nada porque el enlace a la página siguiente salía como `https://tedotamos.com/tienda/%_%` (error 400). WooCommerce 11 entrega la base con el marcador `%_%` y el formato `page/%#%/`; ahora se expande `%_%` antes de sustituir el número de página. El enlace queda en `…/tienda/page/2/` y el scroll vuelve a cargar los productos.
+
 ## [1.5.4] - 2026-11-04
 
 ### ✨ Añadido

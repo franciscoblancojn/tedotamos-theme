@@ -38,12 +38,26 @@ if ( $total <= 1 ) {
 // imprime vacío (si no, el enlace anterior quedaría y volvería a cargar la última página).
 // Sin JS, o para los buscadores, es un enlace normal a la página siguiente.
 if ( martfury_get_option( 'catalog_nav_type' ) == 'infinite' ) {
+	// TeDotamos: WooCommerce 11 pasa $base con el marcador %_% y $format como "page/%#%/".
+	// Antes solo se sustituía %#% en $base, así que el enlace quedaba en "…/tienda/%_%"
+	// (400) y el scroll infinito no cargaba nada. Primero se expande %_% con $format.
+	$next_url = $base;
+	if ( false !== strpos( $next_url, '%_%' ) ) {
+		$next_format = $format;
+		if ( '' === $next_format ) {
+			global $wp_rewrite;
+			$next_format = user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' );
+		}
+		$next_url = str_replace( '%_%', $next_format, $next_url );
+	}
+	$next_url = str_replace( '%#%', $current + 1, $next_url );
+
 	printf(
 		'<nav class="woocommerce-pagination tdt-infinite" aria-label="%s">%s</nav>',
 		esc_attr__( 'Product Pagination', 'woocommerce' ),
 		$current < $total ? sprintf(
 			'<a class="next page-numbers" href="%s"><span id="martfury-products-loading" class="tdt-infinite__loading">%s</span></a>',
-			esc_url( str_replace( '%#%', $current + 1, $base ) ),
+			esc_url( $next_url ),
 			esc_html__( 'Loading more products', 'martfury' )
 		) : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	);
