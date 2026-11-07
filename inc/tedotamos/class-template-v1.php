@@ -61,6 +61,14 @@ class TeDotamos_Template_V1 {
 				'terms_label'     => array( 'type' => 'text', 'label' => 'Texto de la casilla', 'default' => 'He leído y acepto los términos y condiciones' ),
 				'terms_link_text' => array( 'type' => 'text', 'label' => 'Texto del enlace', 'default' => 'Ver términos y condiciones', 'help' => 'Vacío = sin enlace.' ),
 			),
+			'Aviso de cookies'  => array(
+				'cookies_enabled'     => array( 'type' => 'checkbox', 'label' => 'Mostrar el aviso de cookies a quien no lo ha aceptado', 'default' => 1, 'help' => 'Barra fija abajo en todas las páginas. Al pulsar "Aceptar" no vuelve a salir en ese navegador durante un año. Es informativo: no bloquea los píxeles (Meta, Google Ads) antes de aceptar.' ),
+				'cookies_title'       => array( 'type' => 'text', 'label' => 'Título', 'default' => 'Usamos cookies 🍪', 'help' => 'Vacío = sin título.' ),
+				'cookies_text'        => array( 'type' => 'textarea', 'label' => 'Descripción', 'default' => 'Usamos cookies propias y de terceros para que la tienda funcione, recordar tu carrito, analizar el uso del sitio y mostrarte publicidad relevante. Al continuar navegando o pulsar "Aceptar", aceptas su uso.' ),
+				'cookies_accept_text' => array( 'type' => 'text', 'label' => 'Botón aceptar: texto', 'default' => 'Aceptar' ),
+				'cookies_policy_text' => array( 'type' => 'text', 'label' => 'Botón de la política: texto', 'default' => 'Ver política de cookies', 'help' => 'Vacío = sin botón.' ),
+				'cookies_page'        => array( 'type' => 'page', 'label' => 'Botón de la política: página', 'default' => 0, 'help' => 'Se abre en otra pestaña. Automática = la página /politica-de-cookies/ o, si no existe, la política de privacidad de WordPress (Ajustes → Privacidad).' ),
+			),
 			'Barra superior'    => array(
 				'topbar_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar la barra superior', 'default' => 1 ),
 				'topbar_items'   => array(
@@ -321,6 +329,9 @@ class TeDotamos_Template_V1 {
 		}
 		if ( self::get( 'terms_enabled' ) && class_exists( 'WooCommerce' ) ) {
 			TeDotamos_Checkout_Terms::init();
+		}
+		if ( self::get( 'cookies_enabled' ) ) {
+			TeDotamos_Cookie_Notice::init();
 		}
 		// Prioridad 99: la versión móvil de Martfury (Martfury_Mobile, en after_setup_theme:100)
 		// registra sus propios filtros de logo después y, con la misma prioridad, ganaba en móvil.

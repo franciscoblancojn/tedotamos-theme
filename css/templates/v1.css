@@ -2532,3 +2532,136 @@ body.tdt-tpl-v1 .tdt-cats__children li.is-navigating {
 	text-decoration: underline;
 	white-space: nowrap;
 }
+
+/* Aviso de cookies (inc/tedotamos/class-cookie-notice.php). */
+.tdt-cookies[hidden] {
+	display: none !important;
+}
+
+.tdt-cookies {
+	position: fixed;
+	left: 16px;
+	right: 16px;
+	bottom: 16px;
+	z-index: 100000;
+	display: flex;
+	justify-content: center;
+	pointer-events: none;
+	font-family: inherit;
+}
+
+.tdt-cookies__inner {
+	pointer-events: auto;
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	width: 100%;
+	max-width: 1100px;
+	padding: 18px 22px;
+	background: #fff;
+	color: var(--tdt-text);
+	border: 1px solid var(--tdt-border);
+	border-top: 4px solid var(--tdt-primary);
+	border-radius: var(--tdt-radius);
+	box-shadow: 0 12px 40px rgba(17, 24, 39, .18);
+}
+
+.tdt-cookies__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.tdt-cookies__title {
+	margin: 0 0 4px;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--tdt-dark);
+}
+
+.tdt-cookies__text,
+.tdt-cookies__text p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--tdt-muted);
+}
+
+.tdt-cookies__text p + p {
+	margin-top: 6px;
+}
+
+.tdt-cookies__actions {
+	display: flex;
+	flex: 0 0 auto;
+	gap: 10px;
+}
+
+.tdt-cookies,
+.tdt-cookies * {
+	box-sizing: border-box;
+}
+
+.tdt-cookies__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 42px;
+	padding: 0 20px;
+	border-radius: 8px;
+	border: 2px solid var(--tdt-primary);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	white-space: nowrap;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.tdt-cookies__btn--accept {
+	background: var(--tdt-primary);
+	color: #fff;
+}
+
+.tdt-cookies__btn--accept:hover,
+.tdt-cookies__btn--accept:focus {
+	filter: brightness(.92);
+	color: #fff;
+}
+
+.tdt-cookies__btn--ghost,
+.tdt-cookies__btn--ghost:visited {
+	background: transparent;
+	color: var(--tdt-primary);
+}
+
+.tdt-cookies__btn--ghost:hover,
+.tdt-cookies__btn--ghost:focus {
+	background: var(--tdt-soft);
+	color: var(--tdt-primary);
+}
+
+@media (max-width: 767px) {
+	/* Encima de la barra de navegación inferior de la versión móvil de Martfury. */
+	.tdt-cookies {
+		left: 10px;
+		right: 10px;
+		bottom: 77px;
+	}
+
+	.tdt-cookies__inner {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+		padding: 16px;
+	}
+
+	.tdt-cookies__actions {
+		flex-direction: column-reverse;
+	}
+
+	.tdt-cookies__btn {
+		width: 100%;
+		white-space: normal;
+	}
+}

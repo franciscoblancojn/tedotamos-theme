@@ -9,6 +9,8 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 ### ✨ Añadido
 - ✅ **Términos y condiciones en el checkout (plantilla V1)**: casilla obligatoria «He leído y acepto los términos y condiciones», después de los métodos de pago y antes de «Realizar el pedido». Sin marcarla, WooCommerce no deja hacer el pedido, y lo marcado se conserva cuando el checkout se recalcula (envío, cupón…). Junto a la casilla, el enlace **«Ver términos y condiciones»** abre la página en otra pestaña (antes WooCommerce desplegaba el texto dentro del checkout).
 - ⚙️ Se configura en Apariencia → TeDotamos → Plantilla V1 → **Checkout · Términos y condiciones**: activar, página (por defecto la de WooCommerce o, si no hay, `/terminos-y-condiciones/`), texto de la casilla y texto del enlace.
+- 🍪 **Aviso de cookies (plantilla V1)**: al abrir el sitio, quien no lo ha aceptado ve una barra abajo con título, descripción, **«Ver política de cookies»** (abre la página en otra pestaña) y **«Aceptar»**. Al aceptar no vuelve a salir en ese navegador durante un año. En el celular sale encima de la barra de navegación inferior. Funciona con la caché de LiteSpeed (el navegador decide si mostrarlo) y sale al cargar aunque LiteSpeed retrase el resto del JavaScript. Es informativo: no bloquea los píxeles antes de aceptar.
+- ⚙️ Se configura en Apariencia → TeDotamos → Plantilla V1 → **Aviso de cookies**: activar, título, descripción, texto de los botones y página de la política (por defecto `/politica-de-cookies/`).
 
 ## [1.5.6] - 2026-11-05
 

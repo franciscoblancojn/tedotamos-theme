@@ -39,6 +39,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `inc/frontend/header.php` | La versión de `js/scripts.js` es la del tema, para invalidar la caché del navegador al publicar |
 | `inc/tedotamos/bootstrap.php` | Carga `class-search.php` |
 | `inc/tedotamos/class-checkout-terms.php` | Checkout (V1): casilla obligatoria de términos y condiciones (la nativa de WooCommerce) con enlace que abre la página en otra pestaña; página y textos en Plantilla V1 → Checkout · Términos y condiciones (campo tipo `page` en `class-template-v1.php`) |
+| `inc/tedotamos/class-cookie-notice.php` | Aviso de cookies (V1): barra fija abajo hasta pulsar "Aceptar" (cookie `tdt_cookies_ok`, 1 año); título, descripción, botones y página de la política en Plantilla V1 → Aviso de cookies. HTML siempre oculto y script en línea `data-no-optimize`/`data-no-defer` por la caché y el JS retrasado de LiteSpeed |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
 

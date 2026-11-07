@@ -19,6 +19,7 @@ require_once __DIR__ . '/class-category-icons.php';
 require_once __DIR__ . '/class-translations.php';
 require_once __DIR__ . '/class-search.php';
 require_once __DIR__ . '/class-checkout-terms.php';
+require_once __DIR__ . '/class-cookie-notice.php';
 
 TeDotamos_Updater::init();
 TeDotamos_Legacy_Plugins::init();
