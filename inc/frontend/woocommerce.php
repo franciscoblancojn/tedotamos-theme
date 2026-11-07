@@ -814,11 +814,13 @@ class Martfury_WooCommerce {
 		$terms = get_the_terms( $product->get_id(), 'product_brand' );
 
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			// TeDotamos: enlace "Visita Tienda Oficial" a la página de la marca (sin etiqueta ni nombre visible).
+			$link_text = apply_filters( 'tedotamos_product_brand_link_text', 'Visita Tienda Oficial', $terms[0] );
 			echo sprintf(
-				'<div class="meta-brand"><span class="brand-label">%s</span><a href="%s">%s</a></div>',
-				apply_filters( 'martfury_product_brand_text', esc_html__( 'Brand:', 'martfury' ) ),
+				'<div class="meta-brand"><a href="%s" aria-label="%s">%s</a></div>',
 				esc_url( get_term_link( $terms[0] ), 'product_brand' ),
-				esc_html( $terms[0]->name ) );
+				esc_attr( $link_text . ': ' . $terms[0]->name ),
+				esc_html( $link_text ) );
 		}
 
 	}
@@ -2575,10 +2577,14 @@ class Martfury_WooCommerce {
 		global $product;
 		$terms = get_the_terms( $product->get_id(), 'product_brand' );
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ): ?>
+            <?php
+			// TeDotamos: enlace "Visita Tienda Oficial" a la página de la marca (sin etiqueta ni nombre visible).
+			$link_text = apply_filters( 'tedotamos_product_brand_link_text', 'Visita Tienda Oficial', $terms[0] );
+			?>
             <li class="meta-brand">
-				<?php echo apply_filters( 'martfury_product_brand_text', esc_html__( 'Brand:', 'martfury' ) ); ?>
                 <a href="<?php echo esc_url( get_term_link( $terms[0] ), 'product_brand' ); ?>"
-                   class="meta-value"><?php echo esc_html( $terms[0]->name ); ?></a>
+                   class="meta-value"
+                   aria-label="<?php echo esc_attr( $link_text . ': ' . $terms[0]->name ); ?>"><?php echo esc_html( $link_text ); ?></a>
             </li>
 		<?php endif;
 	}

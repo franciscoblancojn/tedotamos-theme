@@ -32,6 +32,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `js/v1-topbar.js` | Barra superior de V1 como slider en móvil |
 | `js/v1-nav-feedback.js` | Aviso de carga (color + indicador) al tocar una categoría |
 | `inc/frontend/woocommerce.php` | `get_product_single_excerpt()`: unas "características" sin contenido visible ya no ocultan la descripción corta. Buscador: `instance_search_result()` guarda la caché y `product_search_sku()` no escanea `wp_postmeta` con palabras normales y limita los IDs |
+| `inc/frontend/woocommerce.php` | Marca: `product_loop_brand_name()` y `single_product_brand()` muestran solo el enlace "Visita Tienda Oficial" (filtro `tedotamos_product_brand_link_text`) en lugar de "Brand:" + nombre de la marca |
 | `woocommerce/loop/pagination.php` | Scroll infinito: solo el enlace a la página siguiente (y el `<nav>` vacío en la última página); expande el marcador `%_%` con el formato de paginación de WooCommerce 11 (`page/%#%/`) antes de poner el número |
 | `inc/tedotamos/class-admin.php` | Página Apariencia → TeDotamos (actualizaciones + configuración general) |
 | `inc/tedotamos/class-search.php` | Buscador: valida el término, cachea el desplegable, busca SKU solo si el término parece un SKU y acota los IDs. Opciones en Apariencia → TeDotamos → General |

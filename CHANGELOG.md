@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.9] - 2026-11-07
+
+### 🔄 Cambiado
+- 🏷️ **Marca del producto**: en la ficha del producto y en las tarjetas de las listas, «Visita la tienda: Camisetas Positex» pasa a ser un solo enlace **«Visita Tienda Oficial»** a la página de la marca. El nombre de la marca queda en el `aria-label` para lectores de pantalla. El texto se puede cambiar con el filtro `tedotamos_product_brand_link_text`.
+
 ## [1.5.8] - 2026-11-07
 
 ### ✨ Añadido
