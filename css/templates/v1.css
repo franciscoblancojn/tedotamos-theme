@@ -2524,3 +2524,11 @@ body.tdt-tpl-v1 .tdt-cats__children li.is-navigating {
 		padding: 0 10px;
 	}
 }
+
+/* Checkout: enlace "Ver términos y condiciones" junto a la casilla (abre en otra pestaña). */
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper .tdt-terms-link {
+	color: var(--tdt-primary);
+	font-weight: 600;
+	text-decoration: underline;
+	white-space: nowrap;
+}

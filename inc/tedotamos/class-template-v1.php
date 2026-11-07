@@ -55,6 +55,12 @@ class TeDotamos_Template_V1 {
 				),
 				'catalog_per_page' => array( 'type' => 'number', 'label' => 'Productos por página (tienda, categorías, marcas y búsqueda)', 'default' => 24, 'min' => 0, 'max' => 100, 'help' => 'Con más productos por página la tienda tarda mucho en cargar (con todos, 182, el servidor tardaba 24 s). 0 = usar el valor del Customizer de Martfury.' ),
 			),
+			'Checkout · Términos y condiciones' => array(
+				'terms_enabled'   => array( 'type' => 'checkbox', 'label' => 'Pedir que acepten los términos y condiciones para hacer el pedido', 'default' => 1, 'help' => 'Casilla obligatoria en Finalizar compra, después de los métodos de pago y antes del botón "Realizar el pedido". Sin marcarla no se puede hacer el pedido.' ),
+				'terms_page'      => array( 'type' => 'page', 'label' => 'Página de términos y condiciones', 'default' => 0, 'help' => 'Se abre en otra pestaña desde el enlace de la casilla. Automática = la de WooCommerce (Ajustes → Avanzado) o, si no hay, la página /terminos-y-condiciones/. Tiene prioridad sobre la de WooCommerce mientras V1 esté activa.' ),
+				'terms_label'     => array( 'type' => 'text', 'label' => 'Texto de la casilla', 'default' => 'He leído y acepto los términos y condiciones' ),
+				'terms_link_text' => array( 'type' => 'text', 'label' => 'Texto del enlace', 'default' => 'Ver términos y condiciones', 'help' => 'Vacío = sin enlace.' ),
+			),
 			'Barra superior'    => array(
 				'topbar_enabled' => array( 'type' => 'checkbox', 'label' => 'Mostrar la barra superior', 'default' => 1 ),
 				'topbar_items'   => array(
@@ -276,6 +282,9 @@ class TeDotamos_Template_V1 {
 				case 'term':
 					$clean[ $key ] = sanitize_title( $value );
 					break;
+				case 'page':
+					$clean[ $key ] = absint( $value );
+					break;
 				case 'select':
 					$clean[ $key ] = isset( $field['choices'][ $value ] ) ? $value : $field['default'];
 					break;
@@ -309,6 +318,9 @@ class TeDotamos_Template_V1 {
 		}
 		if ( self::get( 'dcats_enabled' ) ) {
 			add_filter( 'tedotamos_department_menu', array( __CLASS__, 'department_menu' ) );
+		}
+		if ( self::get( 'terms_enabled' ) && class_exists( 'WooCommerce' ) ) {
+			TeDotamos_Checkout_Terms::init();
 		}
 		// Prioridad 99: la versión móvil de Martfury (Martfury_Mobile, en after_setup_theme:100)
 		// registra sus propios filtros de logo después y, con la misma prioridad, ganaba en móvil.
@@ -1617,6 +1629,18 @@ class TeDotamos_Template_V1 {
 										break;
 									case 'gallery':
 										self::render_gallery_field( $id, $field, self::hero_slides(), $f['default'] );
+										break;
+									case 'page':
+										wp_dropdown_pages(
+											array(
+												'id'                => esc_attr( $id ),
+												'name'              => esc_attr( $field ),
+												'selected'          => (int) $value,
+												'show_option_none'  => '— Automática —',
+												'option_none_value' => '0',
+												'post_status'       => 'publish',
+											)
+										);
 										break;
 									case 'image':
 										printf(

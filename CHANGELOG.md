@@ -4,6 +4,12 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Añadido
+- ✅ **Términos y condiciones en el checkout (plantilla V1)**: casilla obligatoria «He leído y acepto los términos y condiciones», después de los métodos de pago y antes de «Realizar el pedido». Sin marcarla, WooCommerce no deja hacer el pedido, y lo marcado se conserva cuando el checkout se recalcula (envío, cupón…). Junto a la casilla, el enlace **«Ver términos y condiciones»** abre la página en otra pestaña (antes WooCommerce desplegaba el texto dentro del checkout).
+- ⚙️ Se configura en Apariencia → TeDotamos → Plantilla V1 → **Checkout · Términos y condiciones**: activar, página (por defecto la de WooCommerce o, si no hay, `/terminos-y-condiciones/`), texto de la casilla y texto del enlace.
+
 ## [1.5.6] - 2026-11-05
 
 ### ⚡ Mejorado

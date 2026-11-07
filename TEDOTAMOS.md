@@ -38,6 +38,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `js/scripts.js` | Buscador: espera 250 ms antes de consultar (antes lanzaba una petición por tecla) y cancela la pendiente al cambiar de categoría |
 | `inc/frontend/header.php` | La versión de `js/scripts.js` es la del tema, para invalidar la caché del navegador al publicar |
 | `inc/tedotamos/bootstrap.php` | Carga `class-search.php` |
+| `inc/tedotamos/class-checkout-terms.php` | Checkout (V1): casilla obligatoria de términos y condiciones (la nativa de WooCommerce) con enlace que abre la página en otra pestaña; página y textos en Plantilla V1 → Checkout · Términos y condiciones (campo tipo `page` en `class-template-v1.php`) |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
 
