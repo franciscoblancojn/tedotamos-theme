@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.11] - 2026-11-10
 
 ### 🐛 Corregido
 - 🖼️ **Galería de la ficha del producto (escritorio)**: al hacer clic en una miniatura, las miniaturas desaparecían y la imagen principal quedaba corrida a la derecha. Martfury las montaba en un slider vertical a la izquierda y el CSS heredado las forzaba a una fila encima de la parte baja de la imagen, que además tapaba la foto y abría el visor al hacer clic. Ahora la imagen va a todo el ancho y centrada, y las miniaturas en una fila debajo (5 a la vista, con flechas si hay más; la activa con borde naranja). El slider también arranca cuando LiteSpeed retrasa el JavaScript. En el celular sigue la paginación por puntos.
