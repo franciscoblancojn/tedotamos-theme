@@ -28,6 +28,9 @@ class TeDotamos_Admin {
 		'search_cache_ttl'       => 5, // minutos
 		'search_ajax_title_only' => 1, // el desplegable busca solo en el título
 		'search_sku_heuristic'   => 1, // buscar SKU solo si el término parece un SKU
+
+		// Fuentes de íconos: 'subset' = css/icons.css recortado, 'full' = Linearicons/Ionicons/ElegantIcons completas.
+		'icons'                  => 'subset',
 	);
 
 	public static function init() {
@@ -85,6 +88,8 @@ class TeDotamos_Admin {
 			'search_cache_ttl'       => min( 60, $ttl ),
 			'search_ajax_title_only' => empty( $input['search_ajax_title_only'] ) ? 0 : 1,
 			'search_sku_heuristic'   => empty( $input['search_sku_heuristic'] ) ? 0 : 1,
+
+			'icons'                  => isset( $input['icons'] ) && 'full' === $input['icons'] ? 'full' : 'subset',
 		);
 
 		// Si cambian las opciones del buscador, que no se sirvan respuestas viejas.
@@ -328,6 +333,16 @@ class TeDotamos_Admin {
 							Buscar en el SKU solo cuando el término parece un SKU (sin espacios y con algún número)
 						</label>
 						<p class="description">Evita recorrer toda la tabla de metadatos con palabras normales como "taladro".</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="tedotamos-icons">Íconos</label></th>
+					<td>
+						<select id="tedotamos-icons" name="<?php echo esc_attr( $name ); ?>[icons]">
+							<option value="subset" <?php selected( self::get_option( 'icons' ), 'subset' ); ?>>Optimizados (solo los que usa el sitio, ~15 KB)</option>
+							<option value="full" <?php selected( self::get_option( 'icons' ), 'full' ); ?>>Completos (Linearicons, Ionicons y ElegantIcons, ~370 KB)</option>
+						</select>
+						<p class="description">Si un ícono elegido en el menú o en un widget sale como un cuadro vacío, elegir <strong>Completos</strong> y pedir que se añada a <code>fonts/subset/icons.json</code>. Al cambiarlo, purgar la caché de LiteSpeed.</p>
 					</td>
 				</tr>
 			</table>

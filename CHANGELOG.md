@@ -4,6 +4,14 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ⚡ Mejorado
+- 🔣 **Íconos mucho más livianos**: el tema cargaba tres fuentes de íconos completas (Linearicons, Ionicons y ElegantIcons: ~250 KB de fuentes y ~120 KB de CSS) para usar unas decenas de íconos. Ahora carga una sola hoja `css/icons.css` (4 KB) con fuentes recortadas a los íconos que usa el sitio (~13 KB en total). Se ven igual. Si un ícono elegido en el menú o en un widget sale como un cuadro vacío, en Apariencia → TeDotamos → General → **Íconos** se puede volver a **Completos**.
+- 🧹 **`style.css` 64 KB más chico**: se quitaron los estilos de plugins que el sitio no tiene (Dokan, WCFM, WC Vendors, WCMp, WPBakery, YITH, WPML, Advanced Woo Search) y de los diseños de Martfury que no se usan (headers 2–9, plantillas de producto distintas de la 6 y de catálogo distintas de la 10). Si se cambia el diseño del header, del producto o del catálogo en el Customizer, hay que recuperar esos estilos de Martfury 3.4.4.
+- 📦 El CSS de «Comprados juntos» solo se carga en la ficha del producto (antes, en todas las páginas).
+- 🧽 `css/tedotamos.css` y `css/templates/v1.css`: fuera las reglas sin uso (widgets de Elementor Pro, que no está instalado; botón de OneClick Chat to Order, reemplazado por Chat por WhatsApp; `#topbar`, `.tdt-page-head`, `.tdt-btn--outline`).
+
 ## [1.5.9] - 2026-11-07
 
 ### 🔄 Cambiado

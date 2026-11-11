@@ -41,6 +41,9 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `inc/tedotamos/bootstrap.php` | Carga `class-search.php` |
 | `inc/tedotamos/class-checkout-terms.php` | Checkout (V1): casilla obligatoria de términos y condiciones (la nativa de WooCommerce) con enlace que abre la página en otra pestaña; página y textos en Plantilla V1 → Checkout · Términos y condiciones (campo tipo `page` en `class-template-v1.php`) |
 | `inc/tedotamos/class-cookie-notice.php` | Aviso de cookies (V1): barra fija abajo hasta pulsar "Aceptar" (cookie `tdt_cookies_ok`, 1 año); título, descripción, botones y página de la política en Plantilla V1 → Aviso de cookies. HTML siempre oculto y script en línea `data-no-optimize`/`data-no-defer` por la caché y el JS retrasado de LiteSpeed |
+| `css/icons.css` + `fonts/subset/` + `inc/frontend/header.php` | Íconos recortados: una hoja con Linearicons/Ionicons/ElegantIcons reducidas a los íconos usados (lista en `fonts/subset/icons.json`, se regenera con `npm run build:icons` desde el repo de herramientas). Los handles `linearicons`/`ionicons`/`eleganticons` siguen registrados (los dos últimos como alias). Opción «Íconos: completos» en Apariencia → TeDotamos → General |
+| `style.css` | Sin los estilos de plugins no instalados (Dokan, WCFM, WC Vendors, WCMp, WPBakery, YITH, WPML, Advanced Woo Search) ni de los layouts no usados (header ≠ 1, producto ≠ 6, catálogo ≠ 10). Hecho con `npm run purge:theme-css`; el original está en `theme/martfury/style.css` |
+| `inc/modules/product-bought-together/frontend.php` | El CSS del módulo solo se encola en `is_singular( 'product' )` |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
 
@@ -149,10 +152,10 @@ Según el escaneo de `data/assets-scan-latest.json` y los plugins instalados:
   `wc-vendors/`, `dc-vendors/` y `inc/vendors/` (Dokan, WC Vendors, WCMp, WCFM).
 - `vc_templates/`: WPBakery no está instalado (el sitio usa Elementor).
 - `woocommerce/add-to-wishlist.php`: plantilla para YITH Wishlist (el sitio usa WCBoost).
-- Módulo *Product Bought Together* (`inc/modules/product-bought-together/`): su CSS
-  no se usa en ninguna página (0%) y su JS casi nada (5%), pero se carga en el 98% de las páginas.
-- `fonts/` (5.4 MB): `linearicons` solo se usa al 3%.
+- Módulo *Product Bought Together* (`inc/modules/product-bought-together/`): su CSS ya solo
+  se carga en la ficha del producto; su JS sigue cargándose en todas las páginas.
+- `fonts/` (5.4 MB): las fuentes completas solo se usan con la opción «Íconos: completos».
 - El sitio carga `js/scripts.js` (113 KB, sin minificar) en lugar de `js/scripts.min.js`.
-- `style.css` pesa 704 KB y solo se usa el 14% en el frontend.
+- `style.css` pesa 640 KB y se usa ~20 % en el frontend: sobran sobre todo widgets de Martfury Addons que no están en ninguna página, wishlist, blog y bloques de carrito/checkout (ver `resumen/css-tema-sin-uso.md` del repo de herramientas).
 - Hay fuentes de Google rotas en el HTML (`fonts.gstatic.com` declarado como hoja de estilos
   y una URL inválida `fonts.googleapis.com&display=swap`); revisar si vienen del tema.

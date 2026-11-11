@@ -1,0 +1,66 @@
+/*! TeDotamos: íconos recortados. Generado por scripts/build-icons.js a partir de
+ * fonts/subset/icons.json. No editar a mano. Originales: css/{linearicons,ionicons,eleganticons}.min.css */
+@font-face{font-family:'Linearicons';src:url(../fonts/subset/linearicons.woff2?v=ca6f56c5) format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+[class^="icon-"],[class*=" icon-"]{font-family:'Linearicons' !important;speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;line-height: 1;letter-spacing: 0;-webkit-font-feature-settings: "liga";-moz-font-feature-settings: "liga=1";-moz-font-feature-settings: "liga";-ms-font-feature-settings: "liga" 1;font-feature-settings: "liga";-webkit-font-variant-ligatures: discretionary-ligatures;font-variant-ligatures: discretionary-ligatures;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+.icon-home:before{content:"\e600"}
+.icon-eye:before{content:"\e6a5"}
+.icon-equalizer:before{content:"\e6f2"}
+.icon-user:before{content:"\e71e"}
+.icon-users:before{content:"\e722"}
+.icon-bag:before{content:"\e74b"}
+.icon-bag2:before{content:"\e74c"}
+.icon-receipt:before{content:"\e757"}
+.icon-wallet:before{content:"\e758"}
+.icon-credit-card:before{content:"\e759"}
+.icon-3d-rotate:before{content:"\e875"}
+.icon-network:before{content:"\e886"}
+.icon-clock:before{content:"\e8e6"}
+.icon-magnifier:before{content:"\e922"}
+.icon-cross:before{content:"\e92a"}
+.icon-cross2:before{content:"\e935"}
+.icon-menu:before{content:"\e92b"}
+.icon-list4:before{content:"\e930"}
+.icon-plus:before{content:"\e936"}
+.icon-minus:before{content:"\e937"}
+.icon-grid:before{content:"\e975"}
+.icon-chevron-down:before{content:"\e93a"}
+.icon-chevron-left:before{content:"\e93b"}
+.icon-chevron-right:before{content:"\e93c"}
+.icon-chevron-up:before{content:"\e939"}
+.icon-arrow-left:before{content:"\e943"}
+.icon-arrow-right:before{content:"\e944"}
+.icon-arrow-up:before{content:"\e941"}
+.icon-arrow-down:before{content:"\e942"}
+.icon-camera-flip:before{content:"\e705"}
+.icon-chart-bars:before{content:"\e7fc"}
+.icon-checkmark-circle:before{content:"\e959"}
+.icon-check:before{content:"\e934"}
+.icon-heart:before{content:"\e68c"}
+.icon-telephone:before{content:"\e76a"}
+.icon-phone:before{content:"\e7a5"}
+.icon-envelope:before{content:"\e696"}
+.icon-cart:before{content:"\e74d"}
+.icon-cart-full:before{content:"\e74f"}
+.icon-truck:before{content:"\e857"}
+.icon-store:before{content:"\e744"}
+.icon-gift:before{content:"\e7ff"}
+.icon-tag:before{content:"\e755"}
+.icon-map-marker:before{content:"\e77a"}
+.icon-lock:before{content:"\e66b"}
+.icon-trash2:before{content:"\e681"}
+.icon-star:before{content:"\e68d"}
+.icon-question-circle:before{content:"\e957"}
+.icon-headset:before{content:"\e6f0"}
+.icon-refund:before{content:"\e8e2"}
+.icon-shield-check:before{content:"\e668"}
+@font-face{font-family:'Ionicons';src:url(../fonts/subset/ionicons.woff2?v=24e1b9ca) format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+.ion,.ionicons,.ion-ios-arrow-left:before,.ion-ios-arrow-right:before,.ion-play:before{display:inline-block;font-family:"Ionicons";speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;text-rendering:auto;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.ion-ios-arrow-left:before{content:"\f3d2"}
+.ion-ios-arrow-right:before{content:"\f3d3"}
+.ion-play:before{content:"\f215"}
+@font-face{font-family:'ElegantIcons';src:url(../fonts/subset/eleganticons.woff2?v=607c7834) format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+.icon_minus-06,.icon_plus,.arrow_carrot_up_alt,.social_instagram{font-family:'ElegantIcons';speak:none;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;}
+.icon_minus-06:before{content:"\4b"}
+.icon_plus:before{content:"\4c"}
+.arrow_carrot_up_alt:before{content:"\e043"}
+.social_instagram:before{content:"\e09a"}

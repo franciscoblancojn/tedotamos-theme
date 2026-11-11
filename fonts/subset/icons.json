@@ -1,0 +1,14 @@
+{
+  "_comment": "Íconos que conserva css/icons.css (fuentes recortadas). Regenerar con `npm run build:icons` desde la raíz del repo de herramientas. Además se conservan solos los glifos que style.css, tedotamos.css y v1.css usan con content:\"\\e…\". Si un ícono elegido en el admin (mega menú, widgets) no sale, añadirlo aquí o poner Apariencia → TeDotamos → General → Íconos en «completos».",
+  "linearicons": [
+    "home", "eye", "equalizer", "user", "users", "bag", "bag2", "receipt", "wallet", "credit-card", "3d-rotate", "network",
+    "clock", "magnifier", "cross", "cross2", "menu", "list4", "plus", "minus", "grid",
+    "chevron-down", "chevron-left", "chevron-right", "chevron-up",
+    "arrow-left", "arrow-right", "arrow-up", "arrow-down",
+    "camera-flip", "chart-bars", "checkmark-circle", "check", "heart", "telephone", "phone", "envelope",
+    "cart", "cart-full", "truck", "store", "gift", "tag", "map-marker", "lock", "trash2", "star", "question-circle",
+    "headset", "refund", "shield-check"
+  ],
+  "ionicons": ["ios-arrow-left", "ios-arrow-right", "play"],
+  "eleganticons": ["icon_minus-06", "icon_plus", "arrow_carrot_up_alt", "social_instagram"]
+}

@@ -70,7 +70,10 @@ class Frontend {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'martfury-product-bought-together', get_template_directory_uri() . '/inc/modules/product-bought-together/assets/product-bought-together.css', array(), '1.0.0' );
+		// TeDotamos: el bloque solo sale en la ficha del producto; antes el CSS se cargaba en todas las páginas.
+		if ( is_singular( 'product' ) ) {
+			wp_enqueue_style( 'martfury-product-bought-together', get_template_directory_uri() . '/inc/modules/product-bought-together/assets/product-bought-together.css', array(), '1.0.0' );
+		}
 		wp_enqueue_script('martfury-product-bought-together', get_template_directory_uri() . '/inc/modules/product-bought-together/assets/product-bought-together.js',  array('jquery'), '1.0.0' );
 
 		if ( is_singular( 'product' ) ) {

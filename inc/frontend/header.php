@@ -42,9 +42,18 @@ function martfury_enqueue_scripts() {
 	 */
 	wp_register_style( 'martfury-fonts', martfury_fonts_url(), array(), '20170801' );
 	wp_register_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '3.3.7' );
-	wp_register_style( 'linearicons', get_template_directory_uri() . '/css/linearicons.min.css', array(), '1.0.0' );
-	wp_register_style( 'ionicons', get_template_directory_uri() . '/css/ionicons.min.css', array(), '2.0.0' );
-	wp_register_style( 'eleganticons', get_template_directory_uri() . '/css/eleganticons.min.css', array(), '1.0.0' );
+	// TeDotamos: por defecto, una sola hoja (css/icons.css) con fuentes recortadas a los íconos que usa el sitio
+	// (scripts/build-icons.js). Los handles ionicons/eleganticons quedan como alias para quien dependa de ellos.
+	// Apariencia → TeDotamos → General → Íconos: «completos» vuelve a las tres fuentes originales.
+	if ( class_exists( 'TeDotamos_Admin' ) && 'full' === TeDotamos_Admin::get_option( 'icons' ) ) {
+		wp_register_style( 'linearicons', get_template_directory_uri() . '/css/linearicons.min.css', array(), '1.0.0' );
+		wp_register_style( 'ionicons', get_template_directory_uri() . '/css/ionicons.min.css', array(), '2.0.0' );
+		wp_register_style( 'eleganticons', get_template_directory_uri() . '/css/eleganticons.min.css', array(), '1.0.0' );
+	} else {
+		wp_register_style( 'linearicons', get_template_directory_uri() . '/css/icons.css', array(), filemtime( get_template_directory() . '/css/icons.css' ) );
+		wp_register_style( 'ionicons', false, array( 'linearicons' ) );
+		wp_register_style( 'eleganticons', false, array( 'linearicons' ) );
+	}
 	wp_register_style( 'font-awesome', get_template_directory_uri() . '/css/font-awesome.min.css', array(), '4.7.0' );
 	wp_register_style( 'photoswipe', get_theme_file_uri( 'css/photoswipe.css' ), array(), '4.1.1' );
 	wp_enqueue_style(
