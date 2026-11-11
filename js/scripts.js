@@ -1127,7 +1127,8 @@
             var index = $links.index($(this)),
                 options = {
                     index: index,
-                    bgOpacity: 0.85,
+                    // TeDotamos: fondo más oscuro (antes 0.85) para que no se vea la página detrás del visor.
+                    bgOpacity: 0.95,
                     showHideOpacity: true,
                     mainClass: 'pswp--minimal-dark',
                     barsSize: {top: 0, bottom: 0},

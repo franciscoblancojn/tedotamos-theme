@@ -45,6 +45,7 @@ nuestro repo: https://github.com/franciscoblancojn/tedotamos-theme
 | `style.css` | Sin los estilos de plugins no instalados (Dokan, WCFM, WC Vendors, WCMp, WPBakery, YITH, WPML, Advanced Woo Search) ni de los layouts no usados (header ≠ 1, producto ≠ 6, catálogo ≠ 10). Hecho con `npm run purge:theme-css`; el original está en `theme/martfury/style.css` |
 | `inc/modules/product-bought-together/frontend.php` | El CSS del módulo solo se encola en `is_singular( 'product' )` |
 | `js/scripts.js` (`productThumbnail`) + `css/tedotamos.css` | Galería del producto: miniaturas en slider horizontal debajo de la imagen (antes vertical a la izquierda), 5 visibles; se inicia aunque FlexSlider haya creado las miniaturas antes (JS retrasado por LiteSpeed). CSS en el bloque «galería de la ficha del producto», solo `body:not(.mobile-version)` |
+| `css/tedotamos.css` (bloque «visor de imágenes») + `js/scripts.js` (`productGallery`, `bgOpacity` 0.95) | Visor PhotoSwipe: `z-index` por encima de la barra V1, WhatsApp y cookies; X, zoom y flechas como botones blancos visibles |
 | `.github/workflows/release.yml` | Construye `tedotamos.zip` y crea la release al subir un tag |
 | `TEDOTAMOS.md` | Este archivo |
 

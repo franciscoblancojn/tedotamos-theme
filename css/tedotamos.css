@@ -759,3 +759,109 @@ body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .
   height: auto !important;
   margin: -17px 0 -15px -16px !important;
 }
+
+/* ------------------------------------------------------------------
+ * TeDotamos: visor de imágenes del producto (PhotoSwipe).
+ * - Por encima de todo: la barra superior de V1 (z-index 9999), el botón de WhatsApp (9990) y el aviso
+ *   de cookies (100000) tapaban la barra del visor y no se veían la X ni el zoom.
+ * - Cerrar, zoom y flechas como botones circulares blancos con ícono oscuro (antes íconos blancos al 75 %).
+ * ------------------------------------------------------------------ */
+.pswp {
+  z-index: 100010;
+}
+.pswp .pswp__top-bar {
+  height: auto;
+  padding: max(10px, env(safe-area-inset-top)) 10px 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+}
+.pswp .pswp__counter {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  left: 10px;
+  height: 44px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 44px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 22px;
+  opacity: 1;
+}
+.pswp .pswp__top-bar .pswp__button--close,
+.pswp .pswp__top-bar .pswp__button--zoom {
+  position: relative;
+  float: none;
+  order: 2;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  background-color: #fff !important;
+  background-position: center !important;
+  background-size: 24px 24px !important;
+  background-repeat: no-repeat !important;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  opacity: 1;
+}
+.pswp .pswp__top-bar .pswp__button--zoom {
+  order: 1;
+}
+.pswp .pswp__top-bar .pswp__button--close:hover,
+.pswp .pswp__top-bar .pswp__button--zoom:hover,
+.pswp .pswp__top-bar .pswp__button--close:active,
+.pswp .pswp__top-bar .pswp__button--zoom:active {
+  opacity: 1;
+  background-color: #f2f2f2 !important;
+}
+.pswp .pswp__top-bar .pswp__button--close {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") !important;
+}
+/* Lupa con + (acercar) y con − cuando ya está ampliada */
+.pswp .pswp__top-bar .pswp__button--zoom {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6'/%3E%3C/svg%3E") !important;
+}
+.pswp--zoomed-in .pswp__top-bar .pswp__button--zoom {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21M7.5 10.5h6'/%3E%3C/svg%3E") !important;
+}
+/* La barra no se esconde sola en el celular (PhotoSwipe la oculta tras unos segundos sin tocar) */
+.pswp .pswp__ui--idle .pswp__top-bar,
+.pswp .pswp__ui--idle .pswp__button--arrow--left,
+.pswp .pswp__ui--idle .pswp__button--arrow--right {
+  opacity: 1;
+}
+.pswp .pswp__button--arrow--left,
+.pswp .pswp__button--arrow--right {
+  width: 56px;
+  height: 80px;
+  margin-top: -40px;
+  background: none !important;
+  opacity: 1;
+}
+.pswp .pswp__button--arrow--left::before,
+.pswp .pswp__button--arrow--right::before {
+  top: 18px;
+  width: 44px;
+  height: 44px;
+  background: #fff center / 22px 22px no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+.pswp .pswp__button--arrow--left::before {
+  left: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 5l-7 7 7 7'/%3E%3C/svg%3E");
+}
+.pswp .pswp__button--arrow--right::before {
+  right: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
+}
+/* Una sola imagen: sin flechas ni contador */
+.pswp .pswp__ui--one-slide .pswp__button--arrow--left,
+.pswp .pswp__ui--one-slide .pswp__button--arrow--right,
+.pswp .pswp__ui--one-slide .pswp__counter {
+  display: none;
+}

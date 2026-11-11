@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.12] - 2026-11-10
+
+### 🐛 Corregido
+- 🔍 **Visor de imágenes del producto (al tocar la foto)**: la barra superior de la plantilla V1 y el botón de WhatsApp quedaban encima del visor y tapaban la **X** y el **zoom**. Ahora el visor va por encima de todo y la X, la lupa (con «+» para acercar y «−» para alejar) y las flechas son botones blancos redondos y grandes, que no se esconden solos. El fondo es más oscuro, para que no se vea la página de atrás.
+
 ## [1.5.11] - 2026-11-10
 
 ### 🐛 Corregido
