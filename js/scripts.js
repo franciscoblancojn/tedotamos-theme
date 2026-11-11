@@ -952,27 +952,23 @@
 
                 var columns = $gallery.data('columns');
                 var count = $thumbnail.find('li').length;
-                if (count > columns) {
+                // TeDotamos: miniaturas en una fila horizontal debajo de la imagen (antes, columna vertical a la
+                // izquierda; el CSS heredado las forzaba a fila y al hacer clic el slider vertical las escondía).
+                var thumbsToShow = Math.max(parseInt(columns, 10) || 0, 5);
+                if (count > thumbsToShow) {
                     if (!$('.mf-single-product').hasClass('mf-product-sidebar')) {
                         $thumbnail.not('.slick-initialized').slick({
-                            slidesToShow: columns,
+                            slidesToShow: thumbsToShow,
                             slidesToScroll: 1,
                             focusOnSelect: true,
-                            vertical: true,
                             infinite: false,
-                            prevArrow: '<span class="icon-chevron-up slick-prev-arrow"></span>',
-                            nextArrow: '<span class="icon-chevron-down slick-next-arrow"></span>',
+                            prevArrow: '<span class="icon-chevron-left slick-prev-arrow" aria-label="Anterior"></span>',
+                            nextArrow: '<span class="icon-chevron-right slick-next-arrow" aria-label="Siguiente"></span>',
                             responsive: [
                                 {
-                                    breakpoint: 768,
+                                    breakpoint: 992,
                                     settings: {
                                         slidesToShow: 4
-                                    }
-                                },
-                                {
-                                    breakpoint: 480,
-                                    settings: {
-                                        slidesToShow: 3
                                     }
                                 }
                             ]
@@ -1004,6 +1000,14 @@
                     }
                 });
                 thumbObserver.observe($gallery[0], { childList: true, subtree: true });
+            }
+
+            // TeDotamos: si FlexSlider ya creó las miniaturas antes de que corra este script (LiteSpeed retrasa
+            // el JS hasta la primera interacción), el observer no se dispara y el slider no se iniciaba.
+            if ($gallery.find('.flex-control-thumbs li').length > 0) {
+                $gallery.imagesLoaded(function () {
+                    initThumbnailSlider();
+                });
             }
         }
     };

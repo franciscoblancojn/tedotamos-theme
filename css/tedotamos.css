@@ -225,20 +225,107 @@ ul.products li.product .product-inner {
 .single_add_to_cart_button {
   --button-spacing: 0px;
 }
-.slick-slider .slick-list,
-.slick-track {
+.slick-slider:not(.slick-vertical) .slick-list,
+.slick-slider:not(.slick-vertical) .slick-track {
   height: auto !important;
 }
-.woocommerce div.product div.images .flex-control-nav {
-  position: absolute;
-  top: inherit;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-}
-.woocommerce div.product div.images .product-image-ms,
-.woocommerce div.product div.images .flex-control-nav .slick-arrow {
+.woocommerce div.product div.images .product-image-ms {
   display: none !important;
+}
+
+/* ------------------------------------------------------------------
+ * TeDotamos: galería de la ficha del producto (escritorio).
+ * Imagen principal a todo el ancho y centrada; miniaturas en una fila debajo, sin taparla
+ * (slider horizontal de js/scripts.js con más de 5 imágenes; si hay 5 o menos, fila fija).
+ * Martfury las ponía en una columna de 70 px a la izquierda (padding-left de .images).
+ * En móvil (.mobile-version) se mantiene la paginación por puntos de Martfury.
+ * ------------------------------------------------------------------ */
+body:not(.mobile-version).woocommerce div.product div.images {
+  padding-left: 0;
+}
+body:not(.mobile-version).woocommerce div.product div.images .woocommerce-product-gallery__image img {
+  margin-inline: auto;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  margin: 12px 0 0;
+  padding: 0 4px;
+  opacity: 1;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav.no-slick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav li {
+  float: left;
+  width: auto;
+  margin: 0;
+  padding: 0 4px;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav.no-slick li {
+  width: calc((100% - 32px) / 5);
+  padding: 0;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav li img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav li:hover img {
+  border-color: #bdbdbd;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav li img.flex-active {
+  border: 2px solid var(--mf-border-primary-color);
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .slick-arrow {
+  position: absolute;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  z-index: 2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  line-height: 1;
+  color: #333;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .slick-prev-arrow {
+  left: -6px;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .slick-next-arrow {
+  right: -6px;
+  left: auto;
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .slick-arrow:hover {
+  color: #fff;
+  background: var(--mf-background-primary-color);
+}
+body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .slick-arrow.slick-disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 .woocommerce div.product form.cart .wcboost-wishlist-button {
   padding: 0 !important;
