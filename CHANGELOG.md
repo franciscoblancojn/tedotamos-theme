@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.10] - 2026-11-10
 
 ### ⚡ Mejorado
 - 🔣 **Íconos mucho más livianos**: el tema cargaba tres fuentes de íconos completas (Linearicons, Ionicons y ElegantIcons: ~250 KB de fuentes y ~120 KB de CSS) para usar unas decenas de íconos. Ahora carga una sola hoja `css/icons.css` (4 KB) con fuentes recortadas a los íconos que usa el sitio (~13 KB en total). Se ven igual. Si un ícono elegido en el menú o en un widget sale como un cuadro vacío, en Apariencia → TeDotamos → General → **Íconos** se puede volver a **Completos**.
