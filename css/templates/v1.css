@@ -208,12 +208,21 @@ body.tdt-tpl-v1 #site-header .extras-menu .mini-item-counter {
 	color: #fff;
 }
 
-/* Buscador: campo con borde y botón de color */
+/* Buscador: campo con borde y botón de color.
+   Sin overflow: hidden (recortaba el desplegable de resultados); las esquinas
+   redondeadas van en el campo y en el botón. */
 body.tdt-tpl-v1 #site-header .products-search .psearch-content {
 	border: 1.5px solid var(--tdt-border);
 	border-radius: 8px;
 	background: #fff;
-	overflow: hidden;
+}
+
+body.tdt-tpl-v1 #site-header .products-search .search-wrapper .search-results {
+	top: calc(100% + 6px);
+	left: -1.5px;
+	border: 1px solid var(--tdt-border);
+	border-radius: 10px;
+	box-shadow: var(--tdt-shadow);
 }
 
 body.tdt-tpl-v1 #site-header .products-search .psearch-content:focus-within {
@@ -227,12 +236,13 @@ body.tdt-tpl-v1 #site-header .header-main .products-search .product-cat {
 body.tdt-tpl-v1 #site-header .products-search .search-field {
 	border: 0;
 	font-size: 14px;
+	border-radius: 6.5px 0 0 6.5px;
 }
 
 body.tdt-tpl-v1 #site-header .products-search .search-submit {
 	background: var(--tdt-primary);
 	color: #fff;
-	border-radius: 0;
+	border-radius: 0 6.5px 6.5px 0;
 }
 
 /* Barra de menú */

@@ -28,6 +28,7 @@ class TeDotamos_Admin {
 		'search_cache_ttl'       => 5, // minutos
 		'search_ajax_title_only' => 1, // el desplegable busca solo en el título
 		'search_sku_heuristic'   => 1, // buscar SKU solo si el término parece un SKU
+		'search_suggestions'     => 1, // desplegable con sugerencias, categorías y "ver todos"
 
 		// Fuentes de íconos: 'subset' = css/icons.css recortado, 'full' = Linearicons/Ionicons/ElegantIcons completas.
 		'icons'                  => 'subset',
@@ -88,12 +89,13 @@ class TeDotamos_Admin {
 			'search_cache_ttl'       => min( 60, $ttl ),
 			'search_ajax_title_only' => empty( $input['search_ajax_title_only'] ) ? 0 : 1,
 			'search_sku_heuristic'   => empty( $input['search_sku_heuristic'] ) ? 0 : 1,
+			'search_suggestions'     => empty( $input['search_suggestions'] ) ? 0 : 1,
 
 			'icons'                  => isset( $input['icons'] ) && 'full' === $input['icons'] ? 'full' : 'subset',
 		);
 
 		// Si cambian las opciones del buscador, que no se sirvan respuestas viejas.
-		$search_keys = array( 'search_cache', 'search_cache_ttl', 'search_ajax_title_only', 'search_sku_heuristic' );
+		$search_keys = array( 'search_cache', 'search_cache_ttl', 'search_ajax_title_only', 'search_sku_heuristic', 'search_suggestions' );
 		foreach ( $search_keys as $key ) {
 			if ( (int) $clean[ $key ] !== (int) self::get_option( $key ) ) {
 				if ( class_exists( 'TeDotamos_Search' ) ) {
@@ -333,6 +335,11 @@ class TeDotamos_Admin {
 							Buscar en el SKU solo cuando el término parece un SKU (sin espacios y con algún número)
 						</label>
 						<p class="description">Evita recorrer toda la tabla de metadatos con palabras normales como "taladro".</p>
+						<label>
+							<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[search_suggestions]" value="1" <?php checked( self::get_option( 'search_suggestions' ) ); ?>>
+							Desplegable con sugerencias de búsqueda y categorías
+						</label>
+						<p class="description">Al escribir muestra búsquedas sugeridas (sacadas de los títulos de los productos), categorías, los productos con el término resaltado y «Ver todos los resultados». Desmarcado: la lista simple de productos de Martfury.</p>
 					</td>
 				</tr>
 				<tr>

@@ -1422,6 +1422,11 @@
                 return;
             }
 
+            // TeDotamos: flechas, Escape, Tab y modificadores no cambian el texto.
+            if ($.inArray(e.which, [9, 16, 17, 18, 27, 37, 38, 39, 40]) > -1) {
+                return;
+            }
+
             if (xhr) {
                 xhr.abort();
             }
@@ -1462,6 +1467,58 @@
         // TeDotamos: al enviar el formulario no hace falta esperar la consulta pendiente.
         $form.on('submit', function () {
             clearTimeout(searchTimer);
+        });
+
+        // TeDotamos: al volver al campo, vuelve a mostrar los resultados que ya tenía.
+        $form.on('focusin', '.search-field', function () {
+            var $currentForm = $(this).closest('.products-search');
+
+            if (this.value.trim().length >= 2 && $.trim($currentForm.find('.search-results').html()) !== '') {
+                $currentForm.addClass('searched actived found-products');
+            }
+        });
+
+        // TeDotamos: teclado en el desplegable. ↓/↑ recorren los enlaces, Escape lo cierra.
+        $form.on('keydown', '.search-field, .search-results a', function (e) {
+            var $currentForm = $(this).closest('.products-search');
+
+            if (e.which === 27) {
+                $currentForm.find('.search-field').trigger('focus');
+                $currentForm.removeClass('searching searched actived found-products found-no-product invalid-length');
+                return;
+            }
+
+            if ((e.which !== 40 && e.which !== 38) || !$currentForm.hasClass('actived')) {
+                return;
+            }
+
+            var $links = $currentForm.find('.search-results').find('.tdt-sr__list a, .title-item, .tdt-sr__all'),
+                index = $links.index(document.activeElement);
+
+            if (!$links.length) {
+                return;
+            }
+
+            e.preventDefault();
+
+            if (e.which === 40) {
+                index = index < $links.length - 1 ? index + 1 : 0;
+            } else if (index <= 0) {
+                $currentForm.find('.search-field').trigger('focus');
+                return;
+            } else {
+                index--;
+            }
+
+            $links.eq(index).trigger('focus');
+        });
+
+        // TeDotamos: LiteSpeed retrasa este JS hasta la primera interacción. Si el visitante
+        // ya escribió algo en ese momento, se lanza la búsqueda sin esperar otra tecla.
+        $form.find('.search-field').each(function () {
+            if (this === document.activeElement && this.value.trim().length >= 2) {
+                $(this).trigger('keyup');
+            }
         });
 
 

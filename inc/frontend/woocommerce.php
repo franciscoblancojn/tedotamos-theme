@@ -3225,6 +3225,14 @@ class Martfury_WooCommerce {
 
 		$has_results = ! empty( $response );
 
+		// TeDotamos: desplegable con sugerencias, categorías y "ver todos" (inc/tedotamos/class-search.php).
+		$is_products = ! ( isset( $_POST['search_type'] ) && $_POST['search_type'] == 'all' );
+		if ( $is_products && class_exists( 'TeDotamos_Search' ) && TeDotamos_Search::suggestions_enabled() ) {
+			list( $output, $has_results ) = TeDotamos_Search::render_dropdown( $response );
+			TeDotamos_Search::store_cached_response( $output, $has_results );
+			wp_send_json_success( $output );
+		}
+
 		if ( empty( $response ) ) {
 			$response[] = sprintf( '<li>%s</li>', esc_html__( 'Nothing found', 'martfury' ) );
 		}

@@ -4,6 +4,15 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ✨ Nuevo
+- 🔎 **Buscador con sugerencias al escribir (como Homecenter)**: el desplegable del buscador ahora muestra, a la izquierda, **búsquedas sugeridas** sacadas de los títulos del catálogo (p. ej. «guante **soldador**», «guante **pvc**») y **categorías** (las que se llaman como lo escrito y «casco en **Protección de Cabeza**»); a la derecha, los **productos** con la palabra resaltada, foto y precio, y un botón fijo **«Ver todos los resultados»**. En el celular va en una columna. Se puede recorrer con ↓/↑ y cerrar con Escape. Se apaga en Apariencia → TeDotamos → General → Buscador.
+
+### 🐛 Corregido
+- 🔍 **El desplegable del buscador no se veía**: en la plantilla V1 la caja del buscador tenía `overflow: hidden` (para redondear las esquinas) y recortaba la lista de resultados, así que al escribir no aparecía nada aunque el servidor sí respondía. Las esquinas redondeadas pasan al campo y al botón.
+- ⌨️ Si el visitante escribía antes de que LiteSpeed cargara el JavaScript (que se retrasa hasta la primera interacción), la búsqueda no se lanzaba hasta otra tecla. Ahora se lanza sola, y al volver al campo reaparecen los resultados.
+
 ## [1.5.12] - 2026-11-10
 
 ### 🐛 Corregido
