@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.13] - 2026-11-12
 
 ### ✨ Nuevo
 - 🔎 **Buscador con sugerencias al escribir (como Homecenter)**: el desplegable del buscador ahora muestra, a la izquierda, **búsquedas sugeridas** sacadas de los títulos del catálogo (p. ej. «guante **soldador**», «guante **pvc**») y **categorías** (las que se llaman como lo escrito y «casco en **Protección de Cabeza**»); a la derecha, los **productos** con la palabra resaltada, foto y precio, y un botón fijo **«Ver todos los resultados»**. En el celular va en una columna. Se puede recorrer con ↓/↑ y cerrar con Escape. Se apaga en Apariencia → TeDotamos → General → Buscador.
