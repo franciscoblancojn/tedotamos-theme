@@ -4,6 +4,14 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.16] - 2026-11-12
+
+### 🐛 Corregido
+- 🚚 **Carrito y checkout: selector de envío**. Tiene las mismas tarjetas que los medios de pago: círculo a la izquierda, transportadora y precio a la derecha (en negrita), y el método elegido con borde y punto naranja.
+  - Antes el elegido se quedaba sin círculo (fuente ElegantIcons) y solo se distinguía por el precio en rojo.
+  - Si hay un solo método, la tarjeta sale sin círculo.
+- 🏷️ **Etiqueta de descuento en la ficha del producto**: el «%» de «-30%» se salía de la etiqueta, a una segunda línea. `span.onsale` tenía un ancho fijo de 60 px, y con el padding de Martfury el texto no cabía. Ahora el ancho lo da el texto, siempre en una línea.
+
 ## [1.5.15] - 2026-11-12
 
 ### 🐛 Corregido
