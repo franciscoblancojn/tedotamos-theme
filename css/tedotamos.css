@@ -740,30 +740,135 @@ body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .
 }
 
 /* ------------------------------------------------------------------
- * TeDotamos: medio de pago Wompi en el checkout. El plugin pone el texto antes del logo en
- * el <label>: se invierte el orden para que quede el logo arriba (a la altura del círculo
- * de selección, que el tema dibuja con label:before) y el texto debajo.
+ * TeDotamos: medios de pago del checkout como tarjetas.
+ * - Selectores sin «ul > li»: la plantilla de Addi deja <b> sin cerrar y el navegador mete los
+ *   medios siguientes (Wompi, Sistecrédito) dentro de <b>, fuera del alcance de «ul > li».
+ * - El círculo de selección se dibuja con CSS (el tema usaba la fuente ElegantIcons, y el
+ *   seleccionado salía como «\» o igual que los no seleccionados).
+ * - Texto a la izquierda y logo a la derecha, todos los logos a la misma altura.
  * ------------------------------------------------------------------ */
-.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label {
-  flex-direction: column-reverse;
-  align-items: flex-start;
-  gap: 4px;
-  line-height: 1.4;
+.woocommerce-checkout #payment ul.payment_methods {
+  padding: 20px 20px 10px; /* el último medio también deja 10px abajo */
 }
 
-.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label:before {
-  top: 14px;
+.woocommerce-checkout #payment ul.payment_methods > b {
+  display: contents;
+  font-weight: inherit;
 }
 
-/* El PNG del plugin (307×173) tiene mucho margen transparente alrededor del logo (219×75):
-   a 110 px de ancho, los márgenes negativos lo recortan para alinearlo con el texto. */
-.woocommerce-checkout #payment ul.payment_methods > li.payment_method_wompi > label img {
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method {
+  list-style: none;
+  margin: 0 0 10px !important; /* también en el último: con los <b> de Addi, :last-child no es fiable */
+  border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method:has(> .input-radio:checked) {
+  border-color: var(--tdt-primary, #f57c00);
+  background: #fff8f0;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > .input-radio {
+  display: none;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  min-height: 54px;
+  margin: 0;
+  padding: 10px 14px 10px 44px;
+  max-width: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > label:before,
+.woocommerce-checkout.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > .input-radio:checked + label:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 2px solid #bdbdbd;
+  border-radius: 50%;
+  background: #fff;
+  font-family: inherit;
+  transform: translateY(-50%);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.woocommerce-checkout.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > .input-radio:checked + label:before {
+  border-color: var(--tdt-primary, #f57c00);
+  background: var(--tdt-primary, #f57c00);
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+/* Logos: a la derecha y a la misma altura (anula el max-width: 115px !important de arriba). */
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > label img {
   display: block;
   float: none;
-  width: 110px !important;
-  max-width: none !important;
+  flex: none;
+  width: auto !important;
+  height: 22px !important;
+  max-width: 110px !important;
+  margin: 0 0 0 auto !important;
+  object-fit: contain;
+}
+
+/* El PNG de Wompi (307×173) tiene mucho margen transparente alrededor del logo (219×75):
+   a 100 px de ancho el logo mide ~71×24 y los márgenes negativos recortan lo transparente. */
+.woocommerce-checkout #payment ul.payment_methods li.payment_method_wompi > label img {
+  width: 100px !important;
   height: auto !important;
-  margin: -17px 0 -15px -16px !important;
+  max-width: none !important;
+  margin: -16px -14px -16px auto !important;
+}
+
+/* Descripción del medio elegido, dentro de la tarjeta. */
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > div.payment_box {
+  margin: 0;
+  padding: 0 14px 14px 44px;
+  background: transparent;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > div.payment_box p:last-child {
+  margin-bottom: 0;
+}
+
+/* Addi: su descripción trae padding propio de 20px. */
+.woocommerce-checkout #payment ul.payment_methods li.payment_method_addi .addi-inner-container {
+  padding: 0 !important;
+}
+
+@media (max-width: 480px) {
+  .woocommerce-checkout #payment ul.payment_methods {
+    padding: 12px 12px 2px;
+  }
+  .woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > label {
+    font-size: 13px;
+  }
+  .woocommerce-checkout #payment ul.payment_methods li.wc_payment_method > label img {
+    height: 18px !important;
+  }
+  .woocommerce-checkout #payment ul.payment_methods li.payment_method_wompi > label img {
+    width: 84px !important;
+    height: auto !important;
+    margin: -13px -12px -13px auto !important;
+  }
 }
 
 /* ------------------------------------------------------------------

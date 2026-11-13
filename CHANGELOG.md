@@ -4,6 +4,14 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.15] - 2026-11-12
+
+### 🐛 Corregido
+- 💳 **Checkout: selector de medios de pago**. Cada medio es ahora una tarjeta con su círculo de selección a la izquierda y el logo a la derecha. El elegido queda con borde y punto naranja.
+  - El círculo se dibuja con CSS. Antes salía con la fuente ElegantIcons, y el seleccionado aparecía como «\» o igual que los demás.
+  - Los logos tienen la misma altura. El de Addi medía 115×44 px.
+  - La plantilla de Addi deja etiquetas `<b>` sin cerrar, y el navegador metía Wompi y Sistecrédito dentro de ellas. Así quedaban sin los estilos del tema: texto gris, círculo distinto y desalineado. Los selectores ya no dependen de `ul > li`.
+
 ## [1.5.14] - 2026-11-12
 
 ### 🐛 Corregido
