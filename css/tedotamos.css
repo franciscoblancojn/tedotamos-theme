@@ -73,6 +73,12 @@
 .woocommerce-cart.woocommerce-page .woocommerce-cart-form__cart-item br {
   display: none;
 }
+/* Excepción: WooCommerce envuelve el valor de cada atributo de la variación en <p>
+   (<dd><p>Amarillo</p></dd>); sin esto el carrito solo muestra «Selecciona tu Color:». */
+.woocommerce-cart.woocommerce-page .woocommerce-cart-form__cart-item dl.variation dd p {
+  display: block;
+  margin: 0;
+}
 .woocommerce-cart.woocommerce-page .product-quantity p,
 .woocommerce-cart.woocommerce-page .product-quantity br {
   display: none;

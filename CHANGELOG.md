@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.14] - 2026-11-12
+
+### 🐛 Corregido
+- 🛒 **Carrito: no se veía el valor de los atributos de la variación** (salía «Selecciona tu Color:» vacío). Una regla de `css/tedotamos.css` ocultaba todos los `<p>` de las filas del carrito, y WooCommerce pone el valor de cada atributo dentro de un `<p>`. Se añade una excepción para `dl.variation dd p`.
+
 ## [1.5.13] - 2026-11-12
 
 ### ✨ Nuevo

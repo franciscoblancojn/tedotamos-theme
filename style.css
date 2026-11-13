@@ -5,7 +5,7 @@ Theme URI: https://tedotamos.com/
 Author: TeDotamos
 Author URI: https://tedotamos.com/
 Description: 🧰 Tema propio de TeDotamos.com 🏭 Copia independiente (fork) de Martfury 3.4.4 de DrFuri; no recibe actualizaciones de Martfury; se actualiza desde GitHub (Apariencia → TeDotamos). Ver TEDOTAMOS.md.
-Version: 1.5.13
+Version: 1.5.14
 Tested up to: 5.8.1
 Requires PHP: 7.0.0
 License: GNU General Public License v2+
@@ -29133,4 +29133,9 @@ body.navigation-mobile-active .martfury-off-canvas-layer {
 	.site-header .extras-menu .menu-item-cart .mini-cart-content .product_list_widget {
 		max-height: 350px;
 	}
+}
+
+
+.woocommerce-checkout.woocommerce-checkout #payment ul.payment_methods > li > .input-radio:checked + label:before {
+    content: "\5b";
 }
