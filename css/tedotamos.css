@@ -1373,6 +1373,7 @@ body.woocommerce-order-pay #payment ul.payment_methods {
   margin: 0 0 18px;
   padding: 0;
   background: transparent;
+  border: 0;
 }
 
 /* wpautop deja <p> vacíos entre el radio y la etiqueta. */
@@ -1577,3 +1578,7 @@ body.woocommerce-order-pay #place_order {
     margin: -13px -12px -13px auto !important;
   }
 }
+
+  body.woocommerce-order-pay #order_review {
+    
+  }
