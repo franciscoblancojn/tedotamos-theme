@@ -4,6 +4,13 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### ⚡ Mejorado
+- 🧾 **Página «Pedido recibido» (gracias por tu compra)**: el bloque salía a todo el ancho, con la tabla de detalles mostrando una cabecera «Producto / Total» sin productos y los datos amontonados. Ahora va en una tarjeta centrada de 880 px, con el aviso de compra en verde, el resumen del pedido en una cuadrícula de datos (número, fecha, email, total y medio de pago), las instrucciones de la transferencia destacadas y los datos bancarios y la dirección de facturación en sus propias cajas.
+  - Solo aplica en `body.woocommerce-order-received`. Se oculta el `<p>` que envuelve el script de gtag (lo mete `wpautop`) y los `<p>` vacíos.
+  - El tema añadía un clearfix (`::before`/`::after` con `display: table`) al resumen y a los datos bancarios; en la cuadrícula esos pseudo-elementos cuentan como celdas y descolocaban todo, así que se anulan en esta página.
+
 ## [1.5.18] - 2026-11-16
 
 ### 🐛 Corregido
