@@ -4,7 +4,7 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
-## [Sin publicar]
+## [1.5.19] - 2026-11-16
 
 ### ⚡ Mejorado
 - 🧾 **Página «Pedido recibido» (gracias por tu compra)**: el bloque salía a todo el ancho, con la tabla de detalles mostrando una cabecera «Producto / Total» sin productos y los datos amontonados. Ahora va en una tarjeta centrada de 880 px, con el aviso de compra en verde, el resumen del pedido en una cuadrícula de datos (número, fecha, email, total y medio de pago), las instrucciones de la transferencia destacadas y los datos bancarios y la dirección de facturación en sus propias cajas.
