@@ -4,6 +4,12 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🐛 Corregido
+- 💳 **Página «Pagar el pedido» (envío de contraentrega)**: el formulario salía a todo el ancho, la tabla de totales mostraba una cabecera sin productos y las etiquetas de los medios de pago se partían en varias líneas (sin círculo ni logo alineado). Ahora es una tarjeta centrada de 880 px con la tabla de totales limpia, el aviso del envío destacado, los medios de pago como tarjetas con círculo y logo a la derecha, los términos en su propia caja y el botón «Pagar por el pedido» a todo el ancho.
+  - El HTML del pago pasa por `wpautop` y mete la etiqueta del medio de pago dentro de un `<p>`; los estilos de checkout no la alcanzaban. Los nuevos selectores van bajo `body.woocommerce-order-pay`, así que el checkout normal no cambia.
+
 ## [1.5.16] - 2026-11-12
 
 ### 🐛 Corregido

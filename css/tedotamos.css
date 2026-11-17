@@ -1269,3 +1269,311 @@ body:not(.mobile-version).woocommerce div.product div.images .flex-control-nav .
   border-right: 0;
   border-bottom: 1px solid #eceef1;
 }
+
+/* ------------------------------------------------------------------
+ * TeDotamos: página "Pagar el pedido" (contraentrega de Aveonline).
+ * - Solo aplica en body.woocommerce-order-pay (el checkout normal no cambia).
+ * - El formulario de WooCommerce llega envuelto en <p> y <br> porque la página
+ *   pasa por wpautop; por eso los selectores no dependen de "li > label".
+ * - El formulario va como tarjeta centrada: la tabla de totales, el aviso del
+ *   envío y los medios de pago comparten el mismo ancho.
+ * ------------------------------------------------------------------ */
+body.woocommerce-order-pay #order_review {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 880px;
+  margin: 8px auto 40px;
+  padding: 28px 32px 32px;
+  border: 1px solid #e6e8ec;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+}
+
+/* Avisos de WooCommerce (por ejemplo, aceptar los términos): mismo ancho que la tarjeta. */
+body.woocommerce-order-pay .elementor-widget-text-editor .woocommerce-notices-wrapper {
+  max-width: 880px;
+  margin: 0 auto 14px;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 15px;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table th,
+body.woocommerce-order-pay #order_review table.shop_table td {
+  padding: 12px 0;
+  border-bottom: 1px solid #eceef1;
+  background: transparent;
+  vertical-align: middle;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table thead th {
+  padding: 0 0 10px;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Sin productos en el pedido, la cabecera (Producto/Cantidad/Totales) sobra.
+   No se usa :empty porque el HTML trae espacios y saltos de línea dentro. */
+body.woocommerce-order-pay #order_review table.shop_table:not(:has(> tbody > tr)) > thead {
+  display: none;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table > tbody:not(:has(> tr)) {
+  display: none;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table tfoot th {
+  color: #4b5563;
+  font-weight: 500;
+  text-align: left;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table tfoot td {
+  text-align: right;
+  white-space: nowrap;
+}
+
+body.woocommerce-order-pay #order_review table.shop_table tfoot tr:last-child th,
+body.woocommerce-order-pay #order_review table.shop_table tfoot tr:last-child td {
+  border-bottom: 0;
+  padding-bottom: 0;
+  color: #1f2329;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* Aviso: este pago cubre solo el envío. */
+body.woocommerce-order-pay #order_review > p {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f5f6f8;
+  color: #4b5563;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+body.woocommerce-order-pay #order_review > p a {
+  color: var(--tdt-primary, #f57c00);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods {
+  margin: 0 0 18px;
+  padding: 0;
+  background: transparent;
+}
+
+/* wpautop deja <p> vacíos entre el radio y la etiqueta. */
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method > p {
+  margin: 0;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method > p:empty {
+  display: none;
+}
+
+/* Etiqueta del medio de pago: círculo a la izquierda y logo a la derecha
+   (la etiqueta real va dentro de un <p>, no es hija directa del <li>). */
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  width: 100%;
+  max-width: none;
+  min-height: 54px;
+  margin: 0;
+  padding: 10px 16px 10px 46px;
+  color: #1f2329;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* El <br> del principio y del final solo añade una línea en blanco. */
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label br {
+  display: none;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 2px solid #bdbdbd;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateY(-50%);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method:has(> .input-radio:checked) label:before {
+  border-color: var(--tdt-primary, #f57c00);
+  background: var(--tdt-primary, #f57c00);
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label img {
+  display: block;
+  float: none;
+  flex: none;
+  width: auto !important;
+  height: 22px !important;
+  max-width: 110px !important;
+  margin: 0 0 0 auto !important;
+  object-fit: contain;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.payment_method_wompi label img {
+  width: 100px !important;
+  height: auto !important;
+  max-width: none !important;
+  margin: -16px -14px -16px auto !important;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method > div.payment_box {
+  margin: 0;
+  padding: 0 16px 16px 46px;
+  background: transparent;
+  color: #4b5563;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method > div.payment_box p:last-child {
+  margin-bottom: 0;
+}
+
+/* Términos, botón y campos ocultos: sin el padding interno del checkout. */
+body.woocommerce-order-pay #payment > .form-row {
+  margin: 0;
+  padding: 0;
+}
+
+body.woocommerce-order-pay #payment > .form-row > p:empty {
+  display: none;
+}
+
+body.woocommerce-order-pay #payment .woocommerce-terms-and-conditions-wrapper {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #e6e8ec;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+body.woocommerce-order-pay #payment .woocommerce-privacy-policy-text:empty {
+  display: none;
+}
+
+body.woocommerce-order-pay #payment p.form-row.validate-required {
+  margin: 0;
+  padding: 0;
+}
+
+body.woocommerce-order-pay #payment p.form-row.validate-required label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  color: #4b5563;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+body.woocommerce-order-pay #payment p.form-row.validate-required label br,
+body.woocommerce-order-pay #payment p.form-row.validate-required > br {
+  display: none;
+}
+
+body.woocommerce-order-pay #payment p.form-row.validate-required .woocommerce-form__input-checkbox {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--tdt-primary, #f57c00);
+  cursor: pointer;
+}
+
+body.woocommerce-order-pay #payment p.form-row.validate-required .required {
+  color: #e11d48;
+}
+
+body.woocommerce-order-pay #payment .tdt-terms-link {
+  color: var(--tdt-primary, #f57c00);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+body.woocommerce-order-pay #place_order {
+  display: block;
+  width: 100%;
+  min-height: 54px;
+  margin: 0;
+  padding: 0 24px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 54px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  body.woocommerce-order-pay #order_review {
+    margin: 4px auto 28px;
+    padding: 18px 16px 22px;
+    border-radius: 12px;
+  }
+
+  body.woocommerce-order-pay #order_review table.shop_table {
+    font-size: 14px;
+  }
+
+  body.woocommerce-order-pay #order_review table.shop_table tfoot tr:last-child th,
+  body.woocommerce-order-pay #order_review table.shop_table tfoot tr:last-child td {
+    font-size: 16px;
+  }
+
+  body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label {
+    font-size: 14px;
+    padding-left: 42px;
+  }
+
+  body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label:before {
+    left: 14px;
+  }
+
+  body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method > div.payment_box {
+    padding-left: 42px;
+  }
+
+  body.woocommerce-order-pay #payment ul.payment_methods li.wc_payment_method label img {
+    height: 18px !important;
+  }
+
+  body.woocommerce-order-pay #payment ul.payment_methods li.payment_method_wompi label img {
+    width: 84px !important;
+    height: auto !important;
+    margin: -13px -12px -13px auto !important;
+  }
+}
