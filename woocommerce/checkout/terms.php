@@ -25,12 +25,21 @@ if ( apply_filters( 'woocommerce_checkout_show_terms', true ) && function_exists
 		?>
 
 		<?php if ( wc_terms_and_conditions_checkbox_enabled() ) : ?>
+			<?php
+			// TeDotamos: en "Pagar el pedido" (order-pay, p. ej. el envío de contraentrega) los términos
+			// ya se aceptaron al crear el pedido: la casilla sale marcada y bloqueada, y se envía igual
+			// mediante el campo oculto "terms" (un checkbox disabled no se envía).
+			$tdt_terms_locked = function_exists( 'is_checkout_pay_page' ) && is_checkout_pay_page();
+			?>
 			<p class="form-row validate-required">
 				<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
-				<input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="terms" <?php checked( apply_filters( 'woocommerce_terms_is_checked_default', isset( $_POST['terms'] ) ), true ); // WPCS: input var ok, csrf ok. ?> id="terms" />
+				<input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="terms" <?php checked( $tdt_terms_locked || apply_filters( 'woocommerce_terms_is_checked_default', isset( $_POST['terms'] ) ), true ); // WPCS: input var ok, csrf ok. ?> <?php disabled( $tdt_terms_locked, true ); ?> id="terms" />
                     <span class="woocommerce-terms-and-conditions-checkbox-text"><?php wc_terms_and_conditions_checkbox_text(); ?><span class="required">*</span></span>
                 </label>
 				<input type="hidden" name="terms-field" value="1" />
+				<?php if ( $tdt_terms_locked ) : ?>
+					<input type="hidden" name="terms" value="1" />
+				<?php endif; ?>
 			</p>
 		<?php endif; ?>
 	</div>

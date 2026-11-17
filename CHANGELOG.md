@@ -4,6 +4,13 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [Sin publicar]
+
+### 🐛 Corregido
+- ✅ **Página «Pagar el pedido» (envío de contraentrega): la casilla de términos**. Salía desactivada y no dejaba continuar. Los términos ya se aceptaron al crear el pedido, así que en esa página la casilla sale **marcada y bloqueada** (no se puede desmarcar) y el pedido se envía igual con un campo oculto `terms=1`.
+  - La casilla se veía sin marcar aunque lo estuviera: `style.css` la oculta (`opacity: 0`) y dibuja el ícono en `span:before`, pero el `<br>` que mete `wpautop` rompe el selector `:checked + span`. En el pago se pinta la casilla nativa (naranja con ✓ al estar marcada) y se oculta el ícono de fuente.
+  - El checkout normal no cambia: solo se bloquea en `is_checkout_pay_page()` y el CSS va bajo `body.woocommerce-order-pay`.
+
 ## [1.5.17] - 2026-11-16
 
 ### 🐛 Corregido
