@@ -2897,6 +2897,48 @@ body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons .b
 	color: #fff !important;
 }
 
+/* En producción hay un <style id="martfury-quick-fix-minicart"> (snippet fuera del tema) que
+   pone los botones al 48 %, en amarillo/negro y en mayúsculas, todo con !important. Se anula
+   aquí con más especificidad para dejar el diseño de arriba: a todo el ancho, uno debajo del
+   otro, «Finalizar compra» en el color principal y «Ver carrito» con borde. */
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons.buttons {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: flex-start !important;
+	gap: 10px !important;
+	padding: 0 !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons.buttons a.button {
+	display: flex !important;
+	width: 100% !important;
+	padding: 0 16px !important;
+	border: 1px solid var(--tdt-dark) !important;
+	border-radius: 10px !important;
+	background: #fff !important;
+	color: var(--tdt-dark) !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	text-transform: none !important;
+	box-shadow: none !important;
+	transform: none !important;
+	opacity: 1 !important;
+	transition: background 0.2s, border-color 0.2s, color 0.2s !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons.buttons a.button.checkout {
+	border-color: var(--tdt-primary) !important;
+	background: var(--tdt-primary) !important;
+	color: #fff !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons.buttons a.button:hover,
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons.buttons a.button.checkout:hover {
+	border-color: var(--tdt-dark) !important;
+	background: var(--tdt-dark) !important;
+	color: #fff !important;
+}
+
 body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__empty-message {
 	margin: 12px 0 0;
 	color: var(--tdt-muted);

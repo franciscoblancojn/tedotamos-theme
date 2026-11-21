@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.21] - 2026-11-21
+
+### 🐛 Corregido
+- 🛒 **Botones del desplegable del carrito**: en producción un `<style id="martfury-quick-fix-minicart">` (fuera del tema) los forzaba con `!important` al 48 % de ancho, en amarillo/negro y en mayúsculas. Ahora `css/templates/v1.css` lo anula: a todo el ancho, «Finalizar compra» primero en el color principal y «Ver carrito» con borde.
+
 ## [1.5.20] - 2026-11-21
 
 ### ⚡ Mejorado
