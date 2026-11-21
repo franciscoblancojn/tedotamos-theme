@@ -4,6 +4,18 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.20] - 2026-11-21
+
+### ⚡ Mejorado
+- 🛒 **Desplegable del carrito** (header y panel del celular), como el de Grupsity, con los colores de TeDotamos:
+  - Caja redondeada con sombra y sin el triángulo de Martfury.
+  - Miniatura en un cuadro de 60 px y nombre en 2 líneas como máximo.
+  - Precio actual en negrita, sin el subrayado del plugin de descuentos, con el anterior en rojo tachado.
+  - Subtotal grande en oscuro.
+  - Botones a todo el ancho, uno debajo del otro: «Finalizar compra» primero, en el color principal, y «Ver carrito» con borde.
+  - Vuelve el botón para quitar un producto (lo ocultaba `css/tedotamos.css`), con una X que se pone roja.
+  - Solo con la Plantilla V1 (`css/templates/v1.css`).
+
 ## [1.5.19] - 2026-11-16
 
 ### ⚡ Mejorado

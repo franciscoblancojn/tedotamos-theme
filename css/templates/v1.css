@@ -2646,3 +2646,260 @@ body.tdt-tpl-v1 .tdt-cats__children li.is-navigating {
 		white-space: normal;
 	}
 }
+
+/* ------------------------------------------------------------------ mini carrito */
+
+/* Desplegable del carrito (header) y panel del celular, como en Grupsity: caja redondeada con
+   sombra, miniaturas de ancho fijo, nombre en 2 líneas, precio actual en negrita (sin el
+   subrayado de <ins>) con el anterior en rojo tachado, subtotal grande en oscuro, botón para
+   quitar (css/tedotamos.css lo ocultaba) y botones a todo el ancho, uno debajo del otro:
+   «Finalizar compra» primero y en el color principal, «Ver carrito» con borde. */
+
+
+body.tdt-tpl-v1 .site-header .extras-menu .menu-item-cart .mini-cart-content {
+	min-width: 360px;
+	border-top-width: 14px;
+}
+
+body.tdt-tpl-v1 .site-header .extras-menu .menu-item-cart .mini-cart-content .tl-arrow-menu,
+body.tdt-tpl-v1 .site-header .extras-menu .menu-item-cart > a::after {
+	display: none;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content {
+	padding: 6px 20px 18px !important;
+	border: 1px solid var(--tdt-border);
+	border-radius: 14px;
+	background: #fff;
+	box-shadow: 0 16px 40px rgba(17, 24, 39, 0.14);
+}
+
+/* En el panel lateral del celular no hace falta la caja */
+body.tdt-tpl-v1 .mf-cart-mobile .widget_shopping_cart_content,
+body.tdt-tpl-v1 .primary-mobile-nav .widget_shopping_cart_content {
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.tdt-tpl-v1.woocommerce .widget_shopping_cart_content ul.product_list_widget li,
+body.tdt-tpl-v1 .woocommerce .widget_shopping_cart_content ul.product_list_widget li {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin: 0;
+	padding: 14px 30px 14px 0;
+	border-bottom: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .woocommerce .widget_shopping_cart_content ul.product_list_widget li:last-child,
+body.tdt-tpl-v1.woocommerce .widget_shopping_cart_content ul.product_list_widget li:last-child {
+	border-bottom: 0;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-image {
+	float: none;
+	flex: 0 0 60px;
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	border: 1px solid var(--tdt-border);
+	border-radius: 10px;
+	background: var(--tdt-soft);
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-image a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-size: 0; /* el &nbsp; después de la imagen */
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-image img {
+	float: none;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	object-fit: contain;
+	mix-blend-mode: multiply;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-content {
+	float: none;
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-content .product-name a {
+	display: -webkit-box;
+	margin-bottom: 6px;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	color: var(--tdt-dark) !important;
+	font-size: 13.5px;
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .product-content .product-name a:hover {
+	color: var(--tdt-primary) !important;
+}
+
+/* «1 × $antes $ahora» */
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px 6px;
+	color: var(--tdt-muted);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity .awdr_cart_strikeout_line {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 6px;
+	font-size: 0; /* el &nbsp; entre <del> e <ins> */
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity del {
+	order: 2;
+	color: #d92d20;
+	font-size: 12px;
+	font-weight: 500;
+	text-decoration: line-through;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity del * {
+	color: inherit;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity ins,
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .quantity > .woocommerce-Price-amount {
+	order: 1;
+	color: var(--tdt-dark);
+	font-size: 14px;
+	font-weight: 800;
+	text-decoration: none;
+}
+
+/* Quitar: botón redondo arriba a la derecha */
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .remove_from_cart_button {
+	position: absolute;
+	top: 12px;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--tdt-muted) !important;
+	font-size: 12px;
+	transition: background 0.2s, color 0.2s;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content ul.product_list_widget li .remove_from_cart_button:hover {
+	background: #fdecec;
+	color: #d92d20 !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .mf-cart-panel-footer {
+	border-top: 1px solid var(--tdt-border);
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__total {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin: 14px 0 0;
+	padding: 0;
+	border: 0;
+	font-size: 15px;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__total strong {
+	color: var(--tdt-muted);
+	font-weight: 600;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__total .woocommerce-Price-amount {
+	color: var(--tdt-dark);
+	font-size: 20px;
+	font-weight: 800;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 14px 0 0;
+	padding: 0;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons::before,
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons::after {
+	display: none;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons .button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+	height: 48px;
+	margin: 0;
+	padding: 0 16px;
+	border: 1px solid var(--tdt-dark);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--tdt-dark) !important;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-align: center;
+	white-space: nowrap;
+	transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons .button:hover {
+	border-color: var(--tdt-dark);
+	background: var(--tdt-dark);
+	color: #fff !important;
+}
+
+/* «Finalizar compra»: la acción principal, primero y en el color principal */
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons .button.checkout {
+	order: -1;
+	margin: 0;
+	border-color: var(--tdt-primary);
+	background: var(--tdt-primary);
+	color: #fff !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__buttons .button.checkout:hover {
+	border-color: var(--tdt-dark);
+	background: var(--tdt-dark);
+	color: #fff !important;
+}
+
+body.tdt-tpl-v1 .widget_shopping_cart_content .woocommerce-mini-cart__empty-message {
+	margin: 12px 0 0;
+	color: var(--tdt-muted);
+	font-size: 14px;
+	text-align: center;
+}
