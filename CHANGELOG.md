@@ -4,6 +4,11 @@ Todos los cambios importantes del tema TeDotamos. Formato basado en [Keep a Chan
 
 > ✍️ Antes de publicar, agrega arriba una sección `## [Sin publicar]` con los cambios. `npm run push-v -- patch|minor|major` la renombra a `## [X.Y.Z] - fecha`, y no publica si esa sección no existe.
 
+## [1.5.22] - 2026-11-21
+
+### ⚡ Mejorado
+- 🔔 **Aviso de «añadido al carrito»** (notify.js de Martfury): tarjeta blanca con sombra y borde izquierdo en el color principal, ícono de check en naranja, texto oscuro, «Ver carrito» como botón debajo del texto y X redonda para cerrar. Los errores usan el mismo diseño en rojo. En el celular ocupa el ancho de la pantalla. Solo con la Plantilla V1 (`css/templates/v1.css`).
+
 ## [1.5.21] - 2026-11-21
 
 ### 🐛 Corregido
